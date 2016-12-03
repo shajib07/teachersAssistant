@@ -1,0 +1,46 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:singleLine">true</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">#aa000000</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <!--
+        <style name="Theme.Ipvision" parent="@style/Theme.AppCompat.Light.NoActionBar">
+            <item name="actionBarItemBackground">@drawable/selectable_background_ipvision</item>
+            <item name="popupMenuStyle">@style/PopupMenu.Ipvision</item>
+            <item name="dropDownListViewStyle">@style/DropDownListView.Ipvision</item>
+            <item name="actionBarTabStyle">@style/ActionBarTabStyle.Ipvision</item>
+            <item name="actionDropDownStyle">@style/DropDownNav.Ipvision</item>
+            <item name="actionBarStyle">@style/ActionBar.Solid.Ipvision</item>
+            <item name="actionModeBackground">@drawable/cab_background_top_ipvision</item>
+            <item name="actionModeSplitBackground">@drawable/cab_background_bottom_ipvision</item>
+            <item name="actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Ipvision</item>
+            <item name="android:editTextStyle">@style/EditTextStyle</item>
+            <item name="android:textAllCaps">false</item>
+
+            <item name="android:windowNoTitle">true</item>
+            <item name="android:windowContentOverlay">@null</item>
+            <item name="android:windowDisablePreview">false</item>
+            <item name="android:windowBackground">@color/default_bg</item>
+
+        </style>
+    -->
+
+</resources>

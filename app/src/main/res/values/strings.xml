@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Teachers Assistant</string>
+    <string name="batch_activity_title">Batch List</string>
+    <string name="add_new_batch">Add New Batch</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_home"
+            android:icon="@mipmap/ic_action_overflow"
+            android:title="home"/>
+
+        <item
+            android:id="@+id/drawer_courses"
+            android:icon="@mipmap/ic_action_list"
+            android:title="courses"/>
+
+        <item
+            android:id="@+id/drawer_downloaded"
+            android:icon="@mipmap/ic_action_overflow"
+            android:title="downloaded"/>
+
+        <item
+            android:id="@+id/drawer_more"
+            android:icon="@mipmap/ic_action_search"
+            android:title="more"/>
+
+        <item
+            android:id="@+id/drawer_settings"
+            android:icon="@mipmap/ic_action_overflow"
+            android:title="settings"/>
+
+    </group>
+</menu>
