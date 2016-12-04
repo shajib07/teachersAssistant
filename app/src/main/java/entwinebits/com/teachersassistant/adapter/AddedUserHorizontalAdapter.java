@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +20,10 @@ import entwinebits.com.teachersassistant.model.UserProfileDTO;
 public class AddedUserHorizontalAdapter extends RecyclerView.Adapter<AddedUserHorizontalAdapter.AddedUserViewHolder> {
 
     private static final String TAG = "AddUserAdapter";
-    ArrayList<UserProfileDTO> userProfileDTOs = new ArrayList<>();
+    ArrayList<UserProfileDTO> mUserProfileDTOs = new ArrayList<>();
 
     public AddedUserHorizontalAdapter(ArrayList<UserProfileDTO> userProfileDTOs){
-        this.userProfileDTOs = userProfileDTOs;
+        this.mUserProfileDTOs = userProfileDTOs;
     }
 
     @Override
@@ -32,17 +34,29 @@ public class AddedUserHorizontalAdapter extends RecyclerView.Adapter<AddedUserHo
 
     @Override
     public void onBindViewHolder(AddedUserViewHolder holder, int position) {
+        UserProfileDTO dto = mUserProfileDTOs.get(position);
+        holder.user_name_tv.setText(dto.getUserName());
 
+        holder.remove_user_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return (mUserProfileDTOs != null ? mUserProfileDTOs.size() : 0);
     }
 
     public class AddedUserViewHolder extends RecyclerView.ViewHolder {
+        private TextView user_name_tv;
+        private ImageView remove_user_iv;
         public AddedUserViewHolder(View itemView) {
             super(itemView);
+            user_name_tv = (TextView) itemView.findViewById(R.id.user_name_tv);
+            remove_user_iv = (ImageView)itemView.findViewById(R.id.remove_user_iv);
         }
     }
 }

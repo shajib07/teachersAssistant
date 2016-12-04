@@ -34,23 +34,23 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private Calendar calendar;
     private FrameLayout add_batch_toolbar_back, add_batch_save_btn;
 
-    private ArrayList<UserProfileDTO> addedUsers;
-    private RecyclerView userRecycler;
+    private ArrayList<UserProfileDTO> mAddedStudentList;
+    private RecyclerView addedUserRecycler;
 
     private List<TextView> editTextTimeFrom;
     private List<TextView> editTextTimeTo;
     private List<TextView> dayOfWeekList;
     private List<LinearLayout> dayViewLayout;
-    private Button btnAddUser;
+    private Button add_student_btn;
 
-    private EditText batch_title;
+    private EditText batch_title_et;
     private EditText added_user_name, added_user_mbl, added_user_address, added_user_institute;
 
     String[] dayName = {"Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"};
     TimePickerDialog.OnTimeSetListener onTimeSetListener;
     int day;
     boolean isStartTime = true;
-    private AddedUserHorizontalAdapter addUserAdapter;
+    private AddedUserHorizontalAdapter addedUserAdapter;
 
     private List<ScheduleDTO> mScheduleList;
     private BatchDTO mBatchDTO;
@@ -60,12 +60,12 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_batch);
-        addedUsers = new ArrayList<>();
-        userRecycler = (RecyclerView) findViewById(R.id.user_recycler_view);
-        btnAddUser = (Button) findViewById(R.id.add_user);
-        btnAddUser.setOnClickListener(this);
+        mAddedStudentList = new ArrayList<>();
+        addedUserRecycler = (RecyclerView) findViewById(R.id.added_user_recycler_view);
+        add_student_btn = (Button) findViewById(R.id.add_student_btn);
+        add_student_btn.setOnClickListener(this);
 
-        batch_title = (EditText) findViewById(R.id.batch_title);
+        batch_title_et = (EditText) findViewById(R.id.batch_title_et);
         added_user_name = (EditText) findViewById(R.id.user_name);
         added_user_name.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         added_user_mbl = (EditText) findViewById(R.id.user_mobl_no);
@@ -80,11 +80,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         added_user_institute.setSingleLine(true);
         added_user_address.setSingleLine(true);
 
-        addUserAdapter = new AddedUserHorizontalAdapter(addedUsers);
+        addedUserAdapter = new AddedUserHorizontalAdapter(mAddedStudentList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        userRecycler.setLayoutManager(mLayoutManager);
-//        userRecycler.setItemAnimator(new DefaultItemAnimator());
-        userRecycler.setAdapter(addUserAdapter);
+        addedUserRecycler.setLayoutManager(mLayoutManager);
+        addedUserRecycler.setAdapter(addedUserAdapter);
 
         mBatchDTO = new BatchDTO();
         mScheduleList = new ArrayList<>();
@@ -224,17 +223,15 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.add_batch_save_btn:
-
-                mBatchDTO.setBatchName(batch_title.getText().toString());
-//                mBatchDTO.setScheduleList(mScheduleList);
-//                mBatchDTO.setStudentList(mStudentList);
-
+                mBatchDTO.setBatchName(batch_title_et.getText().toString());
+                mBatchDTO.setScheduleDTOList(mScheduleList);
+                mBatchDTO.setStudentDtoList(mStudentList);
                 break;
 
             case R.id.add_batch_toolbar_back:
                 finish();
                 break;
-            case R.id.add_user:
+            case R.id.add_student_btn:
                 UserProfileDTO userDto = new UserProfileDTO();
                 userDto.setUserName(added_user_name.getText().toString());
                 userDto.setUserAddress(added_user_address.getText().toString());
@@ -242,11 +239,11 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 userDto.setUserInstituteName(added_user_institute.getText().toString());
 
                 if (userDto.getUserName().length() > 0) {
-                    addedUsers.add(userDto);
+                    mAddedStudentList.add(userDto);
                 } else {
                     Toast.makeText(AddNewBatchActivity.this, "Please, Insert Student Name", Toast.LENGTH_SHORT).show();
                 }
-                addUserAdapter.notifyDataSetChanged();
+                addedUserAdapter.notifyDataSetChanged();
                 resetInputFields();
                 break;
             default:

@@ -107,6 +107,7 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.batch_toolbar_add:
                 Intent intent = new Intent(BatchActivity.this, AddNewBatchActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
 //                addNewBatchDialog();
                 break;
