@@ -13,13 +13,23 @@ public class UserProfileDTO {
     private String userGender;
     private String userCity;
     private String userCountry;
-    private String userContact;
+    private String userMobilePhone;
     private String userEmail;
     private String userBirthday;
     private String userAddress;
     private String userDesignation;
     private String userInstituteName;
     private boolean isTeacher;
+
+    private long batchId;
+
+    public long getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(long batchId) {
+        this.batchId = batchId;
+    }
 
     public String getUserId() {
         return userId;
@@ -85,12 +95,12 @@ public class UserProfileDTO {
         this.userCountry = userCountry;
     }
 
-    public String getUserContact() {
-        return userContact;
+    public String getUserMobilePhone() {
+        return userMobilePhone;
     }
 
-    public void setUserContact(String userContact) {
-        this.userContact = userContact;
+    public void setUserMobilePhone(String userMobilePhone) {
+        this.userMobilePhone = userMobilePhone;
     }
 
     public String getUserEmail() {

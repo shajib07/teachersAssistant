@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -17,23 +18,76 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
  */
 public class BaseDatabaseController extends SQLiteOpenHelper {
 
+//    public ArrayList<UserProfileDTO> getUserList(SQLiteDatabase db) {
+//        ArrayList<BatchDTO> batchDTOs = new ArrayList<>();
+//        Cursor cursor = null;
+//        try {
+////            String selectQuery = "SELECT  * FROM " + TABLE_BATCH + " ORDER BY " + KEY_BATCH_NAME + " DESC";
+//            String selectQuery = "SELECT  * FROM " + TABLE_BATCH;
+//            cursor = db.rawQuery(selectQuery, null);
+//
+//            if (cursor.moveToFirst()) {
+//                do {
+//                    BatchDTO dto = new BatchDTO();
+//                    dto.setBatchId(cursor.getLong(0));
+////                    dto.setRoutineId(cursor.getLong(2));
+//                    dto.setBatchName(cursor.getString(1));
+//                    batchDTOs.add(dto);
+//                } while (cursor.moveToNext());
+//            }
+//        } catch (Exception e) {
+//            HelperMethod.errorLog(TAG, "Exception : getBatchList = " + e.toString());
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+//        }
+//        return batchDTOs;
+//    }
+
+    public long addStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
+        HelperMethod.debugLog(TAG, "addStudent called ++++++ ");
+        long id = -1;
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USERNAME, userProfileDTO.getUserName());
+        values.put(KEY_MOBILE, userProfileDTO.getUserMobilePhone());
+        values.put(KEY_INSTITUTE_NAME, userProfileDTO.getUserInstituteName());
+        values.put(KEY_ADDRESS, userProfileDTO.getUserAddress());
+        values.put(KEY_BATCH_ID, userProfileDTO.getBatchId());
+        values.put(KEY_IS_TEACHER, userProfileDTO.isTeacher());
+
+        try {
+            id = db.insert(TABLE_USER_PROFILE, null, values);
+            if (id != -1) {
+                HelperMethod.debugLog(TAG, " addStudent insert = " + id);
+            } else {
+                HelperMethod.debugLog(TAG, "Failed to Insert: addStudent insert = " + id);
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : addStudent = " + e.toString());
+        }
+        return id;
+    }
+
+
     public ArrayList<BatchDTO> getBatchList(SQLiteDatabase db) {
         ArrayList<BatchDTO> batchDTOs = new ArrayList<>();
         Cursor cursor = null;
         try {
-            String selectQuery = "SELECT  * FROM " + TABLE_BATCH + " ORDER BY " + KEY_BATCH_NAME + " DESC";
+//            String selectQuery = "SELECT  * FROM " + TABLE_BATCH + " ORDER BY " + KEY_BATCH_NAME + " DESC";
+            String selectQuery = "SELECT  * FROM " + TABLE_BATCH;
             cursor = db.rawQuery(selectQuery, null);
 
             if (cursor.moveToFirst()) {
                 do {
                     BatchDTO dto = new BatchDTO();
-//                    dto.setBatchId(cursor.getLong(0));
+                    dto.setBatchId(cursor.getLong(0));
 //                    dto.setRoutineId(cursor.getLong(2));
                     dto.setBatchName(cursor.getString(1));
                     batchDTOs.add(dto);
                 } while (cursor.moveToNext());
             }
-
         } catch (Exception e) {
             HelperMethod.errorLog(TAG, "Exception : getBatchList = " + e.toString());
         } finally {
@@ -44,25 +98,26 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         return batchDTOs;
     }
 
-    public void addBatch(BatchDTO batchDTO, SQLiteDatabase db) {
+    public long addBatch(BatchDTO batchDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "addBatch called ++++++ ");
+        long id = -1;
 
         ContentValues values = new ContentValues();
 //        values.put(KEY_BATCH_ID, batchDTO.getCourseId());
         values.put(KEY_BATCH_NAME, batchDTO.getBatchName());
 //        values.put(KEY_COURSE_ID, batchDTO.getCourseId());
 //        values.put(KEY_ROUTINE_ID, batchDTO.getRoutineId());
-
         try {
-            long ret = db.insert(TABLE_BATCH, null, values);
-            if (ret != -1) {
-                HelperMethod.debugLog(TAG, " addBatch insert = " + ret);
+            id = db.insert(TABLE_BATCH, null, values);
+            if (id != -1) {
+                HelperMethod.debugLog(TAG, " addBatch insert = " + id);
             } else {
-                HelperMethod.debugLog(TAG, "Failed to Inser: addBatch insert = " + ret);
+                HelperMethod.debugLog(TAG, "Failed to Inser: addBatch insert = " + id);
             }
         } catch (Exception e) {
             HelperMethod.errorLog(TAG, "Exception : addBatch = " + e.toString());
         }
+        return id;
     }
 
 
@@ -91,6 +146,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     private static final String KEY_INSTITUTE_NAME = "instNm";
     private static final String KEY_IS_TEACHER = "isTea";
 
+//    private static final String KEY_BATCH_ID_N = "bidn";
     //    field for batch table
     private static final String KEY_BATCH_ID = "bid";
     private static final String KEY_BATCH_NAME = "bat_name";
@@ -112,7 +168,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
 
 
     public static String CREATE_TABLE_USER_PROFILE = "CREATE TABLE " + TABLE_USER_PROFILE
-            + " (" + KEY_ID + " LONG PRIMARY KEY ,"
+            + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_USERNAME + " TEXT ,"
             + KEY_PASSWORD + " TEXT ,"
             + KEY_USERIDENTITY + " TEXT ,"
@@ -127,7 +183,8 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             + KEY_ADDRESS + " TEXT ,"
             + KEY_DESIGNATION + " TEXT ,"
             + KEY_INSTITUTE_NAME + " TEXT ,"
-            + KEY_IS_TEACHER + " INTEGER )";
+            + KEY_IS_TEACHER + " INTEGER ,"
+            + KEY_BATCH_ID + " TEXT )";
 
     public static String CREATE_TABLE_COURSE = "CREATE TABLE " + TABLE_COURSE
             + " (" + KEY_COURSE_ID + " LONG PRIMARY KEY ,"
@@ -135,7 +192,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             + KEY_COURSE_NAME + " TEXT )";
 
     public static String CREATE_TABLE_BATCH = "CREATE TABLE " + TABLE_BATCH
-            + " (" + KEY_BATCH_ID + " LONG PRIMARY KEY ,"
+            + " (" + KEY_BATCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
             + KEY_BATCH_NAME + " TEXT ,"
             + KEY_COURSE_ID + " LONG ,"
             + KEY_ROUTINE_ID + " LONG )";
@@ -162,7 +219,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        db.execSQL(CREATE_TABLE_USER_PROFILE);
+        db.execSQL(CREATE_TABLE_USER_PROFILE);
 //        db.execSQL(CREATE_TABLE_COURSE);
         db.execSQL(CREATE_TABLE_BATCH);
 //        db.execSQL(CREATE_TABLE_ROUTINE);
@@ -172,6 +229,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_TABLE_BATCH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_PROFILE);
         onCreate(db);
     }
 
@@ -197,7 +255,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     }
 
     private static final String TAG = "BaseDatabaseController";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "teacherAssistant";
 
     private static volatile BaseDatabaseController uniqInstance;

@@ -20,10 +20,12 @@ import java.util.Calendar;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.adapter.AddedUserHorizontalAdapter;
+import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.DateTimeFormatHelper;
+import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
  * Created by Nargis Rahman on 12/2/2016.
@@ -55,6 +57,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private List<ScheduleDTO> mScheduleList;
     private BatchDTO mBatchDTO;
     private List<UserProfileDTO> mStudentList;
+    private DatabaseRequestHelper dbRequestHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         //</editor-fold>
         setTimeSetters();
         initDayOfWeek();
+
+        dbRequestHelper = new DatabaseRequestHelper(this);
     }
 
     private void initTimeSetLayout() {
@@ -201,6 +207,46 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private void saveNewBatch() {
+        if (dbRequestHelper == null) {
+            dbRequestHelper = new DatabaseRequestHelper(AddNewBatchActivity.this);
+        }
+        String batchName = batch_title_et.getText().toString();
+        if (batchName.length() < 1) {
+            Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        mBatchDTO.setBatchName(batchName);
+//                mBatchDTO.setScheduleDTOList(mScheduleList);
+
+        long batchId = dbRequestHelper.addBatch(mBatchDTO);
+        HelperMethod.debugLog(TAG, "after insert id == "+batchId);
+
+        if (mAddedStudentList != null) {
+            mBatchDTO.setStudentDtoList(mAddedStudentList);
+            for (UserProfileDTO dto : mAddedStudentList) {
+                dto.setBatchId(batchId);
+                dto.setTeacher(false);
+                long stuId = dbRequestHelper.addStudent(dto);
+                HelperMethod.debugLog(TAG, "after stud insert id == "+stuId);
+            }
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<BatchDTO> list = dbRequestHelper.getBatchList();
+                int i = 1;
+                for (BatchDTO dto : list) {
+                    HelperMethod.debugLog(TAG, ""+i+" name = "+dto.getBatchName()+ " id = "+dto.getBatchId());
+                    i++;
+                }
+            }
+        }).start();
+
+        AddNewBatchActivity.this.finish();
+    }
 
     @Override
     public void onClick(View view) {
@@ -223,9 +269,9 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.add_batch_save_btn:
-                mBatchDTO.setBatchName(batch_title_et.getText().toString());
-                mBatchDTO.setScheduleDTOList(mScheduleList);
-                mBatchDTO.setStudentDtoList(mStudentList);
+
+                saveNewBatch();
+
                 break;
 
             case R.id.add_batch_toolbar_back:
@@ -235,7 +281,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 UserProfileDTO userDto = new UserProfileDTO();
                 userDto.setUserName(added_user_name.getText().toString());
                 userDto.setUserAddress(added_user_address.getText().toString());
-                userDto.setUserContact(added_user_mbl.getText().toString());
+                userDto.setUserMobilePhone(added_user_mbl.getText().toString());
                 userDto.setUserInstituteName(added_user_institute.getText().toString());
 
                 if (userDto.getUserName().length() > 0) {

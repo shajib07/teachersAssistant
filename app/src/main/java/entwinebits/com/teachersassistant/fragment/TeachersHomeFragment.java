@@ -14,6 +14,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
     private BatchListAdapter homeBatchListAdapter;
 
     private DatabaseRequestHelper dbRequestHelper;
-    private TextView home_batch_list_more;
+    private FrameLayout home_batch_list_more;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +49,12 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadBatchList();
+    }
+
     private void initLayout(View view) {
         home_batch_list_rv = (RecyclerView) view.findViewById(R.id.home_batch_list_rv);
         homeBatchListAdapter = new BatchListAdapter(mActivity, new ArrayList<BatchDTO>());
@@ -55,9 +62,8 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
 
         home_batch_list_rv.setAdapter(homeBatchListAdapter);
         home_batch_list_rv.setNestedScrollingEnabled(false);
-        home_batch_list_more = (TextView)view.findViewById(R.id.home_batch_list_more);
+        home_batch_list_more = (FrameLayout) view.findViewById(R.id.home_batch_list_more);
         home_batch_list_more.setOnClickListener(this);
-        loadBatchList();
     }
 
     private void loadBatchList() {
@@ -73,7 +79,7 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            homeBatchListAdapter.notifyAdapter(batchList);
+                            homeBatchListAdapter.notifyAdapterData(batchList);
                         }
                     });
                 }

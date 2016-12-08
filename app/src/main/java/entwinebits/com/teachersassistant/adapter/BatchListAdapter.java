@@ -26,11 +26,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
         this.mBatchDTOList = batchDTOList;
     }
 
-    public void notifyAdapter(ArrayList<BatchDTO> list) {
+    public void notifyAdapterData(ArrayList<BatchDTO> list) {
         if (mBatchDTOList == null) {
             mBatchDTOList = new ArrayList<>();
         }
-        mBatchDTOList.addAll(list);
+        mBatchDTOList = list;
         notifyDataSetChanged();
     }
 

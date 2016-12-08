@@ -45,7 +45,6 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_batch);
         initToolbar();
         initLayout();
-        loadBatchList();
     }
 
     private void loadBatchList() {
@@ -64,7 +63,7 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            batchListAdapter.notifyAdapter(batchList);
+                            batchListAdapter.notifyAdapterData(batchList);
                         }
                     });
                 }
@@ -84,6 +83,12 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
         batch_toolbar_add.setOnClickListener(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadBatchList();
+    }
+
     private void initLayout() {
         batchListAdapter = new BatchListAdapter(this, mBatchDTOList);
         batch_list_rv = (RecyclerView) findViewById(R.id.batch_list_rv);
@@ -94,7 +99,7 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
     private void notifyAdapter() {
         BatchDTO dto = new BatchDTO();
         dto.setBatchName(added_batch_name);
-        batchListAdapter.notifyAdapter(new ArrayList<>(Arrays.asList(dto)));
+        batchListAdapter.notifyAdapterData(new ArrayList<>(Arrays.asList(dto)));
         dbRequestHelper.addBatch(dto);
     }
 

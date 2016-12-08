@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -30,11 +31,21 @@ public class DatabaseRequestHelper {
         return batchDTOs;
     }
 
-    public void addBatch(BatchDTO batchDTO) {
+    public long addBatch(BatchDTO batchDTO) {
         HelperMethod.debugLog(TAG, " addBatch called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();
-        uniqInstance.addBatch(batchDTO, db);
+        long id = uniqInstance.addBatch(batchDTO, db);
         uniqInstance.closeDataBase(db);
+        return id;
     }
+
+    public long addStudent(UserProfileDTO userProfileDTO) {
+        HelperMethod.debugLog(TAG, " addStudent called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        long id = uniqInstance.addStudent(userProfileDTO, db);
+        uniqInstance.closeDataBase(db);
+        return id;
+    }
+
 
 }
