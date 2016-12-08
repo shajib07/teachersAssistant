@@ -37,7 +37,7 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
     private BatchListAdapter homeBatchListAdapter;
 
     private DatabaseRequestHelper dbRequestHelper;
-    private FrameLayout home_batch_list_more;
+    private FrameLayout home_batch_list_more, home_schedule_list_more;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +64,9 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
         home_batch_list_rv.setNestedScrollingEnabled(false);
         home_batch_list_more = (FrameLayout) view.findViewById(R.id.home_batch_list_more);
         home_batch_list_more.setOnClickListener(this);
+        home_schedule_list_more = (FrameLayout) view.findViewById(R.id.home_schedule_list_more);
+        home_schedule_list_more.setOnClickListener(this);
+
     }
 
     private void loadBatchList() {
@@ -90,6 +93,10 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.home_schedule_list_more:
+
+                break;
+
             case R.id.home_batch_list_more:
                 Intent batchIntent = new Intent(mActivity, BatchActivity.class);
                 startActivity(batchIntent);
