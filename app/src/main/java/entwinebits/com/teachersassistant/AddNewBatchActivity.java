@@ -15,8 +15,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.adapter.AddedUserHorizontalAdapter;
@@ -33,10 +36,9 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
 public class AddNewBatchActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "AddNewBatchActivity";
-    private Calendar calendar;
+    private Calendar mCalendar;
     private FrameLayout add_batch_toolbar_back, add_batch_save_btn;
 
-    private ArrayList<UserProfileDTO> mAddedStudentList;
     private RecyclerView addedUserRecycler;
 
     private List<TextView> editTextTimeFrom;
@@ -54,9 +56,9 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     boolean isStartTime = true;
     private AddedUserHorizontalAdapter addedUserAdapter;
 
+    private ArrayList<UserProfileDTO> mAddedStudentList;
     private List<ScheduleDTO> mScheduleList;
     private BatchDTO mBatchDTO;
-    private List<UserProfileDTO> mStudentList;
     private DatabaseRequestHelper dbRequestHelper;
 
 
@@ -91,18 +93,28 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
         mBatchDTO = new BatchDTO();
         mScheduleList = new ArrayList<>();
-        mStudentList = new ArrayList<>();
 
         initTimeSetLayout();
         initView();
 
-        calendar = Calendar.getInstance();
+        mCalendar = Calendar.getInstance();
         // <editor-fold defaultstate="collapsed" desc="On Time Listner">
         onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int min) {
-
-                ScheduleDTO scheduleDTO = new ScheduleDTO();
+                ScheduleDTO scheduleDTO = null;
+                boolean found = false;
+                HelperMethod.debugLog(TAG, "day == "+day+" mScheduleList size = "+mScheduleList.size());
+                for (ScheduleDTO dto : mScheduleList) {
+                    if (dto.getDaysOfWeek() == day) {
+                        HelperMethod.debugLog(TAG, "dto == "+dto.getDaysOfWeek()+ " day = "+day);
+                        scheduleDTO = dto;
+                        found = true;
+                    }
+                }
+                if (!found) {
+                    scheduleDTO = new ScheduleDTO();
+                }
                 scheduleDTO.setDaysOfWeek(day);
                 Calendar c = Calendar.getInstance();
 
@@ -110,14 +122,17 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                     editTextTimeFrom.get(day).setText(DateTimeFormatHelper.convertTimeFormatTo12Hour(hour, min));
                     c.set(Calendar.HOUR_OF_DAY, hour);
                     c.set(Calendar.MINUTE, min);
-                    scheduleDTO.setStartTime(c.getTime());
+                    scheduleDTO.setStartTime(DateFormat.getTimeInstance().format(c.getTime()));
+
                 } else {
                     editTextTimeTo.get(day).setText(DateTimeFormatHelper.convertTimeFormatTo12Hour(hour, min));
                     c.set(Calendar.HOUR_OF_DAY, hour);
                     c.set(Calendar.MINUTE, min);
-                    scheduleDTO.setEndTime(c.getTime());
+                    scheduleDTO.setEndTime(DateFormat.getTimeInstance().format(c.getTime()));
                 }
-                mScheduleList.add(scheduleDTO);
+                if (!found) {
+                    mScheduleList.add(scheduleDTO);
+                }
             }
         };
         //</editor-fold>
@@ -179,9 +194,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 public void onClick(View view) {
                     day = finalI;
                     isStartTime = true;
-                    new TimePickerDialog(AddNewBatchActivity.this, onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
-
-
+                    new TimePickerDialog(AddNewBatchActivity.this, onTimeSetListener,
+                            mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
                 }
             });
             editTextTimeTo.get(i).setOnClickListener(new View.OnClickListener() {
@@ -189,9 +203,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 public void onClick(View view) {
                     day = finalI;
                     isStartTime = false;
-                    new TimePickerDialog(AddNewBatchActivity.this, onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
-
-
+                    new TimePickerDialog(AddNewBatchActivity.this, onTimeSetListener,
+                            mCalendar.get(Calendar.HOUR_OF_DAY), mCalendar.get(Calendar.MINUTE), false).show();
                 }
             });
 
@@ -218,10 +231,13 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         }
 
         mBatchDTO.setBatchName(batchName);
-//                mBatchDTO.setScheduleDTOList(mScheduleList);
+        for (ScheduleDTO dto : mScheduleList) {
+            HelperMethod.debugLog(TAG, "days = "+dto.getDaysOfWeek()+" start = "+dto.getStartTime()+ " end = "+dto.getEndTime());
+        }
 
-        long batchId = dbRequestHelper.addBatch(mBatchDTO);
-        HelperMethod.debugLog(TAG, "after insert id == "+batchId);
+
+        final long batchId = dbRequestHelper.addBatch(mBatchDTO);
+        HelperMethod.debugLog(TAG, "after insert id == " + batchId);
 
         if (mAddedStudentList != null) {
             mBatchDTO.setStudentDtoList(mAddedStudentList);
@@ -229,19 +245,35 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 dto.setBatchId(batchId);
                 dto.setTeacher(false);
                 long stuId = dbRequestHelper.addStudent(dto);
-                HelperMethod.debugLog(TAG, "after stud insert id == "+stuId);
+                HelperMethod.debugLog(TAG, "after student insert : student id == " + stuId);
+            }
+        }
+
+        if (mScheduleList != null) {
+            mBatchDTO.setScheduleDTOList(mScheduleList);
+            for (ScheduleDTO dto : mScheduleList) {
+                dto.setBatchId(batchId);
+                long schId = dbRequestHelper.addSchedule(dto);
+                HelperMethod.debugLog(TAG, "after schedule insert : schedule id == " + schId);
             }
         }
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                ArrayList<BatchDTO> list = dbRequestHelper.getBatchList();
+                ArrayList<ScheduleDTO> list = dbRequestHelper.getScheduleListByBatch((int) batchId);
                 int i = 1;
-                for (BatchDTO dto : list) {
-                    HelperMethod.debugLog(TAG, ""+i+" name = "+dto.getBatchName()+ " id = "+dto.getBatchId());
+                for (ScheduleDTO dto : list) {
+                    HelperMethod.debugLog(TAG, "" + i + " batch Id = " + dto.getBatchId() + " st = " + dto.getStartTime() + " "+dto.getEndTime());
                     i++;
                 }
+
+//                ArrayList<BatchDTO> list = dbRequestHelper.getBatchList();
+//                int i = 1;
+//                for (BatchDTO dto : list) {
+//                    HelperMethod.debugLog(TAG, "" + i + " name = " + dto.getBatchName() + " id = " + dto.getBatchId());
+//                    i++;
+//                }
             }
         }).start();
 

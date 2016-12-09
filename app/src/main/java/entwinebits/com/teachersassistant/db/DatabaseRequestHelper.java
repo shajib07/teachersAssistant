@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
@@ -45,6 +46,22 @@ public class DatabaseRequestHelper {
         long id = uniqInstance.addStudent(userProfileDTO, db);
         uniqInstance.closeDataBase(db);
         return id;
+    }
+
+    public long addSchedule(ScheduleDTO scheduleDTO) {
+        HelperMethod.debugLog(TAG, " addSchedule called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        long id = uniqInstance.addSchedule(scheduleDTO, db);
+        uniqInstance.closeDataBase(db);
+        return id;
+    }
+
+    public ArrayList<ScheduleDTO> getScheduleListByBatch(int batchId) {
+        HelperMethod.debugLog(TAG, " addSchedule called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        ArrayList<ScheduleDTO> scheduleList = uniqInstance.getScheduleListByBatch(db, batchId);
+        uniqInstance.closeDataBase(db);
+        return scheduleList;
     }
 
 

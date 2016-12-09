@@ -17,11 +17,13 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.adapter.BatchListAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -38,6 +40,8 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
     private BatchListAdapter batchListAdapter;
     private ArrayList<BatchDTO> mBatchDTOList;
     private String added_batch_name = "";
+
+    private HashMap<Integer, ScheduleDTO> mScheduleListMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,14 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
                 final ArrayList<BatchDTO> batchList = dbRequestHelper.getBatchList();
                 HelperMethod.debugLog(TAG, "loadBatchList size = "+batchList.size());
                 for (BatchDTO dto : batchList) {
-                    HelperMethod.debugLog(TAG, ""+dto.getBatchName());
+
+                    ArrayList<ScheduleDTO> scheduleDTOs = dbRequestHelper.getScheduleListByBatch((int)dto.getBatchId());
+                    dto.setScheduleDTOList(scheduleDTOs);
+                    HelperMethod.debugLog(TAG, "After db read : batch name : "+dto.getBatchName()+" id "+dto.getBatchId()
+                        + "schedule size = "+dto.getScheduleDTOList().size());
                 }
+
+
                 if (batchList != null && batchList.size() > 0) {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -114,45 +124,7 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
                 Intent intent = new Intent(BatchActivity.this, AddNewBatchActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
-//                addNewBatchDialog();
                 break;
         }
-    }
-
-    private void addNewBatchDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_batch_layout, null);
-        builder.setView(dialogView);
-        builder.setTitle(getString(R.string.add_new_batch));
-
-        final AlertDialog dialog = builder.create();
-        dialog.show();
-
-        final EditText batch_name_et = (EditText) dialogView.findViewById(R.id.batch_name_et);
-        TextView tv_ok = (TextView) dialogView.findViewById(R.id.tv_turn_on);
-        TextView tv_cancel = (TextView) dialogView.findViewById(R.id.tv_cancel);
-
-        tv_ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (batch_name_et.getText() != null) {
-                    added_batch_name = batch_name_et.getText().toString();
-                    notifyAdapter();
-                    Toast.makeText(BatchActivity.this, added_batch_name, Toast.LENGTH_SHORT).show();
-                }
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
-
-        tv_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (dialog != null) {
-                    dialog.dismiss();
-                }
-            }
-        });
     }
 }

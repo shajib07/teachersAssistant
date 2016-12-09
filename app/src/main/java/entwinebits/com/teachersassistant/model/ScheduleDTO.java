@@ -7,14 +7,23 @@ import java.util.Date;
  */
 public class ScheduleDTO {
 
+    private long batchId;
     private long scheduleId;
     private long routineId;
     private int daysOfWeek;
-    private Date startTime;
-    private Date endTime;
+    private String startTime;
+    private String endTime;
     private long startDate;
     private long endDate;
     private boolean scheduleStatus;
+
+    public long getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(long batchId) {
+        this.batchId = batchId;
+    }
 
     public long getScheduleId() {
         return scheduleId;
@@ -56,19 +65,19 @@ public class ScheduleDTO {
         this.endDate = endDate;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 

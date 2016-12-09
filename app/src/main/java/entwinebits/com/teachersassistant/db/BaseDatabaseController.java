@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
@@ -98,6 +99,60 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         return batchDTOs;
     }
 
+    public ArrayList<ScheduleDTO> getScheduleListByBatch(SQLiteDatabase db, int batchId) {
+        ArrayList<ScheduleDTO> scheduleDTOs = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            HelperMethod.debugLog(TAG, "getScheduleListByBatch : batchId == "+batchId );
+//            String selectQuery = "SELECT  * FROM " + TABLE_BATCH + " ORDER BY " + KEY_BATCH_NAME + " DESC";
+            String selectQuery = "SELECT  * FROM " + TABLE_SCHEDULE + " WHERE " + KEY_BATCH_ID +" = "+batchId;
+            cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    ScheduleDTO dto = new ScheduleDTO();
+                    dto.setBatchId(cursor.getInt(1));
+                    dto.setDaysOfWeek(cursor.getInt(2));
+                    dto.setStartTime(cursor.getString(3));
+                    dto.setEndTime(cursor.getString(4));
+                    scheduleDTOs.add(dto);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : getScheduleListByBatch = " + e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return scheduleDTOs;
+    }
+
+
+    public long addSchedule(ScheduleDTO scheduleDTO, SQLiteDatabase db) {
+        HelperMethod.debugLog(TAG, "addSchedule called ++++++ ");
+        long id = -1;
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_BATCH_ID, scheduleDTO.getBatchId());
+        values.put(KEY_DAYS_OF_WEEK, scheduleDTO.getDaysOfWeek());
+        values.put(KEY_START_TIME, scheduleDTO.getStartTime());
+        values.put(KEY_END_TIME, scheduleDTO.getEndTime());
+
+        try {
+            id = db.insert(TABLE_SCHEDULE, null, values);
+            if (id != -1) {
+                HelperMethod.debugLog(TAG, " addSchedule insert = " + id);
+            } else {
+                HelperMethod.debugLog(TAG, "Failed to Insert: addSchedule insert = " + id);
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : addSchedule = " + e.toString());
+        }
+        return id;
+    }
+
+
     public long addBatch(BatchDTO batchDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "addBatch called ++++++ ");
         long id = -1;
@@ -165,6 +220,9 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     private static final String KEY_SCHEDULE_ID = "sid";
     private static final String KEY_DAYS_OF_WEEK = "se_days";
     private static final String KEY_SCHEDULE_STATUS = "se_status";
+    private static final String KEY_START_TIME = "se_st_tm";
+    private static final String KEY_END_TIME = "se_en_tm";
+
 
 
     public static String CREATE_TABLE_USER_PROFILE = "CREATE TABLE " + TABLE_USER_PROFILE
@@ -205,11 +263,11 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             + KEY_END_DATE + " TEXT )";
 
     public static String CREATE_TABLE_SCHEDULE = "CREATE TABLE " + TABLE_SCHEDULE
-            + " (" + KEY_SCHEDULE_ID + " LONG PRIMARY KEY ,"
-            + KEY_ROUTINE_ID + " LONG ,"
+            + " (" + KEY_SCHEDULE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            + KEY_BATCH_ID + " LONG ,"
             + KEY_DAYS_OF_WEEK + " INTEGER ,"
-            + KEY_START_DATE + " LONG ,"
-            + KEY_END_DATE + " LONG,"
+            + KEY_START_TIME + " TEXT ,"
+            + KEY_END_TIME + " TEXT,"
             + KEY_SCHEDULE_STATUS + " TEXT )";
 
 
@@ -223,13 +281,14 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
 //        db.execSQL(CREATE_TABLE_COURSE);
         db.execSQL(CREATE_TABLE_BATCH);
 //        db.execSQL(CREATE_TABLE_ROUTINE);
-//        db.execSQL(CREATE_TABLE_SCHEDULE);
+        db.execSQL(CREATE_TABLE_SCHEDULE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + CREATE_TABLE_BATCH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER_PROFILE);
+        db.execSQL(CREATE_TABLE_SCHEDULE);
         onCreate(db);
     }
 

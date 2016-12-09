@@ -5,6 +5,45 @@ package entwinebits.com.teachersassistant.utils;
  */
 public class CustomDialog {
 
+
+    /*
+    * private void addNewBatchDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_add_batch_layout, null);
+        builder.setView(dialogView);
+        builder.setTitle(getString(R.string.add_new_batch));
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        final EditText batch_name_et = (EditText) dialogView.findViewById(R.id.batch_name_et);
+        TextView tv_ok = (TextView) dialogView.findViewById(R.id.tv_turn_on);
+        TextView tv_cancel = (TextView) dialogView.findViewById(R.id.tv_cancel);
+
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (batch_name_et.getText() != null) {
+                    added_batch_name = batch_name_et.getText().toString();
+                    notifyAdapter();
+                    Toast.makeText(BatchActivity.this, added_batch_name, Toast.LENGTH_SHORT).show();
+                }
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+    }*/
+
 /*
     public String showDialogWithDoubleBtn(final Activity context, boolean cancelable) {
 
