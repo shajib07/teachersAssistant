@@ -57,7 +57,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private AddedUserHorizontalAdapter addedUserAdapter;
 
     private ArrayList<UserProfileDTO> mAddedStudentList;
-    private List<ScheduleDTO> mScheduleList;
+    private ArrayList<ScheduleDTO> mScheduleList;
     private BatchDTO mBatchDTO;
     private DatabaseRequestHelper dbRequestHelper;
 

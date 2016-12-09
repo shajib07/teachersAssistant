@@ -1,5 +1,6 @@
 package entwinebits.com.teachersassistant.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,22 +12,22 @@ public class BatchDTO {
     private long routineId;
     private long courseId;
     private int numberOfStudents;
-    private List<ScheduleDTO> scheduleDTOList;
-    private List<UserProfileDTO> studentDtoList;
+    private ArrayList<ScheduleDTO> scheduleDTOList;
+    private ArrayList<UserProfileDTO> studentDtoList;
 
     public List<UserProfileDTO> getStudentDtoList() {
         return studentDtoList;
     }
 
-    public void setStudentDtoList(List<UserProfileDTO> studentDtoList) {
+    public void setStudentDtoList(ArrayList<UserProfileDTO> studentDtoList) {
         this.studentDtoList = studentDtoList;
     }
 
-    public List<ScheduleDTO> getScheduleDTOList() {
+    public ArrayList<ScheduleDTO> getScheduleDTOList() {
         return scheduleDTOList;
     }
 
-    public void setScheduleDTOList(List<ScheduleDTO> scheduleDTOList) {
+    public void setScheduleDTOList(ArrayList<ScheduleDTO> scheduleDTOList) {
         this.scheduleDTOList = scheduleDTOList;
     }
 

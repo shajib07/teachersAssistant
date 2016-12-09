@@ -24,6 +24,7 @@ import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.adapter.BatchListAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -62,6 +63,7 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
 
         home_batch_list_rv.setAdapter(homeBatchListAdapter);
         home_batch_list_rv.setNestedScrollingEnabled(false);
+        home_batch_list_rv.setFocusable(false);
         home_batch_list_more = (FrameLayout) view.findViewById(R.id.home_batch_list_more);
         home_batch_list_more.setOnClickListener(this);
         home_schedule_list_more = (FrameLayout) view.findViewById(R.id.home_schedule_list_more);
@@ -78,6 +80,14 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
             public void run() {
                 final ArrayList<BatchDTO> batchList = dbRequestHelper.getBatchList();
                 HelperMethod.debugLog(TAG, "loadBatchList size = "+batchList.size());
+                for (BatchDTO dto : batchList) {
+
+                    ArrayList<ScheduleDTO> scheduleDTOs = dbRequestHelper.getScheduleListByBatch((int)dto.getBatchId());
+                    dto.setScheduleDTOList(scheduleDTOs);
+                    HelperMethod.debugLog(TAG, "After db read : batch name : "+dto.getBatchName()+" id "+dto.getBatchId()
+                            + "schedule size = "+dto.getScheduleDTOList().size());
+                }
+
                 if (batchList != null && batchList.size() > 0) {
                     mActivity.runOnUiThread(new Runnable() {
                         @Override
