@@ -25,98 +25,155 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/margin_5"
-            android:paddingTop="@dimen/margin_5">
+            android:paddingTop="@dimen/margin_5"
+            android:weightSum="7">
 
-            <TextView
-                android:id="@+id/day_week_1"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@android:color/holo_orange_light"
+                android:background="@color/day_text_bg"
                 android:gravity="center"
-                android:text="sun"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/darker_gray"
-                android:visibility="invisible" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/day_week_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/holo_orange_light"
-                android:gravity="center"
-                android:text="mon"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/darker_gray"
-                android:visibility="invisible" />
+                <TextView
+                    android:id="@+id/day_week_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sunday"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/day_week_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/holo_orange_light"
-                android:gravity="center"
-                android:text="sun"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/darker_gray"
-                android:visibility="invisible" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/day_week_4"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
+                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@android:color/holo_orange_light"
+                android:background="@color/day_text_bg"
                 android:gravity="center"
-                android:text="mon"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/darker_gray"
-                android:visibility="invisible" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/day_week_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/holo_orange_light"
-                android:gravity="center"
-                android:text="sun"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/darker_gray"
-                android:visibility="invisible" />
+                <TextView
+                    android:id="@+id/day_week_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/day_week_6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:layout_weight="1"
-                android:background="@android:color/holo_orange_light"
-                android:gravity="center"
-                android:text="mon"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@android:color/darker_gray"
-                android:visibility="invisible" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/day_week_7"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="1dp"
+                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@android:color/holo_orange_light"
+                android:background="@color/day_text_bg"
                 android:gravity="center"
-                android:text="sun"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="16sp"
-                android:visibility="invisible" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/day_week_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sunday"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_weight="1"
+                android:background="@color/day_text_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/day_week_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sunday"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_weight="1"
+                android:background="@color/day_text_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/day_week_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sunday"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_weight="1"
+                android:background="@color/day_text_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/day_week_6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sunday"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_weight="1"
+                android:background="@color/day_text_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/day_week_7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sunday"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

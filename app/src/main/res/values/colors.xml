@@ -9,4 +9,8 @@
 
     <color name="gray88">#E0E0E0</color>
     <color name="gray93">#EDEDED</color>
+
+
+    <color name="day_text_bg">#C6E2FF</color>
+
 </resources>

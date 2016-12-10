@@ -83,7 +83,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                 @Override
                 public void onClick(View v) {
 
-                    holder.batch_schedule_tv.setText("Start "+dto.getStartTime()+ " End "+dto.getEndTime());
+                    holder.batch_schedule_tv.setText(dto.getStartTime()+ " To "+dto.getEndTime());
                 }
             });
 
@@ -93,7 +93,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
         }
         mDayIndex = 0;
         holder.batch_name_tv.setText(batchDTO.getBatchName());
-//        holder.batch_schedule_tv.setText("11 AM");
     }
 
     @Override
@@ -119,6 +118,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
             weekDaysTv[4] = (TextView)itemView.findViewById(R.id.day_week_5);
             weekDaysTv[5] = (TextView)itemView.findViewById(R.id.day_week_6);
             weekDaysTv[6] = (TextView)itemView.findViewById(R.id.day_week_7);
+
+            for (int i = 0; i < 7; i++) {
+                weekDaysTv[i].setVisibility(View.GONE);
+            }
+
         }
     }
 }
