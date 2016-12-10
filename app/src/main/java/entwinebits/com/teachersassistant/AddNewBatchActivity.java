@@ -122,13 +122,19 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                     editTextTimeFrom.get(day).setText(DateTimeFormatHelper.convertTimeFormatTo12Hour(hour, min));
                     c.set(Calendar.HOUR_OF_DAY, hour);
                     c.set(Calendar.MINUTE, min);
-                    scheduleDTO.setStartTime(DateFormat.getTimeInstance().format(c.getTime()));
+                    SimpleDateFormat format = new SimpleDateFormat("h:mm a");
+                    scheduleDTO.setStartTime(format.format(c.getTime()));
+
+//                    scheduleDTO.setStartTime(DateFormat.getTimeInstance().format(c.getTime()));
 
                 } else {
                     editTextTimeTo.get(day).setText(DateTimeFormatHelper.convertTimeFormatTo12Hour(hour, min));
                     c.set(Calendar.HOUR_OF_DAY, hour);
                     c.set(Calendar.MINUTE, min);
-                    scheduleDTO.setEndTime(DateFormat.getTimeInstance().format(c.getTime()));
+                    SimpleDateFormat format = new SimpleDateFormat("h:mm a");
+                    scheduleDTO.setEndTime(format.format(c.getTime()));
+
+//                    scheduleDTO.setEndTime(DateFormat.getTimeInstance().format(c.getTime()));
                 }
                 if (!found) {
                     mScheduleList.add(scheduleDTO);
