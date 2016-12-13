@@ -6,9 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.model.BatchDTO;
@@ -49,8 +53,9 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
         BatchDTO batchDTO = mBatchDTOList.get(position);
         ArrayList<ScheduleDTO> scheduleDTOs = batchDTO.getScheduleDTOList();
 
+        mDayIndex = 0;
         for (final ScheduleDTO dto : scheduleDTOs) {
-            dto.getDaysOfWeek();
+
             String curDay = "";
             switch (dto.getDaysOfWeek()) {
                 case 0:
@@ -77,22 +82,30 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                 default:
                     break;
             }
-            holder.weekDaysTv[mDayIndex].setVisibility(View.VISIBLE);
-            holder.weekDaysTv[mDayIndex].setText(curDay);
-            holder.weekDaysTv[mDayIndex].setOnClickListener(new View.OnClickListener() {
+            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
+            holder.weekDaysLL[mDayIndex].setVisibility(View.VISIBLE);
+            TextView tv = (TextView) holder.weekDaysLL[mDayIndex].getChildAt(0);
+            tv.setText(curDay);
+
+            holder.weekDaysLL[mDayIndex].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    holder.batch_schedule_tv.setText(dto.getStartTime()+ " To "+dto.getEndTime());
+                    holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                    holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                    View view = ((LinearLayout)v).getChildAt(1);
+                    view.setVisibility(View.VISIBLE);
                 }
             });
-
             mDayIndex++;
-            HelperMethod.debugLog(TAG, "schedule day = "+dto.getDaysOfWeek()+" st = "+dto.getStartTime());
-
         }
-        mDayIndex = 0;
+
         holder.batch_name_tv.setText(batchDTO.getBatchName());
+        if (scheduleDTOs != null && scheduleDTOs.size() > 0) {
+            holder.batch_schedule_from_tv.setText(scheduleDTOs.get(0).getStartTime());
+            holder.batch_schedule_to_tv.setText(scheduleDTOs.get(0).getEndTime());
+        }
     }
 
     @Override
@@ -104,23 +117,25 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
     }
 
     public class BatchViewHolder extends RecyclerView.ViewHolder {
-        private TextView batch_name_tv, batch_schedule_tv;
-        private TextView[] weekDaysTv = new TextView[7];
+        private TextView batch_name_tv, batch_schedule_from_tv, batch_schedule_to_tv;
+        private LinearLayout weekDaysLL[] = new LinearLayout[7];
+
         public BatchViewHolder(View itemView) {
             super(itemView);
             batch_name_tv = (TextView)itemView.findViewById(R.id.batch_name_tv);
-            batch_schedule_tv = (TextView)itemView.findViewById(R.id.batch_schedule_tv);
+            batch_schedule_from_tv = (TextView)itemView.findViewById(R.id.batch_schedule_from_tv);
+            batch_schedule_to_tv = (TextView)itemView.findViewById(R.id.batch_schedule_to_tv);
 
-            weekDaysTv[0] = (TextView)itemView.findViewById(R.id.day_week_1);
-            weekDaysTv[1] = (TextView)itemView.findViewById(R.id.day_week_2);
-            weekDaysTv[2] = (TextView)itemView.findViewById(R.id.day_week_3);
-            weekDaysTv[3] = (TextView)itemView.findViewById(R.id.day_week_4);
-            weekDaysTv[4] = (TextView)itemView.findViewById(R.id.day_week_5);
-            weekDaysTv[5] = (TextView)itemView.findViewById(R.id.day_week_6);
-            weekDaysTv[6] = (TextView)itemView.findViewById(R.id.day_week_7);
+            weekDaysLL[0] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_1);
+            weekDaysLL[1] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_2);
+            weekDaysLL[2] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_3);
+            weekDaysLL[3] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_4);
+            weekDaysLL[4] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_5);
+            weekDaysLL[5] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_6);
+            weekDaysLL[6] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_7);
 
             for (int i = 0; i < 7; i++) {
-                weekDaysTv[i].setVisibility(View.GONE);
+                weekDaysLL[i].setVisibility(View.GONE);
             }
 
         }
