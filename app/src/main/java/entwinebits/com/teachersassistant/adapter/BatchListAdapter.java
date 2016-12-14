@@ -27,7 +27,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
     private String TAG = "BatchListAdapter";
     private Activity mActivity;
     private ArrayList<BatchDTO> mBatchDTOList;
-    private int mDayIndex = 0;
 
     public BatchListAdapter(Activity activity, ArrayList<BatchDTO> batchDTOList) {
         this.mActivity = activity;
@@ -51,60 +50,215 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
     @Override
     public void onBindViewHolder(final BatchViewHolder holder, int position) {
         BatchDTO batchDTO = mBatchDTOList.get(position);
+        holder.batch_name_tv.setText(batchDTO.getBatchName());
+
         ArrayList<ScheduleDTO> scheduleDTOs = batchDTO.getScheduleDTOList();
+        if (scheduleDTOs != null && scheduleDTOs.size() > 0) {
+            holder.batch_schedule_from_tv.setText(scheduleDTOs.get(0).getStartTime());
+            holder.batch_schedule_to_tv.setText(scheduleDTOs.get(0).getEndTime());
+        }
 
-        mDayIndex = 0;
-        for (final ScheduleDTO dto : scheduleDTOs) {
+        for (int dayIndex = 0; dayIndex < scheduleDTOs.size(); dayIndex++) {
 
-            String curDay = "";
+            final ScheduleDTO dto = scheduleDTOs.get(dayIndex);
+            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
             switch (dto.getDaysOfWeek()) {
                 case 0:
-                    curDay = "SAT";
+                    holder.day_week_ll_1.setVisibility(View.VISIBLE);
+                    ((TextView) holder.day_week_ll_1.getChildAt(0)).setText("SAT");
+                    holder.day_week_ll_1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
+                            holder.dayWeekIndi[0].setVisibility(View.VISIBLE);
+                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
+//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.VISIBLE);
+//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
+                        }
+                    });
                     break;
                 case 1:
-                    curDay = "SUN";
+                    holder.day_week_ll_2.setVisibility(View.VISIBLE);
+                    ((TextView) holder.day_week_ll_2.getChildAt(0)).setText("SUN");
+                    holder.day_week_ll_2.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
+                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[1].setVisibility(View.VISIBLE);
+                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
+//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.VISIBLE);
+//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
+                        }
+                    });
                     break;
                 case 2:
-                    curDay = "MON";
+                    holder.day_week_ll_3.setVisibility(View.VISIBLE);
+                    ((TextView) holder.day_week_ll_3.getChildAt(0)).setText("MON");
+                    holder.day_week_ll_3.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
+                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[2].setVisibility(View.VISIBLE);
+                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
+//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.VISIBLE);
+//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
+                        }
+                    });
                     break;
                 case 3:
-                    curDay = "TUE";
+                    holder.day_week_ll_4.setVisibility(View.VISIBLE);
+                    ((TextView) holder.day_week_ll_4.getChildAt(0)).setText("TUE");
+                    holder.day_week_ll_4.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
+                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[3].setVisibility(View.VISIBLE);
+                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
+
+//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.VISIBLE);
+//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
+                        }
+                    });
                     break;
                 case 4:
-                    curDay = "WED";
+                    holder.day_week_ll_5.setVisibility(View.VISIBLE);
+                    ((TextView) holder.day_week_ll_5.getChildAt(0)).setText("WED");
+                    holder.day_week_ll_5.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
+                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[4].setVisibility(View.VISIBLE);
+                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
+
+//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.VISIBLE);
+//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
+                        }
+                    });
                     break;
                 case 5:
-                    curDay = "THU";
+                    holder.day_week_ll_6.setVisibility(View.VISIBLE);
+                    ((TextView) holder.day_week_ll_6.getChildAt(0)).setText("THU");
+                    holder.day_week_ll_6.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[5].setVisibility(View.VISIBLE);
+                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
+//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.VISIBLE);
+//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
+                        }
+                    });
                     break;
                 case 6:
-                    curDay = "FRI";
+                    holder.day_week_ll_7.setVisibility(View.VISIBLE);
+                    ((TextView) holder.day_week_ll_7.getChildAt(0)).setText("FRI");
+                    holder.day_week_ll_7.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
+                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+
+                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+                            holder.dayWeekIndi[6].setVisibility(View.VISIBLE);
+
+
+//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
+//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.VISIBLE);
+                        }
+                    });
                     break;
                 default:
                     break;
             }
-            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-            holder.batch_schedule_to_tv.setText(dto.getEndTime());
-
-            holder.weekDaysLL[mDayIndex].setVisibility(View.VISIBLE);
-            TextView tv = (TextView) holder.weekDaysLL[mDayIndex].getChildAt(0);
-            tv.setText(curDay);
-
-            holder.weekDaysLL[mDayIndex].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                    holder.batch_schedule_to_tv.setText(dto.getEndTime());
-                    View view = ((LinearLayout)v).getChildAt(1);
-                    view.setVisibility(View.VISIBLE);
-                }
-            });
-            mDayIndex++;
-        }
-
-        holder.batch_name_tv.setText(batchDTO.getBatchName());
-        if (scheduleDTOs != null && scheduleDTOs.size() > 0) {
-            holder.batch_schedule_from_tv.setText(scheduleDTOs.get(0).getStartTime());
-            holder.batch_schedule_to_tv.setText(scheduleDTOs.get(0).getEndTime());
         }
     }
 
@@ -118,25 +272,47 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
 
     public class BatchViewHolder extends RecyclerView.ViewHolder {
         private TextView batch_name_tv, batch_schedule_from_tv, batch_schedule_to_tv;
-        private LinearLayout weekDaysLL[] = new LinearLayout[7];
+        private LinearLayout day_week_ll_1, day_week_ll_2, day_week_ll_3, day_week_ll_4, day_week_ll_5, day_week_ll_6, day_week_ll_7;
+
+        private View dayWeekIndi[] = new View[7];
 
         public BatchViewHolder(View itemView) {
             super(itemView);
-            batch_name_tv = (TextView)itemView.findViewById(R.id.batch_name_tv);
-            batch_schedule_from_tv = (TextView)itemView.findViewById(R.id.batch_schedule_from_tv);
-            batch_schedule_to_tv = (TextView)itemView.findViewById(R.id.batch_schedule_to_tv);
+            batch_name_tv = (TextView) itemView.findViewById(R.id.batch_name_tv);
+            batch_schedule_from_tv = (TextView) itemView.findViewById(R.id.batch_schedule_from_tv);
+            batch_schedule_to_tv = (TextView) itemView.findViewById(R.id.batch_schedule_to_tv);
 
-            weekDaysLL[0] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_1);
-            weekDaysLL[1] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_2);
-            weekDaysLL[2] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_3);
-            weekDaysLL[3] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_4);
-            weekDaysLL[4] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_5);
-            weekDaysLL[5] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_6);
-            weekDaysLL[6] = (LinearLayout)itemView.findViewById(R.id.day_week_ll_7);
+            day_week_ll_1 = (LinearLayout) itemView.findViewById(R.id.day_week_ll_1);
+            day_week_ll_2 = (LinearLayout) itemView.findViewById(R.id.day_week_ll_2);
+            day_week_ll_3 = (LinearLayout) itemView.findViewById(R.id.day_week_ll_3);
+            day_week_ll_4 = (LinearLayout) itemView.findViewById(R.id.day_week_ll_4);
+            day_week_ll_5 = (LinearLayout) itemView.findViewById(R.id.day_week_ll_5);
+            day_week_ll_6 = (LinearLayout) itemView.findViewById(R.id.day_week_ll_6);
+            day_week_ll_7 = (LinearLayout) itemView.findViewById(R.id.day_week_ll_7);
 
-            for (int i = 0; i < 7; i++) {
-                weekDaysLL[i].setVisibility(View.GONE);
-            }
+            day_week_ll_1.setVisibility(View.GONE);
+            day_week_ll_2.setVisibility(View.GONE);
+            day_week_ll_3.setVisibility(View.GONE);
+            day_week_ll_4.setVisibility(View.GONE);
+            day_week_ll_5.setVisibility(View.GONE);
+            day_week_ll_6.setVisibility(View.GONE);
+            day_week_ll_7.setVisibility(View.GONE);
+
+            dayWeekIndi[0] = itemView.findViewById(R.id.day_week_indi_1);
+            dayWeekIndi[1] = itemView.findViewById(R.id.day_week_indi_2);
+            dayWeekIndi[2] = itemView.findViewById(R.id.day_week_indi_3);
+            dayWeekIndi[3] = itemView.findViewById(R.id.day_week_indi_4);
+            dayWeekIndi[4] = itemView.findViewById(R.id.day_week_indi_5);
+            dayWeekIndi[5] = itemView.findViewById(R.id.day_week_indi_6);
+            dayWeekIndi[6] = itemView.findViewById(R.id.day_week_indi_7);
+
+            dayWeekIndi[0].setVisibility(View.INVISIBLE);
+            dayWeekIndi[1].setVisibility(View.INVISIBLE);
+            dayWeekIndi[2].setVisibility(View.INVISIBLE);
+            dayWeekIndi[3].setVisibility(View.INVISIBLE);
+            dayWeekIndi[4].setVisibility(View.INVISIBLE);
+            dayWeekIndi[5].setVisibility(View.INVISIBLE);
+            dayWeekIndi[6].setVisibility(View.INVISIBLE);
 
         }
     }
