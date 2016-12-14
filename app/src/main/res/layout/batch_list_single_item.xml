@@ -15,8 +15,10 @@
             android:id="@+id/batch_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_5"
             android:text="Batch Morning"
-            android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
@@ -24,35 +26,40 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="@dimen/margin_5"
-            android:paddingTop="@dimen/margin_5"
+            android:layout_gravity="center"
+            android:padding="@dimen/margin_5"
             android:weightSum="7">
 
             <LinearLayout
                 android:id="@+id/day_week_ll_1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg"
+                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_2">
 
                 <TextView
-                    android:id="@+id/day_week_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sunday"
+                    android:background="@color/day_text_bg"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
+                    android:text="sun"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
                 <View
+                    android:id="@+id/day_week_indi_1"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:background="@android:color/holo_red_light"
-                    android:visibility="invisible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -60,26 +67,32 @@
                 android:id="@+id/day_week_ll_2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg"
+                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_2">
 
                 <TextView
-                    android:id="@+id/day_week_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@color/day_text_bg"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
                     android:text="sun"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
                 <View
+                    android:id="@+id/day_week_indi_2"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:background="@android:color/holo_red_light"
-                    android:visibility="invisible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -87,26 +100,32 @@
                 android:id="@+id/day_week_ll_3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg"
+                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_2">
 
                 <TextView
-                    android:id="@+id/day_week_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sunday"
+                    android:background="@color/day_text_bg"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
+                    android:text="sun"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
                 <View
+                    android:id="@+id/day_week_indi_3"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:background="@android:color/holo_red_light"
-                    android:visibility="invisible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -114,27 +133,32 @@
                 android:id="@+id/day_week_ll_4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg"
+                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_2">
 
                 <TextView
-                    android:id="@+id/day_week_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sunday"
-                    android:paddingBottom="3dp"
-                    android:background="@drawable/batch_day_selector_bg"
+                    android:background="@color/day_text_bg"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
+                    android:text="sun"
+                    android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
                 <View
+                    android:id="@+id/day_week_indi_4"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:background="@android:color/holo_red_light"
-                    android:visibility="invisible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -142,26 +166,32 @@
                 android:id="@+id/day_week_ll_5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg"
+                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_2">
 
                 <TextView
-                    android:id="@+id/day_week_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sunday"
+                    android:background="@color/day_text_bg"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
+                    android:text="sun"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
                 <View
+                    android:id="@+id/day_week_indi_5"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:background="@android:color/holo_red_light"
-                    android:visibility="invisible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -170,26 +200,32 @@
                 android:id="@+id/day_week_ll_6"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg"
+                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_2">
 
                 <TextView
-                    android:id="@+id/day_week_6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sunday"
+                    android:background="@color/day_text_bg"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
+                    android:text="sun"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
                 <View
+                    android:id="@+id/day_week_indi_6"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:background="@android:color/holo_red_light"
-                    android:visibility="invisible"/>
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -198,27 +234,32 @@
                 android:id="@+id/day_week_ll_7"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg"
+                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/margin_2">
 
                 <TextView
-                    android:id="@+id/day_week_7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="sunday"
+                    android:background="@color/day_text_bg"
+                    android:paddingTop="@dimen/margin_5"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_2"
+                    android:paddingRight="@dimen/margin_2"
+                    android:text="sun"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
                 <View
+                    android:id="@+id/day_week_indi_7"
                     android:layout_width="wrap_content"
                     android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_5"
                     android:background="@android:color/holo_red_light"
-                    android:visibility="invisible"/>
-
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -257,7 +298,6 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
