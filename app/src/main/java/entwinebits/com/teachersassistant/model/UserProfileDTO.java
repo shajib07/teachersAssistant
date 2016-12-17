@@ -20,7 +20,7 @@ public class UserProfileDTO {
     private String userDesignation;
     private String userInstituteName;
     private boolean isTeacher;
-
+    private int paymentAmount;
     private long batchId;
 
     public long getBatchId() {
@@ -149,5 +149,13 @@ public class UserProfileDTO {
 
     public void setTeacher(boolean teacher) {
         isTeacher = teacher;
+    }
+
+    public int getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(int paymentAmount) {
+        this.paymentAmount = paymentAmount;
     }
 }

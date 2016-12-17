@@ -1,8 +1,6 @@
 package entwinebits.com.teachersassistant.fragment;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,18 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
-import entwinebits.com.teachersassistant.DateSelectionListener;
+import entwinebits.com.teachersassistant.listener.DateSelectionListener;
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.adapter.BatchPaymentHistoryAdapter;
 import entwinebits.com.teachersassistant.adapter.DateChooserAdapter;

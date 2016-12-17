@@ -1,6 +1,7 @@
 package entwinebits.com.teachersassistant;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,6 +47,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private List<TextView> dayOfWeekList;
     private List<LinearLayout> dayViewLayout;
     private Button add_student_btn;
+    private TextView add_student_tv;
 
     private EditText batch_title_et;
     private EditText added_user_name, added_user_mbl, added_user_address, added_user_institute;
@@ -72,6 +74,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         add_student_btn.setOnClickListener(this);
 
         batch_title_et = (EditText) findViewById(R.id.batch_title_et);
+        add_student_tv = (TextView) findViewById(R.id.add_student_tv);
+        add_student_tv.setOnClickListener(this);
         added_user_name = (EditText) findViewById(R.id.user_name);
         added_user_name.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         added_user_mbl = (EditText) findViewById(R.id.user_mobl_no);
@@ -314,6 +318,11 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.add_batch_toolbar_back:
                 finish();
+                break;
+            case R.id.add_student_tv:
+
+                Intent addIntent = new Intent(AddNewBatchActivity.this, AddNewStudentActivity.class);
+                startActivity(addIntent);
                 break;
             case R.id.add_student_btn:
                 UserProfileDTO userDto = new UserProfileDTO();

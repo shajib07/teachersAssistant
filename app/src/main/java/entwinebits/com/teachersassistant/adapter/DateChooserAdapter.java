@@ -9,9 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import entwinebits.com.teachersassistant.DateSelectionListener;
+import entwinebits.com.teachersassistant.listener.DateSelectionListener;
 import entwinebits.com.teachersassistant.R;
-import entwinebits.com.teachersassistant.utils.Constants;
 
 /**
  * Created by shajib on 12/16/2016.
