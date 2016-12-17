@@ -8,4 +8,7 @@ public class Constants {
     public static final String BATCH_NAME = "BATCH_NAME";
     public static final String NUMBER_OF_STUDENT = "NUMBER_OF_STUDENT";
 
+
+    public static final int MONTH_TYPE = 1;
+    public static final int YEAR_TYPE = 2;
 }
