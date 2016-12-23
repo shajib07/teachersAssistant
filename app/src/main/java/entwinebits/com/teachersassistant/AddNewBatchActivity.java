@@ -28,6 +28,7 @@ import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.DateTimeFormatHelper;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
@@ -36,7 +37,7 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
  */
 public class AddNewBatchActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String TAG = "AddNewBatchActivity";
+    public static String TAG = "AddNewBatchActivity";
     private Calendar mCalendar;
     private FrameLayout add_batch_toolbar_back, add_batch_save_btn;
 
@@ -47,11 +48,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private List<TextView> dayOfWeekList;
     private List<LinearLayout> dayViewLayout;
     private Button add_student_btn;
-    private TextView add_student_tv;
 
     private EditText batch_title_et;
-    private EditText added_user_name, added_user_mbl, added_user_address, added_user_institute;
-
     String[] dayName = {"Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"};
     TimePickerDialog.OnTimeSetListener onTimeSetListener;
     int day;
@@ -70,25 +68,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_add_new_batch);
         mAddedStudentList = new ArrayList<>();
         addedUserRecycler = (RecyclerView) findViewById(R.id.added_user_recycler_view);
-        add_student_btn = (Button) findViewById(R.id.add_student_btn);
-        add_student_btn.setOnClickListener(this);
 
         batch_title_et = (EditText) findViewById(R.id.batch_title_et);
-        add_student_tv = (TextView) findViewById(R.id.add_student_tv);
-        add_student_tv.setOnClickListener(this);
-        added_user_name = (EditText) findViewById(R.id.user_name);
-        added_user_name.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        added_user_mbl = (EditText) findViewById(R.id.user_mobl_no);
-        added_user_mbl.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        added_user_institute = (EditText) findViewById(R.id.user_institution);
-        added_user_institute.setImeOptions(EditorInfo.IME_ACTION_NEXT);
-        added_user_address = (EditText) findViewById(R.id.user_address);
-        added_user_address.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
-        added_user_name.setSingleLine(true);
-        added_user_mbl.setSingleLine(true);
-        added_user_institute.setSingleLine(true);
-        added_user_address.setSingleLine(true);
+        add_student_btn = (Button) findViewById(R.id.add_student_btn);
+        add_student_btn.setOnClickListener(this);
 
         addedUserAdapter = new AddedUserHorizontalAdapter(mAddedStudentList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -291,6 +274,19 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 121) {
+            if (resultCode == RESULT_OK) {
+                ArrayList<UserProfileDTO> addedStuList = data.getParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST);
+                mAddedStudentList.clear();
+                mAddedStudentList.addAll(addedStuList);
+                HelperMethod.debugLog(TAG, "onActivityResult : addedStuList size = "+mAddedStudentList.size());
+                addedUserAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -319,35 +315,14 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             case R.id.add_batch_toolbar_back:
                 finish();
                 break;
-            case R.id.add_student_tv:
-
-                Intent addIntent = new Intent(AddNewBatchActivity.this, AddNewStudentActivity.class);
-                startActivity(addIntent);
-                break;
             case R.id.add_student_btn:
-                UserProfileDTO userDto = new UserProfileDTO();
-                userDto.setUserName(added_user_name.getText().toString());
-                userDto.setUserAddress(added_user_address.getText().toString());
-                userDto.setUserMobilePhone(added_user_mbl.getText().toString());
-                userDto.setUserInstituteName(added_user_institute.getText().toString());
+                Intent addIntent = new Intent(AddNewBatchActivity.this, AddNewStudentActivity.class);
+                startActivityForResult(addIntent, 121);
 
-                if (userDto.getUserName().length() > 0) {
-                    mAddedStudentList.add(userDto);
-                } else {
-                    Toast.makeText(AddNewBatchActivity.this, "Please, Insert Student Name", Toast.LENGTH_SHORT).show();
-                }
-                addedUserAdapter.notifyDataSetChanged();
-                resetInputFields();
                 break;
             default:
                 break;
         }
     }
 
-    private void resetInputFields() {
-        added_user_name.setText("");
-        added_user_address.setText("");
-        added_user_mbl.setText("");
-        added_user_institute.setText("");
-    }
 }
