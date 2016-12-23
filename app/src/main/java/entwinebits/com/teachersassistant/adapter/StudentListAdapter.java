@@ -5,8 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.R;
+import entwinebits.com.teachersassistant.model.UserProfileDTO;
 
 /**
  * Created by Nargis Rahman on 12/1/2016.
@@ -14,9 +19,11 @@ import entwinebits.com.teachersassistant.R;
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentViewHolder> {
 
     private Activity mActivity;
+    private ArrayList<UserProfileDTO> mStudentList;
 
-    public StudentListAdapter(Activity activity) {
+    public StudentListAdapter(Activity activity, ArrayList<UserProfileDTO> list) {
         this.mActivity = mActivity;
+        this.mStudentList = list;
     }
 
     @Override
@@ -28,16 +35,32 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     @Override
     public void onBindViewHolder(StudentViewHolder holder, int position) {
 
+        UserProfileDTO dto = mStudentList.get(position);
+        holder.student_name_tv.setText(dto.getUserName());
+        holder.student_contact_tv.setText(dto.getUserMobilePhone());
+        holder.student_monthly_fee.setText(dto.getMonthlyFee() + "");
+        holder.student_list_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return (mStudentList == null ? 0 : mStudentList.size());
     }
 
     public class StudentViewHolder extends RecyclerView.ViewHolder {
+        private FrameLayout student_list_settings;
+        private TextView student_name_tv, student_contact_tv, student_monthly_fee;
         public StudentViewHolder(View itemView) {
             super(itemView);
+            student_list_settings = (FrameLayout) itemView.findViewById(R.id.student_list_settings);
+            student_name_tv = (TextView) itemView.findViewById(R.id.student_name_tv);
+            student_contact_tv = (TextView) itemView.findViewById(R.id.student_contact_tv);
+            student_monthly_fee = (TextView) itemView.findViewById(R.id.student_monthly_fee);
         }
     }
 }

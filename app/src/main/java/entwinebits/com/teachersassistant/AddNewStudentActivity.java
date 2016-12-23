@@ -91,7 +91,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         if (amount.length() > 0) {
             payment_amount = Integer.parseInt(amount);
         }
-        userDto.setPaymentAmount(payment_amount);
+        userDto.setMonthlyFee(payment_amount);
         userDto.setUserMobilePhone(added_student_mobile_phn.getText().toString());
         userDto.setUserInstituteName(added_student_institution.getText().toString());
 

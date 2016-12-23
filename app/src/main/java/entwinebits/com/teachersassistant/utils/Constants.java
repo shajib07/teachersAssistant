@@ -5,6 +5,7 @@ package entwinebits.com.teachersassistant.utils;
  */
 public class Constants {
 
+    public static final String BATCH_ID = "BATCH_ID";
     public static final String BATCH_NAME = "BATCH_NAME";
     public static final String NUMBER_OF_STUDENT = "NUMBER_OF_STUDENT";
     public static final String ADDED_STUDENT_LIST = "ADDED_STUDENT_LIST";

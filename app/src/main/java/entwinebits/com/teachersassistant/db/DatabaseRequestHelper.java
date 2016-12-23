@@ -64,5 +64,13 @@ public class DatabaseRequestHelper {
         return scheduleList;
     }
 
+    public ArrayList<UserProfileDTO> getStudentListByBatch(int batchId) {
+        HelperMethod.debugLog(TAG, " getStudentListByBatch called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        ArrayList<UserProfileDTO> studentList = uniqInstance.getStudentListByBatch(db, batchId);
+        uniqInstance.closeDataBase(db);
+        return studentList;
+    }
+
 
 }

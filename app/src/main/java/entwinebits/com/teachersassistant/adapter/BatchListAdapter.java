@@ -1,6 +1,7 @@
 package entwinebits.com.teachersassistant.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.view.menu.MenuBuilder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,9 +15,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import entwinebits.com.teachersassistant.BatchDetailsActivity;
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
+import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -48,7 +51,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
     }
 
     @Override
-    public void onBindViewHolder(final BatchViewHolder holder, int position) {
+    public void onBindViewHolder(final BatchViewHolder holder, final int position) {
         BatchDTO batchDTO = mBatchDTOList.get(position);
         holder.batch_name_tv.setText(batchDTO.getBatchName());
 
@@ -81,14 +84,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
-
-//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.VISIBLE);
-//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
                         }
                     });
                     break;
@@ -108,14 +103,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
-
-//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.VISIBLE);
-//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
                         }
                     });
                     break;
@@ -135,14 +122,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
-
-//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.VISIBLE);
-//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
                         }
                     });
                     break;
@@ -162,15 +141,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
-
-
-//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.VISIBLE);
-//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
                         }
                     });
                     break;
@@ -190,15 +160,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.dayWeekIndi[4].setVisibility(View.VISIBLE);
                             holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
-
-
-//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.VISIBLE);
-//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
                         }
                     });
                     break;
@@ -217,14 +178,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[5].setVisibility(View.VISIBLE);
                             holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
-
-//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.VISIBLE);
-//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.GONE);
                         }
                     });
                     break;
@@ -244,15 +197,6 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
                             holder.dayWeekIndi[6].setVisibility(View.VISIBLE);
-
-
-//                            holder.day_week_ll_1.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_2.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_3.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_4.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_5.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_6.getChildAt(1).setVisibility(View.GONE);
-//                            holder.day_week_ll_7.getChildAt(1).setVisibility(View.VISIBLE);
                         }
                     });
                     break;
@@ -260,6 +204,17 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     break;
             }
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BatchDTO dto = mBatchDTOList.get(position);
+                Intent batchIntent = new Intent(mActivity, BatchDetailsActivity.class);
+                batchIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                batchIntent.putExtra(Constants.BATCH_ID, dto.getBatchId());
+                batchIntent.putExtra(Constants.BATCH_NAME, dto.getBatchName());
+                mActivity.startActivity(batchIntent);
+            }
+        });
     }
 
     @Override

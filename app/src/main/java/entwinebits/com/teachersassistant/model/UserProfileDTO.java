@@ -23,7 +23,7 @@ public class UserProfileDTO implements Parcelable{
     private String userDesignation;
     private String userInstituteName;
     private boolean isTeacher;
-    private int paymentAmount;
+    private int monthlyFee;
     private long batchId;
 
     public long getBatchId() {
@@ -154,12 +154,12 @@ public class UserProfileDTO implements Parcelable{
         isTeacher = teacher;
     }
 
-    public int getPaymentAmount() {
-        return paymentAmount;
+    public int getMonthlyFee() {
+        return monthlyFee;
     }
 
-    public void setPaymentAmount(int paymentAmount) {
-        this.paymentAmount = paymentAmount;
+    public void setMonthlyFee(int monthlyFee) {
+        this.monthlyFee = monthlyFee;
     }
 
     public UserProfileDTO() {
@@ -187,7 +187,7 @@ public class UserProfileDTO implements Parcelable{
         userDesignation = in.readString();
         userInstituteName = in.readString();
         isTeacher = (in.readInt() == 0 ? false : true);
-        paymentAmount = in.readInt();
+        monthlyFee = in.readInt();
         batchId = in.readLong();
     }
 
@@ -208,7 +208,7 @@ public class UserProfileDTO implements Parcelable{
         dest.writeString(userDesignation);
         dest.writeString(userInstituteName);
         dest.writeInt(isTeacher ? 1: 0);
-        dest.writeInt(paymentAmount);
+        dest.writeInt(monthlyFee);
         dest.writeLong(batchId);
     }
 

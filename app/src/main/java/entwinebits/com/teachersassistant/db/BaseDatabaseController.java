@@ -19,32 +19,35 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
  */
 public class BaseDatabaseController extends SQLiteOpenHelper {
 
-//    public ArrayList<UserProfileDTO> getUserList(SQLiteDatabase db) {
-//        ArrayList<BatchDTO> batchDTOs = new ArrayList<>();
-//        Cursor cursor = null;
-//        try {
-////            String selectQuery = "SELECT  * FROM " + TABLE_BATCH + " ORDER BY " + KEY_BATCH_NAME + " DESC";
-//            String selectQuery = "SELECT  * FROM " + TABLE_BATCH;
-//            cursor = db.rawQuery(selectQuery, null);
-//
-//            if (cursor.moveToFirst()) {
-//                do {
-//                    BatchDTO dto = new BatchDTO();
-//                    dto.setBatchId(cursor.getLong(0));
-////                    dto.setRoutineId(cursor.getLong(2));
-//                    dto.setBatchName(cursor.getString(1));
-//                    batchDTOs.add(dto);
-//                } while (cursor.moveToNext());
-//            }
-//        } catch (Exception e) {
-//            HelperMethod.errorLog(TAG, "Exception : getBatchList = " + e.toString());
-//        } finally {
-//            if (cursor != null) {
-//                cursor.close();
-//            }
-//        }
-//        return batchDTOs;
-//    }
+    public ArrayList<UserProfileDTO> getStudentListByBatch(SQLiteDatabase db, int batchId) {
+        ArrayList<UserProfileDTO> studentList = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            HelperMethod.debugLog(TAG, "getStudentListByBatch : batchId == "+batchId );
+            String selectQuery = "SELECT  * FROM " + TABLE_USER_PROFILE + " WHERE " + KEY_BATCH_ID +" = "+batchId;
+            cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    UserProfileDTO dto = new UserProfileDTO();
+                    dto.setUserName(cursor.getString(1));
+                    dto.setMonthlyFee(cursor.getInt(2));
+                    dto.setUserMobilePhone(cursor.getString(10));
+                    dto.setUserInstituteName(cursor.getString(15));
+                    dto.setUserAddress(cursor.getString(13));
+                    studentList.add(dto);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : getStudentListByBatch = " + e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return studentList;
+    }
+
 
     public long addStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "addStudent called ++++++ ");
@@ -52,6 +55,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_USERNAME, userProfileDTO.getUserName());
+        values.put(KEY_MONTHLY_FEE, userProfileDTO.getMonthlyFee());
         values.put(KEY_MOBILE, userProfileDTO.getUserMobilePhone());
         values.put(KEY_INSTITUTE_NAME, userProfileDTO.getUserInstituteName());
         values.put(KEY_ADDRESS, userProfileDTO.getUserAddress());
@@ -200,8 +204,10 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     private static final String KEY_DESIGNATION = "dsgn";
     private static final String KEY_INSTITUTE_NAME = "instNm";
     private static final String KEY_IS_TEACHER = "isTea";
+    private static final String KEY_MONTHLY_FEE = "monthlyFee";
 
-//    private static final String KEY_BATCH_ID_N = "bidn";
+
+    //    private static final String KEY_BATCH_ID_N = "bidn";
     //    field for batch table
     private static final String KEY_BATCH_ID = "bid";
     private static final String KEY_BATCH_NAME = "bat_name";
@@ -228,6 +234,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     public static String CREATE_TABLE_USER_PROFILE = "CREATE TABLE " + TABLE_USER_PROFILE
             + " (" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + KEY_USERNAME + " TEXT ,"
+            + KEY_MONTHLY_FEE + " INTEGER ,"
             + KEY_PASSWORD + " TEXT ,"
             + KEY_USERIDENTITY + " TEXT ,"
             + KEY_FIRST_NAME + " TEXT ,"
