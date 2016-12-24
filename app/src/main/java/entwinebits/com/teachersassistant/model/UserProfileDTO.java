@@ -8,7 +8,7 @@ import android.os.Parcelable;
  */
 public class UserProfileDTO implements Parcelable{
 
-    private String userId;
+    private int userId;
     private String userName;
     private String userPwd;
     private String userFirstName;
@@ -34,11 +34,11 @@ public class UserProfileDTO implements Parcelable{
         this.batchId = batchId;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -172,7 +172,7 @@ public class UserProfileDTO implements Parcelable{
     }
 
     private UserProfileDTO(Parcel in) {
-        userId = in.readString();
+        userId = in.readInt();
         userName = in.readString();
         userPwd = in.readString();
         userFirstName = in.readString();
@@ -193,7 +193,7 @@ public class UserProfileDTO implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(userId);
+        dest.writeInt(userId);
         dest.writeString(userName);
         dest.writeString(userPwd);
         dest.writeString(userFirstName);

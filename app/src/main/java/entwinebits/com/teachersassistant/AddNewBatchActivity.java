@@ -239,6 +239,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 dto.setTeacher(false);
                 long stuId = dbRequestHelper.addStudent(dto);
                 HelperMethod.debugLog(TAG, "after student insert : student id == " + stuId);
+                dbRequestHelper.updateStudentID((int) stuId);
             }
         }
 

@@ -40,6 +40,20 @@ public class DatabaseRequestHelper {
         return id;
     }
 
+    public void updateStudentID(int id) {
+        HelperMethod.debugLog(TAG, " updateStudentID called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        uniqInstance.updateStudentID(id, db);
+        uniqInstance.closeDataBase(db);
+    }
+
+    public void updateStudent(UserProfileDTO userProfileDTO) {
+        HelperMethod.debugLog(TAG, " updateStudent called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        uniqInstance.updateStudent(userProfileDTO, db);
+        uniqInstance.closeDataBase(db);
+    }
+
     public long addStudent(UserProfileDTO userProfileDTO) {
         HelperMethod.debugLog(TAG, " addStudent called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();

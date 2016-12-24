@@ -30,6 +30,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     UserProfileDTO dto = new UserProfileDTO();
+                    dto.setUserId(cursor.getInt(0));
                     dto.setUserName(cursor.getString(1));
                     dto.setMonthlyFee(cursor.getInt(2));
                     dto.setUserMobilePhone(cursor.getString(10));
@@ -48,6 +49,36 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         return studentList;
     }
 
+    public void updateStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
+        HelperMethod.debugLog(TAG, "updateStudent called ++++++ ");
+        int id = (int) userProfileDTO.getUserId();
+        HelperMethod.debugLog(TAG, "id = " +id+ " name = "+userProfileDTO.getUserName()+ " fee = "+userProfileDTO.getMonthlyFee());
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USERNAME, userProfileDTO.getUserName());
+        values.put(KEY_MONTHLY_FEE, userProfileDTO.getMonthlyFee());
+        values.put(KEY_MOBILE, userProfileDTO.getUserMobilePhone());
+        values.put(KEY_INSTITUTE_NAME, userProfileDTO.getUserInstituteName());
+        values.put(KEY_ADDRESS, userProfileDTO.getUserAddress());
+
+        try {
+            int ret = db.update(TABLE_USER_PROFILE, values, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : updateStudent = " + e.toString());
+        }
+    }
+
+    public void updateStudentID(int id, SQLiteDatabase db) {
+        HelperMethod.debugLog(TAG, "updateStudent called ++++++ ");
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, id);
+        try {
+            int ret = db.update(TABLE_USER_PROFILE, values, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : updateStudentID = " + e.toString());
+        }
+    }
 
     public long addStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "addStudent called ++++++ ");

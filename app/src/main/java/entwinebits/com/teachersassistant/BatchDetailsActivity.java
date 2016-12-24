@@ -29,6 +29,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView batch_details_toolbar_title;
     private RecyclerView student_list_rv;
     private StudentListAdapter mStudentListAdapter;
+    private ArrayList<UserProfileDTO> mStudentList;
     private long mBatchId ;
     private DatabaseRequestHelper dbRequestHelper;
 
@@ -45,6 +46,11 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         initData();
         initToolbar();
         initLayout();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         loadStudentList();
     }
 
@@ -57,9 +63,11 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
             public void run() {
                 final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
                 HelperMethod.debugLog(TAG, "loadBatchList size = "+studentList.size());
+                mStudentList.clear();
+                mStudentList.addAll(studentList);
                 for (UserProfileDTO dto : studentList) {
-                    HelperMethod.debugLog(TAG, "After db read : name : "+dto.getUserName()+" id "+dto.getMonthlyFee()
-                            + "mob = "+dto.getUserMobilePhone());
+                    HelperMethod.debugLog(TAG, "After db read : id : "+dto.getUserId()+ " name : "+dto.getUserName()+
+                            " id "+dto.getMonthlyFee() + "mob = "+dto.getUserMobilePhone());
                 }
 
 
@@ -67,8 +75,12 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, studentList);
-                            student_list_rv.setAdapter(mStudentListAdapter);
+                            if (mStudentListAdapter == null) {
+                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList);
+                                student_list_rv.setAdapter(mStudentListAdapter);
+                            } else {
+                                mStudentListAdapter.notifyDataSetChanged();
+                            }
                         }
                     });
                 }
@@ -84,8 +96,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initData() {
-
-
+        mStudentList = new ArrayList<>();
     }
 
     private void initToolbar() {

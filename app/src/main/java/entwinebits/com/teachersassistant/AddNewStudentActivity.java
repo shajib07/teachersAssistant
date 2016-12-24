@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.adapter.AddedUserHorizontalAdapter;
+import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -32,12 +33,18 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
     private AddedUserHorizontalAdapter mAddedStudentAdapter;
 
     private RecyclerView added_student_rv;
+    private UserProfileDTO mEditStudentDTO;
+    private boolean isEditable = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_student);
 
+        if (getIntent().hasExtra(Constants.EDIT_STUDENT_DTO)) {
+            mEditStudentDTO = getIntent().getParcelableExtra(Constants.EDIT_STUDENT_DTO);
+            isEditable = true;
+        }
         initData();
         initToolbar();
         initLayout();
@@ -73,6 +80,23 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         added_student_rv.setNestedScrollingEnabled(false);
         added_student_rv.setLayoutManager(new LinearLayoutManager(this));
         added_student_rv.setAdapter(mAddedStudentAdapter);
+
+
+        if (isEditable) {
+            setEditInfo();
+            add_student_btn.setVisibility(View.GONE);
+            added_student_rv.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void setEditInfo() {
+        added_student_name.setText(mEditStudentDTO.getUserName() == null ? "" : mEditStudentDTO.getUserName());
+        added_student_mobile_phn.setText(mEditStudentDTO.getUserMobilePhone() == null ? "" : mEditStudentDTO.getUserMobilePhone());
+        added_student_payment_amount.setText(mEditStudentDTO.getMonthlyFee() + "");
+        added_student_institution.setText(mEditStudentDTO.getUserInstituteName() == null ? "" : mEditStudentDTO.getUserInstituteName());
+        added_student_address.setText(mEditStudentDTO.getUserAddress() == null ? "" : mEditStudentDTO.getUserAddress());
+
     }
 
     private void initToolbar() {
@@ -106,10 +130,23 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
 
     private void sendAddedStudentList() {
         Intent BackIntent = new Intent();
-        HelperMethod.debugLog(AddNewBatchActivity.TAG, "mAddedStudentList : "+mAddedStudentList.size());
+        HelperMethod.debugLog(AddNewBatchActivity.TAG, "mAddedStudentList : " + mAddedStudentList.size());
         BackIntent.putParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST, mAddedStudentList);
         setResult(RESULT_OK, BackIntent);
         finish();
+    }
+
+    private void saveEditInfo() {
+
+        mEditStudentDTO.setUserName(added_student_name.getText().toString());
+        mEditStudentDTO.setMonthlyFee(Integer.parseInt(added_student_payment_amount.getText().toString()));
+        mEditStudentDTO.setUserMobilePhone(added_student_mobile_phn.getText().toString());
+        mEditStudentDTO.setUserInstituteName(added_student_institution.getText().toString());
+        mEditStudentDTO.setUserAddress(added_student_address.getText().toString());
+        DatabaseRequestHelper dbRequestHelper = new DatabaseRequestHelper(this);
+        dbRequestHelper.updateStudent(mEditStudentDTO);
+        finish();
+
     }
 
     @Override
@@ -117,10 +154,13 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.add_student_btn:
                 inputStudentInfo();
-                resetInputFields();
                 break;
 
             case R.id.add_student_done_btn:
+                if (isEditable) {
+                    saveEditInfo();
+                    return;
+                }
                 sendAddedStudentList();
                 break;
 
