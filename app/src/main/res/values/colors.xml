@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">@color/aquamarine</color>
+    <color name="colorPrimaryDark">@color/green_line</color>
+    <color name="colorAccent">@color/aquamarine</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -20,6 +24,7 @@
 
     <color name="aquamarine">#37BC61</color>
     <color name="aquaman">#70DB93</color>
+    <color name="green_line">#329555</color>
 
 
 </resources>

@@ -10,18 +10,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
+import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.listener.DateSelectionListener;
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.adapter.BatchPaymentHistoryAdapter;
 import entwinebits.com.teachersassistant.adapter.DateChooserAdapter;
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.PaymentDTO;
+import entwinebits.com.teachersassistant.model.UserProfileDTO;
 
 /**
  * Created by Nargis Rahman on 12/2/2016.
@@ -31,12 +40,17 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
     private Activity mActivity;
     private View mView;
     private RecyclerView payment_history_rv;
+    private ArrayList<PaymentDTO> mPaymentList;
     private ArrayList<BatchDTO> mBatchList;
+    private BatchPaymentHistoryAdapter mPaymentHistoryAdapter;
 
     private LinearLayout from_ll, to_ll;
     private TextView from_month_tv, to_month_tv, from_year_tv, to_year_tv;
     private Calendar mCalendar;
     private FrameLayout search_layout;
+    private Spinner mSpinner;
+    private HashMap<Long, String> mSpinnerMap;
+    private DatabaseRequestHelper mDbRequestHelper;
 
 
     @Override
@@ -53,11 +67,63 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
         return mView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData();
+    }
+
+    private void loadData() {
+        if (mDbRequestHelper == null) {
+            mDbRequestHelper = new DatabaseRequestHelper(mActivity);
+        }
+
+        mSpinnerMap.clear();
+        final ArrayList<PaymentDTO> paymentDTOs = new ArrayList<>();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mBatchList = mDbRequestHelper.getBatchList();
+
+                for (BatchDTO batchDTO : mBatchList) {
+                    int total_amount = 0;
+                    ArrayList<UserProfileDTO> studentList = mDbRequestHelper.getStudentListByBatch((int)batchDTO.getBatchId());
+                    for (UserProfileDTO dto : studentList) {
+                        total_amount += dto.getMonthlyFee();
+                    }
+
+                    PaymentDTO paymentDTO = new PaymentDTO();
+                    paymentDTO.setTotalAmount(total_amount);
+                    paymentDTO.setBatchName(batchDTO.getBatchName());
+                    paymentDTOs.add(paymentDTO);
+                    mSpinnerMap.put(batchDTO.getBatchId(), batchDTO.getBatchName());
+                }
+
+                mPaymentList.clear();
+                mPaymentList.addAll(paymentDTOs);
+                mActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPaymentHistoryAdapter.notifyDataSetChanged();
+                        loadSpinnerData();
+                    }
+                });
+            }
+        }).start();
+
+    }
+
+    private void loadSpinnerData() {
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, new ArrayList(mSpinnerMap.values()));
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(dataAdapter);
+    }
+
     private void initLayout() {
-        BatchPaymentHistoryAdapter batchHistoryAdapter = new BatchPaymentHistoryAdapter(mActivity);
+        mPaymentHistoryAdapter = new BatchPaymentHistoryAdapter(mActivity, mPaymentList);
         payment_history_rv = (RecyclerView)mView.findViewById(R.id.payment_history_rv);
         payment_history_rv.setLayoutManager(new LinearLayoutManager(mActivity));
-        payment_history_rv.setAdapter(batchHistoryAdapter);
+        payment_history_rv.setAdapter(mPaymentHistoryAdapter);
 
         from_ll = (LinearLayout)mView.findViewById(R.id.from_ll);
         to_ll = (LinearLayout)mView.findViewById(R.id.to_ll);
@@ -70,10 +136,63 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
 
         search_layout = (FrameLayout)mView.findViewById(R.id.search_layout);
         search_layout.setOnClickListener(this);
+
+        mSpinner = (Spinner) mView.findViewById(R.id.spinner);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                long currentBatchId = 0;
+                for (Map.Entry<Long, String> entry : mSpinnerMap.entrySet()) {
+                    if (entry.getValue().equalsIgnoreCase(item)) {
+                        currentBatchId = entry.getKey();
+                        break;
+                    }
+                }
+
+                final long finalCurrentBatchId = currentBatchId;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final ArrayList<PaymentDTO> paymentDTOs = new ArrayList<>();
+                        if (mDbRequestHelper == null) {
+                            mDbRequestHelper = new DatabaseRequestHelper(mActivity);
+                        }
+                        ArrayList<UserProfileDTO> studentList = mDbRequestHelper.getStudentListByBatch((int) finalCurrentBatchId);
+
+                        for (UserProfileDTO dto : studentList) {
+                            PaymentDTO paymentDTO = new PaymentDTO();
+                            paymentDTO.setTotalAmount(dto.getMonthlyFee());
+                            paymentDTO.setBatchName(dto.getUserName());
+                            paymentDTOs.add(paymentDTO);
+                        }
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPaymentList.clear();
+                                mPaymentList.addAll(paymentDTOs);
+                                mPaymentHistoryAdapter.notifyDataSetChanged();
+                            }
+                        });
+
+                    }
+                }).start();
+
+                Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void initData() {
+        mPaymentList = new ArrayList<>();
         mBatchList = new ArrayList<>();
+        mSpinnerMap = new HashMap<>();
     }
 
     @Override

@@ -22,9 +22,10 @@ public class BatchPaymentHistoryAdapter extends RecyclerView.Adapter<RecyclerVie
     private ArrayList<BatchDTO> mBatchList;
     private ArrayList<PaymentDTO> mPaymentList;
 
-    public BatchPaymentHistoryAdapter(Activity activity) {
+    public BatchPaymentHistoryAdapter(Activity activity, ArrayList<PaymentDTO> list) {
         this.mActivity = activity;
-        getPaymentList();
+        this.mPaymentList = list;
+//        getPaymentList();
     }
 
     private void getPaymentList() {
