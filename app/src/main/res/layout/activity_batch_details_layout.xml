@@ -30,9 +30,9 @@
                     android:id="@+id/batch_details_toolbar_back"
                     android:layout_width="48dp"
                     android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
                     android:padding="5dp">
 
                     <ImageView
@@ -47,10 +47,9 @@
                 <TextView
                     android:id="@+id/batch_details_toolbar_title"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
-                    android:layout_toLeftOf="@+id/add_batch_save_btn"
-                    android:layout_toRightOf="@+id/batch_details_toolbar_back"
                     android:gravity="center"
                     android:singleLine="true"
                     android:text="Batch Details"
@@ -65,7 +64,8 @@
                     android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
                     android:gravity="center_vertical"
-                    android:padding="5dp">
+                    android:padding="5dp"
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -86,15 +86,100 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/student_list_rv"
+    <LinearLayout
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_15"
-        android:background="@color/white"
+        android:layout_marginBottom="@dimen/margin_20"
+        android:layout_marginTop="@dimen/margin_10"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </android.support.v7.widget.RecyclerView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_5"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/total_students"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/total_student_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="15"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/margin_5"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/schedule"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/batch_schedule_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="SUN  MON  FRI"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5" />
+
+            <Button
+                android:id="@+id/add_student_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_30"
+                android:layout_weight="1"
+                android:background="@drawable/navy_btn_bg"
+                android:text="@string/add_student"
+                android:textColor="@drawable/navy_btn_text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/student_list_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@color/white" />
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>

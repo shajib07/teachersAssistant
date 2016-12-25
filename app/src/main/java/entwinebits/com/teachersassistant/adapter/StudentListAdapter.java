@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 Intent intent = new Intent(mActivity, AddNewStudentActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
-                mActivity.startActivity(intent);
+                mActivity.startActivityForResult(intent, 120);
             }
         });
     }

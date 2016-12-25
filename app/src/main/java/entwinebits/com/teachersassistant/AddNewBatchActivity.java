@@ -318,6 +318,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.add_student_btn:
                 Intent addIntent = new Intent(AddNewBatchActivity.this, AddNewStudentActivity.class);
+                addIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivityForResult(addIntent, 121);
 
                 break;

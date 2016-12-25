@@ -143,8 +143,15 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         mEditStudentDTO.setUserMobilePhone(added_student_mobile_phn.getText().toString());
         mEditStudentDTO.setUserInstituteName(added_student_institution.getText().toString());
         mEditStudentDTO.setUserAddress(added_student_address.getText().toString());
-        DatabaseRequestHelper dbRequestHelper = new DatabaseRequestHelper(this);
-        dbRequestHelper.updateStudent(mEditStudentDTO);
+//        DatabaseRequestHelper dbRequestHelper = new DatabaseRequestHelper(this);
+//        dbRequestHelper.updateStudent(mEditStudentDTO);
+
+        Intent BackIntent = new Intent();
+        HelperMethod.debugLog(AddNewBatchActivity.TAG, "mAddedStudentList : " + mEditStudentDTO.getUserName());
+        BackIntent.putExtra(Constants.EDIT_STUDENT_DTO, mEditStudentDTO);
+        setResult(RESULT_OK, BackIntent);
+        finish();
+
         finish();
 
     }
