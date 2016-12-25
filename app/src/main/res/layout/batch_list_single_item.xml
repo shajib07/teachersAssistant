@@ -35,22 +35,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg_out"
+                android:background="@color/white"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_2">
+                android:orientation="vertical" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/day_text_bg"
-                    android:paddingTop="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_2"
-                    android:paddingRight="@dimen/margin_2"
+                    android:background="@android:color/holo_purple"
+                    android:padding="@dimen/margin_5"
                     android:text="sun"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:visibility="visible" />
 
                 <View
@@ -70,20 +66,16 @@
                 android:layout_weight="1"
                 android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_2">
+                android:orientation="vertical" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/day_text_bg"
-                    android:paddingTop="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_2"
-                    android:paddingRight="@dimen/margin_2"
+                    android:padding="@dimen/margin_5"
                     android:text="sun"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:visibility="visible" />
 
                 <View
@@ -103,20 +95,16 @@
                 android:layout_weight="1"
                 android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_2">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/day_text_bg"
-                    android:paddingTop="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_2"
-                    android:paddingRight="@dimen/margin_2"
+                    android:padding="@dimen/margin_5"
                     android:text="sun"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:visibility="visible" />
 
                 <View
@@ -134,22 +122,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_2">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/day_text_bg"
-                    android:paddingTop="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_2"
-                    android:paddingRight="@dimen/margin_2"
+                    android:padding="@dimen/margin_5"
                     android:text="sun"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:visibility="visible" />
 
                 <View
@@ -167,22 +149,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_2">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/day_text_bg"
-                    android:paddingTop="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_2"
-                    android:paddingRight="@dimen/margin_2"
+                    android:padding="@dimen/margin_5"
                     android:text="sun"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:visibility="visible" />
 
                 <View
@@ -201,22 +177,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_2">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/day_text_bg"
-                    android:paddingTop="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_2"
-                    android:paddingRight="@dimen/margin_2"
+                    android:padding="@dimen/margin_5"
                     android:text="sun"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:visibility="visible" />
 
                 <View
@@ -235,22 +205,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/day_text_bg_out"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/margin_2">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/day_text_bg"
-                    android:paddingTop="@dimen/margin_5"
-                    android:paddingBottom="@dimen/margin_5"
-                    android:paddingLeft="@dimen/margin_2"
-                    android:paddingRight="@dimen/margin_2"
+                    android:padding="@dimen/margin_5"
                     android:text="sun"
-                    android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
                     android:visibility="visible" />
 
                 <View

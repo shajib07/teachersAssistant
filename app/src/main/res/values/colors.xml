@@ -15,8 +15,8 @@
     <color name="gray93">#EDEDED</color>
 
 
-    <color name="day_text_bg">#C6E2FF</color>
-    <color name="day_text_bg_out">#F0FFFF</color>
+    <color name="day_text_bg">#FFFFFF</color>
+    <color name="day_text_bg_out">#FFFFFF</color>
     <color name="month_year_dialog_bg">#238E68</color>
 
 

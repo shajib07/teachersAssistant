@@ -83,6 +83,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/add_new_student_toolbar"
+        android:layout_marginTop="@dimen/margin_15"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:paddingBottom="@dimen/margin_15" >
@@ -106,7 +107,8 @@
                 android:id="@+id/added_student_mobile_phn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mobile Phone" />
+                android:hint="Mobile Phone"
+                android:inputType="number"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -143,13 +145,35 @@
                 android:hint="Address" />
         </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/add_student_btn"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/add"
-            android:textAllCaps="false" />
+            android:layout_marginTop="@dimen/margin_20"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5" />
+
+            <Button
+                android:id="@+id/add_student_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/navy_btn_bg"
+                android:text="@string/add"
+                android:textColor="@drawable/navy_btn_text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="false" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5" />
+
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/added_student_rv"
