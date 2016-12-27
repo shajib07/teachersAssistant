@@ -99,7 +99,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
             android:weightSum="3">
 
             <TextView
@@ -123,7 +125,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingBottom="@dimen/margin_5"
             android:weightSum="3">
 
             <TextView

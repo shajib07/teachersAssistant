@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp"
+    android:background="@drawable/dialog_btn_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_20"
+    android:paddingLeft="@dimen/margin_20"
+    android:paddingRight="@dimen/margin_20">
+
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text=""
+        android:textColor="@color/gray88"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_10"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".15" />
+
+            <Button
+                android:id="@+id/dialog_upper_btn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_custom_height"
+                android:layout_weight=".7"
+                android:background="@drawable/navy_btn_bg"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@drawable/navy_btn_text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_15"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".15" />
+
+            <Button
+                android:id="@+id/dialog_lower_btn"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_custom_height"
+                android:layout_weight=".7"
+                android:background="@drawable/navy_btn_bg"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="@drawable/navy_btn_text"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textAllCaps="false"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight=".15" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

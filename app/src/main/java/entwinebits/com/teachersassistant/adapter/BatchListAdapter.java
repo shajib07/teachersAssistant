@@ -60,6 +60,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
             holder.batch_schedule_from_tv.setText(scheduleDTOs.get(0).getStartTime());
             holder.batch_schedule_to_tv.setText(scheduleDTOs.get(0).getEndTime());
         }
+        String tempDays = "";
 
         for (int dayIndex = 0; dayIndex < scheduleDTOs.size(); dayIndex++) {
 
@@ -69,6 +70,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
 
             switch (dto.getDaysOfWeek()) {
                 case 0:
+                    tempDays += "SAT,";
                     holder.day_week_ll_1.setVisibility(View.VISIBLE);
                     ((TextView) holder.day_week_ll_1.getChildAt(0)).setText("SAT");
                     holder.day_week_ll_1.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +90,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     });
                     break;
                 case 1:
+                    tempDays += "SUN,";
                     holder.day_week_ll_2.setVisibility(View.VISIBLE);
                     ((TextView) holder.day_week_ll_2.getChildAt(0)).setText("SUN");
                     holder.day_week_ll_2.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +110,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     });
                     break;
                 case 2:
+                    tempDays += "MON,";
                     holder.day_week_ll_3.setVisibility(View.VISIBLE);
                     ((TextView) holder.day_week_ll_3.getChildAt(0)).setText("MON");
                     holder.day_week_ll_3.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +130,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     });
                     break;
                 case 3:
+                    tempDays += "TUE,";
                     holder.day_week_ll_4.setVisibility(View.VISIBLE);
                     ((TextView) holder.day_week_ll_4.getChildAt(0)).setText("TUE");
                     holder.day_week_ll_4.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +150,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     });
                     break;
                 case 4:
+                    tempDays += "WED,";
                     holder.day_week_ll_5.setVisibility(View.VISIBLE);
                     ((TextView) holder.day_week_ll_5.getChildAt(0)).setText("WED");
                     holder.day_week_ll_5.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +170,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     });
                     break;
                 case 5:
+                    tempDays += "THU,";
                     holder.day_week_ll_6.setVisibility(View.VISIBLE);
                     ((TextView) holder.day_week_ll_6.getChildAt(0)).setText("THU");
                     holder.day_week_ll_6.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +189,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     });
                     break;
                 case 6:
+                    tempDays += "FRI,";
                     holder.day_week_ll_7.setVisibility(View.VISIBLE);
                     ((TextView) holder.day_week_ll_7.getChildAt(0)).setText("FRI");
                     holder.day_week_ll_7.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +212,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     break;
             }
         }
+        final String finalTempDays = tempDays;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,6 +221,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                 batchIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 batchIntent.putExtra(Constants.BATCH_ID, dto.getBatchId());
                 batchIntent.putExtra(Constants.BATCH_NAME, dto.getBatchName());
+                batchIntent.putExtra(Constants.BATCH_WEEK_DAYS, finalTempDays);
                 mActivity.startActivity(batchIntent);
             }
         });
@@ -219,10 +229,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
 
     @Override
     public int getItemCount() {
-        if (mBatchDTOList != null) {
-            return mBatchDTOList.size();
-        }
-        return 0;
+        return (mBatchDTOList == null ? 0 : mBatchDTOList.size());
     }
 
     public class BatchViewHolder extends RecyclerView.ViewHolder {

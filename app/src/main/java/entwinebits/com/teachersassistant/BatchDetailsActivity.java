@@ -37,7 +37,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private TextView total_student_tv, batch_schedule_tv;
     private Button add_student_btn;
-    private int totalStudent;
+    private int mTotalStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
             @Override
             public void run() {
                 final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
-                totalStudent = studentList.size();
+                mTotalStudent = studentList.size();
                 HelperMethod.debugLog(TAG, "loadBatchList size = " + studentList.size());
                 mStudentList.clear();
                 mStudentList.addAll(studentList);
@@ -82,7 +82,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            total_student_tv.setText("" + totalStudent);
+                            total_student_tv.setText("" + mTotalStudent);
 
                             if (mStudentListAdapter == null) {
                                 mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
@@ -100,10 +100,20 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void initLayout() {
 
+        String tempDays = getIntent().getStringExtra(Constants.BATCH_WEEK_DAYS);
+        String[] weekDays = tempDays.split(",");
+        StringBuilder builder = new StringBuilder();
+        for (String s: weekDays) {
+            builder.append(s);
+            builder.append("  ");
+        }
+
         student_list_rv = (RecyclerView) findViewById(R.id.student_list_rv);
         student_list_rv.setLayoutManager(new LinearLayoutManager(this));
 
         batch_schedule_tv = (TextView) findViewById(R.id.batch_schedule_tv);
+
+        batch_schedule_tv.setText(builder.toString().trim());
         total_student_tv = (TextView) findViewById(R.id.total_student_tv);
         add_student_btn = (Button) findViewById(R.id.add_student_btn);
         add_student_btn.setOnClickListener(this);
@@ -139,7 +149,16 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 ArrayList<UserProfileDTO> addedStuList = data.getParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST);
                 mStudentList.addAll(addedStuList);
                 HelperMethod.debugLog(TAG, "onActivityResult : after added, size = " + mStudentList.size());
-                mStudentListAdapter.notifyDataSetChanged();
+
+                if (mStudentListAdapter == null) {
+                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+                    student_list_rv.setAdapter(mStudentListAdapter);
+                } else {
+                    mStudentListAdapter.notifyDataSetChanged();
+                }
+
+                mTotalStudent += addedStuList.size();
+                total_student_tv.setText("" + mTotalStudent);
 
                 if (dbRequestHelper == null) {
                     dbRequestHelper = new DatabaseRequestHelper(this);
