@@ -1,9 +1,68 @@
 package entwinebits.com.teachersassistant.utils;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
+
+import entwinebits.com.teachersassistant.AddNewStudentActivity;
+import entwinebits.com.teachersassistant.R;
+
 /**
  * Created by Nargis Rahman on 12/1/2016.
  */
 public class CustomDialog {
+
+/*
+    public static void studentMenuDialog(final Context context) {
+
+        try {
+			final Dialog dialog = new Dialog(context);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.student_menu_dialog_layout);
+            dialog.setCancelable(true);
+
+            final TextView tv_message = (TextView) dialog.findViewById(R.id.tv_message);
+            tv_message.setText("mesage");
+
+            final Button live_dialog_cancel = (Button) dialog.findViewById(R.id.live_dialog_cancel);
+            live_dialog_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            final Button live_dialog_recharge = (Button) dialog.findViewById(R.id.live_dialog_recharge);
+            live_dialog_recharge.setText("Go to Settings");
+            live_dialog_recharge.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, AddNewStudentActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
+                    mActivity.startActivityForResult(intent, 120);
+
+//                    Intent mediaFeedIntent = new Intent(context, AddNewStudentActivity.class);
+//                    mediaFeedIntent.putExtra(SettingsParentActivity.TAB_POSITION_TAG, SettingsParentActivity.TAB_POSITION_ACCOUNT);
+//                    mediaFeedIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                    context.startActivity(mediaFeedIntent);
+//                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+
+        } catch (Exception e) {
+        }
+
+    }
+*/
 
 
     /*

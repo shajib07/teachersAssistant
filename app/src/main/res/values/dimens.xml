@@ -24,6 +24,9 @@
     <dimen name="card_album_radius">0dp</dimen>
     <dimen name="card_margin">5dp</dimen>
 
+    <dimen name="button_custom_height">35dp</dimen>
+
+
     <dimen name="margin_0">0dp</dimen>
     <dimen name="margin_2">2dp</dimen>
     <dimen name="margin_3">3dp</dimen>

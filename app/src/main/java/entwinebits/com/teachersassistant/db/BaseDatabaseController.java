@@ -49,6 +49,17 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         return studentList;
     }
 
+    public void deleteStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
+        HelperMethod.debugLog(TAG, "deleteStudent called ++++++ ");
+        int id = userProfileDTO.getUserId();
+        HelperMethod.debugLog(TAG, "id = " +id+ " name = "+userProfileDTO.getUserName()+ " fee = "+userProfileDTO.getMonthlyFee());
+        try {
+            int ret = db.delete(TABLE_USER_PROFILE, KEY_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : deleteStudent = " + e.toString());
+        }
+    }
+
     public void updateStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "updateStudent called ++++++ ");
         int id = (int) userProfileDTO.getUserId();

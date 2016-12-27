@@ -85,7 +85,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                             total_student_tv.setText("" + totalStudent);
 
                             if (mStudentListAdapter == null) {
-                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList);
+                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
                                 student_list_rv.setAdapter(mStudentListAdapter);
                             } else {
                                 mStudentListAdapter.notifyDataSetChanged();

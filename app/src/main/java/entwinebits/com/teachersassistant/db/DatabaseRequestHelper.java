@@ -47,6 +47,13 @@ public class DatabaseRequestHelper {
         uniqInstance.closeDataBase(db);
     }
 
+    public void deleteStudent(UserProfileDTO userProfileDTO) {
+        HelperMethod.debugLog(TAG, " updateStudent called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        uniqInstance.deleteStudent(userProfileDTO, db);
+        uniqInstance.closeDataBase(db);
+    }
+
     public void updateStudent(UserProfileDTO userProfileDTO) {
         HelperMethod.debugLog(TAG, " updateStudent called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();
