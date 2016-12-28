@@ -79,13 +79,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.batch_schedule_from_tv.setText(dto.getStartTime());
                             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 
-                            holder.dayWeekIndi[0].setVisibility(View.VISIBLE);
-                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[0].setVisibility(View.VISIBLE);
+//                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
                         }
                     });
                     break;
@@ -99,13 +100,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.batch_schedule_from_tv.setText(dto.getStartTime());
                             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 
-                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[1].setVisibility(View.VISIBLE);
-                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[1].setVisibility(View.VISIBLE);
+//                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
                         }
                     });
                     break;
@@ -119,13 +121,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.batch_schedule_from_tv.setText(dto.getStartTime());
                             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 
-                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[2].setVisibility(View.VISIBLE);
-                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[2].setVisibility(View.VISIBLE);
+//                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
                         }
                     });
                     break;
@@ -139,13 +142,14 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.batch_schedule_from_tv.setText(dto.getStartTime());
                             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 
-                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[3].setVisibility(View.VISIBLE);
-                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[3].setVisibility(View.VISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+
                         }
                     });
                     break;
@@ -159,13 +163,15 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.batch_schedule_from_tv.setText(dto.getStartTime());
                             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 
-                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[4].setVisibility(View.VISIBLE);
-                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.VISIBLE);
+//                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//
+
                         }
                     });
                     break;
@@ -178,13 +184,13 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                         public void onClick(View v) {
                             holder.batch_schedule_from_tv.setText(dto.getStartTime());
                             holder.batch_schedule_to_tv.setText(dto.getEndTime());
-                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[5].setVisibility(View.VISIBLE);
-                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[5].setVisibility(View.VISIBLE);
+//                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
                         }
                     });
                     break;
@@ -198,13 +204,13 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                             holder.batch_schedule_from_tv.setText(dto.getStartTime());
                             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 
-                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
-                            holder.dayWeekIndi[6].setVisibility(View.VISIBLE);
+//                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[6].setVisibility(View.VISIBLE);
                         }
                     });
                     break;
@@ -260,21 +266,21 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
             day_week_ll_6.setVisibility(View.GONE);
             day_week_ll_7.setVisibility(View.GONE);
 
-            dayWeekIndi[0] = itemView.findViewById(R.id.day_week_indi_1);
-            dayWeekIndi[1] = itemView.findViewById(R.id.day_week_indi_2);
-            dayWeekIndi[2] = itemView.findViewById(R.id.day_week_indi_3);
-            dayWeekIndi[3] = itemView.findViewById(R.id.day_week_indi_4);
-            dayWeekIndi[4] = itemView.findViewById(R.id.day_week_indi_5);
-            dayWeekIndi[5] = itemView.findViewById(R.id.day_week_indi_6);
-            dayWeekIndi[6] = itemView.findViewById(R.id.day_week_indi_7);
-
-            dayWeekIndi[0].setVisibility(View.INVISIBLE);
-            dayWeekIndi[1].setVisibility(View.INVISIBLE);
-            dayWeekIndi[2].setVisibility(View.INVISIBLE);
-            dayWeekIndi[3].setVisibility(View.INVISIBLE);
-            dayWeekIndi[4].setVisibility(View.INVISIBLE);
-            dayWeekIndi[5].setVisibility(View.INVISIBLE);
-            dayWeekIndi[6].setVisibility(View.INVISIBLE);
+//            dayWeekIndi[0] = itemView.findViewById(R.id.day_week_indi_1);
+//            dayWeekIndi[1] = itemView.findViewById(R.id.day_week_indi_2);
+//            dayWeekIndi[2] = itemView.findViewById(R.id.day_week_indi_3);
+//            dayWeekIndi[3] = itemView.findViewById(R.id.day_week_indi_4);
+//            dayWeekIndi[4] = itemView.findViewById(R.id.day_week_indi_5);
+//            dayWeekIndi[5] = itemView.findViewById(R.id.day_week_indi_6);
+//            dayWeekIndi[6] = itemView.findViewById(R.id.day_week_indi_7);
+//
+//            dayWeekIndi[0].setVisibility(View.INVISIBLE);
+//            dayWeekIndi[1].setVisibility(View.INVISIBLE);
+//            dayWeekIndi[2].setVisibility(View.INVISIBLE);
+//            dayWeekIndi[3].setVisibility(View.INVISIBLE);
+//            dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//            dayWeekIndi[5].setVisibility(View.INVISIBLE);
+//            dayWeekIndi[6].setVisibility(View.INVISIBLE);
 
         }
     }

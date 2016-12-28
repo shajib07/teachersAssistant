@@ -93,6 +93,40 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             dialog_lower_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    dialog.dismiss();
+                    showDeleteConfirmationDialog(dto);
+                }
+            });
+            dialog.show();
+
+        } catch (Exception e) {
+        }
+    }
+
+    private void showDeleteConfirmationDialog(final UserProfileDTO dto) {
+        try {
+            final Dialog dialog = new Dialog(mActivity);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.double_btn_dialog_layout);
+            dialog.setCancelable(true);
+
+            final Button dialog_left_btn = (Button) dialog.findViewById(R.id.dialog_left_btn);
+            dialog_left_btn.setText("Cancel");
+            dialog_left_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            final Button dialog_right_btn = (Button) dialog.findViewById(R.id.dialog_right_btn);
+            dialog_right_btn.setText("OK");
+            dialog_right_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
                     dialog.dismiss();
                     mStudentList.remove(dto);
                     notifyDataSetChanged();
@@ -106,6 +140,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         } catch (Exception e) {
         }
+
     }
 
     @Override

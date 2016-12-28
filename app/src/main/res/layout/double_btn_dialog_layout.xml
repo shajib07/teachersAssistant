@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_20"
+    android:layout_marginRight="@dimen/margin_20"
+    android:background="@drawable/dialog_btn_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_20"
+    android:paddingLeft="@dimen/margin_10"
+    android:paddingRight="@dimen/margin_10">
+
+
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_20"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="By Clicking OK, this student will be removed from this group."
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/margin_20"
+        android:weightSum="2.6"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/dialog_left_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_custom_height"
+            android:background="@drawable/navy_btn_bg"
+            android:gravity="center"
+            android:text="Cancel"
+            android:textColor="@drawable/navy_btn_text"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"/>
+
+        <View
+            android:layout_width="@dimen/margin_0"
+            android:layout_weight=".2"
+            android:layout_height="@dimen/button_custom_height"/>
+
+        <Button
+            android:id="@+id/dialog_right_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/button_custom_height"
+            android:background="@drawable/navy_btn_bg"
+            android:gravity="center"
+            android:text="OK"
+            android:textColor="@drawable/navy_btn_text"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+
+</LinearLayout>

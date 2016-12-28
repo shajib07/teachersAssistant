@@ -22,7 +22,157 @@
             android:textColor="@android:color/black"
             android:textSize="20sp" />
 
+
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:weightSum="7">
+
+            <LinearLayout
+                android:id="@+id/day_week_ll_1"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/day_week_ll_2"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/day_week_ll_3"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/day_week_ll_4"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/day_week_ll_5"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/day_week_ll_6"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/day_week_ll_7"
+                android:layout_width="@dimen/margin_0"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_10"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sun"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+
+      <!--  <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -227,7 +377,7 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
 
         <LinearLayout
