@@ -10,6 +10,7 @@ public class Constants {
     public static final String BATCH_WEEK_DAYS = "BATCH_WEEK_DAYS";
     public static final String NUMBER_OF_STUDENT = "NUMBER_OF_STUDENT";
     public static final String ADDED_STUDENT_LIST = "ADDED_STUDENT_LIST";
+    public static final String BATCH_SCHEDULE_LIST = "BATCH_SCHEDULE_LIST";
     public static final String ADDED_STUDENT_DTO = "ADDED_STUDENT_DTO";
     public static final String EDIT_STUDENT_DTO = "EDIT_STUDENT_DTO";
 

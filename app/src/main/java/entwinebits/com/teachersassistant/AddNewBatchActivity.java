@@ -49,6 +49,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private List<LinearLayout> dayViewLayout;
     private Button add_student_btn;
 
+    private boolean mIsEditMode = false;
+
     private EditText batch_title_et;
     String[] dayName = {"Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"};
     TimePickerDialog.OnTimeSetListener onTimeSetListener;
@@ -66,6 +68,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_batch);
+
         mAddedStudentList = new ArrayList<>();
         addedUserRecycler = (RecyclerView) findViewById(R.id.added_user_recycler_view);
 
@@ -133,6 +136,33 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         initDayOfWeek();
 
         dbRequestHelper = new DatabaseRequestHelper(this);
+
+        if (getIntent().hasExtra(Constants.BATCH_SCHEDULE_LIST)) {
+            mIsEditMode = true;
+            batch_title_et.setText(getIntent().getStringExtra(Constants.BATCH_NAME));
+
+            ArrayList<ScheduleDTO> scheduleDTOs = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
+            setEditModeLayout(scheduleDTOs);
+
+        }
+
+    }
+
+    private void setEditModeLayout(ArrayList<ScheduleDTO> scheduleList) {
+        HelperMethod.debugLog(TAG, "setEditModeLayout : size = "+scheduleList.size());
+        for (ScheduleDTO dto : scheduleList) {
+
+            int day = dto.getDaysOfWeek();
+            findViewById(R.id.scroll).setVisibility(View.VISIBLE);
+            findViewById(dayViewLayout.get(day).getId()).setVisibility(View.VISIBLE);
+
+            ;
+
+            editTextTimeFrom.get(day).setText(dto.getStartTime());
+            editTextTimeTo.get(day).setText(dto.getEndTime());
+
+        }
+
     }
 
     private void initTimeSetLayout() {

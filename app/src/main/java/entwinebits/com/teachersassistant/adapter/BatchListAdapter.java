@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,11 +16,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import entwinebits.com.teachersassistant.AddNewBatchActivity;
+import entwinebits.com.teachersassistant.BatchActivity;
 import entwinebits.com.teachersassistant.BatchDetailsActivity;
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
+import entwinebits.com.teachersassistant.utils.DialogProvider;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -231,6 +235,30 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                 mActivity.startActivity(batchIntent);
             }
         });
+
+        holder.batch_list_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final BatchDTO dto = mBatchDTOList.get(position);
+                String upperText = "Edit", lowerText = "Delete";
+                View.OnClickListener upperListener, lowerListener;
+                upperListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mActivity, AddNewBatchActivity.class);
+                        intent.putExtra(Constants.BATCH_ID, dto.getBatchId());
+                        intent.putExtra(Constants.BATCH_NAME, dto.getBatchName());
+                        intent.putExtra(Constants.BATCH_SCHEDULE_LIST, dto.getScheduleDTOList());
+                        mActivity.startActivity(intent);
+                    }
+                };
+                lowerListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {}
+                };
+                DialogProvider.showDoubleOptionDialog(mActivity, upperText, lowerText, upperListener, lowerListener);
+            }
+        });
     }
 
     @Override
@@ -241,11 +269,12 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
     public class BatchViewHolder extends RecyclerView.ViewHolder {
         private TextView batch_name_tv, batch_schedule_from_tv, batch_schedule_to_tv;
         private LinearLayout day_week_ll_1, day_week_ll_2, day_week_ll_3, day_week_ll_4, day_week_ll_5, day_week_ll_6, day_week_ll_7;
-
+        private FrameLayout batch_list_settings;
         private View dayWeekIndi[] = new View[7];
 
         public BatchViewHolder(View itemView) {
             super(itemView);
+            batch_list_settings = (FrameLayout) itemView.findViewById(R.id.batch_list_settings);
             batch_name_tv = (TextView) itemView.findViewById(R.id.batch_name_tv);
             batch_schedule_from_tv = (TextView) itemView.findViewById(R.id.batch_schedule_from_tv);
             batch_schedule_to_tv = (TextView) itemView.findViewById(R.id.batch_schedule_to_tv);
