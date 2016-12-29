@@ -40,6 +40,13 @@ public class DatabaseRequestHelper {
         return id;
     }
 
+    public void updateBatch(BatchDTO batchDTO) {
+        HelperMethod.debugLog(TAG, " updateBatch called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        uniqInstance.updateBatch(batchDTO, db);
+        uniqInstance.closeDataBase(db);
+    }
+
     public void updateStudentID(int id) {
         HelperMethod.debugLog(TAG, " updateStudentID called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();

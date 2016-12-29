@@ -174,7 +174,6 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         return scheduleDTOs;
     }
 
-
     public long addSchedule(ScheduleDTO scheduleDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "addSchedule called ++++++ ");
         long id = -1;
@@ -198,6 +197,19 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         return id;
     }
 
+    public void updateBatch(BatchDTO batchDTO, SQLiteDatabase db) {
+        int id = (int) batchDTO.getBatchId();
+        HelperMethod.debugLog(TAG, "updateBatch called ++++++ id = " +id+ " name = "+batchDTO.getBatchName());
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_BATCH_NAME, batchDTO.getBatchName());
+
+        try {
+            int ret = db.update(TABLE_BATCH, values, KEY_BATCH_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : updateBatch = " + e.toString());
+        }
+    }
 
     public long addBatch(BatchDTO batchDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "addBatch called ++++++ ");

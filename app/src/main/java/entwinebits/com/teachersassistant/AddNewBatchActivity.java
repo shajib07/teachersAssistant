@@ -40,6 +40,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     public static String TAG = "AddNewBatchActivity";
     private Calendar mCalendar;
     private FrameLayout add_batch_toolbar_back, add_batch_save_btn;
+    private TextView add_batch_toolbar_title;
 
     private RecyclerView addedUserRecycler;
 
@@ -60,15 +61,23 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
     private ArrayList<UserProfileDTO> mAddedStudentList;
     private ArrayList<ScheduleDTO> mScheduleList;
-    private BatchDTO mBatchDTO;
     private DatabaseRequestHelper dbRequestHelper;
 
+    private String mEditBatchName;
+    private long mEditBatchId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_batch);
 
+        if (getIntent().hasExtra(Constants.BATCH_ID)) {
+            mIsEditMode = true;
+            mEditBatchId = getIntent().getLongExtra(Constants.BATCH_ID, -1);
+            mEditBatchName = getIntent().getStringExtra(Constants.BATCH_NAME);
+        }
+
+        initToolbar();
         mAddedStudentList = new ArrayList<>();
         addedUserRecycler = (RecyclerView) findViewById(R.id.added_user_recycler_view);
 
@@ -81,11 +90,9 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         addedUserRecycler.setLayoutManager(mLayoutManager);
         addedUserRecycler.setAdapter(addedUserAdapter);
 
-        mBatchDTO = new BatchDTO();
         mScheduleList = new ArrayList<>();
 
         initTimeSetLayout();
-        initView();
 
         mCalendar = Calendar.getInstance();
         // <editor-fold defaultstate="collapsed" desc="On Time Listner">
@@ -137,13 +144,11 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
         dbRequestHelper = new DatabaseRequestHelper(this);
 
-        if (getIntent().hasExtra(Constants.BATCH_SCHEDULE_LIST)) {
-            mIsEditMode = true;
+        if (mIsEditMode) {
             batch_title_et.setText(getIntent().getStringExtra(Constants.BATCH_NAME));
 
             ArrayList<ScheduleDTO> scheduleDTOs = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
             setEditModeLayout(scheduleDTOs);
-
         }
 
     }
@@ -155,8 +160,6 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             int day = dto.getDaysOfWeek();
             findViewById(R.id.scroll).setVisibility(View.VISIBLE);
             findViewById(dayViewLayout.get(day).getId()).setVisibility(View.VISIBLE);
-
-            ;
 
             editTextTimeFrom.get(day).setText(dto.getStartTime());
             editTextTimeTo.get(day).setText(dto.getEndTime());
@@ -177,7 +180,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         dayViewLayout.add((LinearLayout) findViewById(R.id.layout_fri));
     }
 
-    private void initView() {
+    private void initToolbar() {
+        add_batch_toolbar_title = (TextView) findViewById(R.id.add_batch_toolbar_title);
+        add_batch_toolbar_title.setText("Add New Batch");
+
         add_batch_toolbar_back = (FrameLayout) findViewById(R.id.add_batch_toolbar_back);
         add_batch_toolbar_back.setOnClickListener(this);
 
@@ -243,7 +249,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void saveNewBatch() {
+    private void saveEditBatch() {
+        BatchDTO editBatchDTO = new BatchDTO();
+        editBatchDTO.setBatchId(mEditBatchId);
+
         if (dbRequestHelper == null) {
             dbRequestHelper = new DatabaseRequestHelper(AddNewBatchActivity.this);
         }
@@ -252,18 +261,29 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Name", Toast.LENGTH_SHORT).show();
             return;
         }
+        editBatchDTO.setBatchName(batchName);
+        dbRequestHelper.updateBatch(editBatchDTO);
+    }
 
-        mBatchDTO.setBatchName(batchName);
-        for (ScheduleDTO dto : mScheduleList) {
-            HelperMethod.debugLog(TAG, "days = "+dto.getDaysOfWeek()+" start = "+dto.getStartTime()+ " end = "+dto.getEndTime());
+    private void saveNewBatch() {
+        BatchDTO saveBatchDTO = new BatchDTO();
+        if (dbRequestHelper == null) {
+            dbRequestHelper = new DatabaseRequestHelper(AddNewBatchActivity.this);
         }
 
+        String batchName = batch_title_et.getText().toString();
+        if (batchName.length() < 1) {
+            Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Name", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        final long batchId = dbRequestHelper.addBatch(mBatchDTO);
+        saveBatchDTO.setBatchName(batchName);
+
+        final long batchId = dbRequestHelper.addBatch(saveBatchDTO);
         HelperMethod.debugLog(TAG, "after insert id == " + batchId);
 
         if (mAddedStudentList != null) {
-            mBatchDTO.setStudentDtoList(mAddedStudentList);
+            saveBatchDTO.setStudentDtoList(mAddedStudentList);
             for (UserProfileDTO dto : mAddedStudentList) {
                 dto.setBatchId(batchId);
                 dto.setTeacher(false);
@@ -274,7 +294,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         }
 
         if (mScheduleList != null) {
-            mBatchDTO.setScheduleDTOList(mScheduleList);
+            saveBatchDTO.setScheduleDTOList(mScheduleList);
             for (ScheduleDTO dto : mScheduleList) {
                 dto.setBatchId(batchId);
                 long schId = dbRequestHelper.addSchedule(dto);
@@ -301,7 +321,6 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             }
         }).start();
 
-        AddNewBatchActivity.this.finish();
     }
 
     @Override
@@ -339,8 +358,12 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.add_batch_save_btn:
 
-                saveNewBatch();
-
+                if (mIsEditMode) {
+                    saveEditBatch();
+                } else {
+                    saveNewBatch();
+                }
+                AddNewBatchActivity.this.finish();
                 break;
 
             case R.id.add_batch_toolbar_back:
