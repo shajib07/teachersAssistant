@@ -76,6 +76,20 @@ public class DatabaseRequestHelper {
         return id;
     }
 
+//    public void updateScheduleID(int id) {
+//        HelperMethod.debugLog(TAG, " updateScheduleID called ++++++++");
+//        SQLiteDatabase db = uniqInstance.openDatabse();
+//        uniqInstance.updateScheduleID(id, db);
+//        uniqInstance.closeDataBase(db);
+//    }
+
+    public void updateSchedule(ScheduleDTO scheduleDTO) {
+        HelperMethod.debugLog(TAG, " updateSchedule called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        uniqInstance.updateSchedule(scheduleDTO, db);
+        uniqInstance.closeDataBase(db);
+    }
+
     public long addSchedule(ScheduleDTO scheduleDTO) {
         HelperMethod.debugLog(TAG, " addSchedule called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();

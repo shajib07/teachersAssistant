@@ -157,6 +157,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     ScheduleDTO dto = new ScheduleDTO();
+                    dto.setScheduleId(cursor.getLong(0));
                     dto.setBatchId(cursor.getInt(1));
                     dto.setDaysOfWeek(cursor.getInt(2));
                     dto.setStartTime(cursor.getString(3));
@@ -172,6 +173,23 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             }
         }
         return scheduleDTOs;
+    }
+
+    public void updateSchedule(ScheduleDTO scheduleDTO, SQLiteDatabase db) {
+        HelperMethod.debugLog(TAG, "updateSchedule called ++++++ ");
+        int id = (int) scheduleDTO.getScheduleId();
+        HelperMethod.debugLog(TAG, "id = " +id+ " bat id = "+scheduleDTO.getBatchId()+ " st tm = "+scheduleDTO.getStartTime());
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_DAYS_OF_WEEK, scheduleDTO.getDaysOfWeek());
+        values.put(KEY_START_TIME, scheduleDTO.getStartTime());
+        values.put(KEY_END_TIME, scheduleDTO.getEndTime());
+
+        try {
+            int ret = db.update(TABLE_SCHEDULE, values, KEY_SCHEDULE_ID + " = ?", new String[]{String.valueOf(id)});
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : updateSchedule = " + e.toString());
+        }
     }
 
     public long addSchedule(ScheduleDTO scheduleDTO, SQLiteDatabase db) {

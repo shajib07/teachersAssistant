@@ -148,6 +148,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             batch_title_et.setText(getIntent().getStringExtra(Constants.BATCH_NAME));
 
             ArrayList<ScheduleDTO> scheduleDTOs = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
+            mScheduleList = scheduleDTOs;
             setEditModeLayout(scheduleDTOs);
         }
 
@@ -263,6 +264,24 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         }
         editBatchDTO.setBatchName(batchName);
         dbRequestHelper.updateBatch(editBatchDTO);
+
+        if (mScheduleList != null) {
+            for (ScheduleDTO dto : mScheduleList) {
+                dbRequestHelper.updateSchedule(dto);
+                HelperMethod.debugLog(TAG, "EDit : after schedule update : schedule id == " );
+            }
+        }
+
+        if (mAddedStudentList != null) {
+            for (UserProfileDTO dto : mAddedStudentList) {
+                dto.setBatchId(mEditBatchId);
+                dto.setTeacher(false);
+                long stuId = dbRequestHelper.addStudent(dto);
+                HelperMethod.debugLog(TAG, "Edit : after student insert : student id == " + stuId);
+                dbRequestHelper.updateStudentID((int) stuId);
+            }
+        }
+
     }
 
     private void saveNewBatch() {
@@ -302,24 +321,17 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ArrayList<ScheduleDTO> list = dbRequestHelper.getScheduleListByBatch((int) batchId);
-                int i = 1;
-                for (ScheduleDTO dto : list) {
-                    HelperMethod.debugLog(TAG, "" + i + " batch Id = " + dto.getBatchId() + " st = " + dto.getStartTime() + " "+dto.getEndTime());
-                    i++;
-                }
-
-//                ArrayList<BatchDTO> list = dbRequestHelper.getBatchList();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                ArrayList<ScheduleDTO> list = dbRequestHelper.getScheduleListByBatch((int) batchId);
 //                int i = 1;
-//                for (BatchDTO dto : list) {
-//                    HelperMethod.debugLog(TAG, "" + i + " name = " + dto.getBatchName() + " id = " + dto.getBatchId());
+//                for (ScheduleDTO dto : list) {
+//                    HelperMethod.debugLog(TAG, "" + i + " batch Id = " + dto.getBatchId() + " st = " + dto.getStartTime() + " "+dto.getEndTime());
 //                    i++;
 //                }
-            }
-        }).start();
+//            }
+//        }).start();
 
     }
 
