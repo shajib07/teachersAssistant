@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/paid_month_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="JAN"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/paid_year_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:text="2017" />
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:background="@color/aquaman" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_5">
+
+            <CheckBox
+                android:id="@+id/full_paid_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Paid" />
+
+            <CheckBox
+                android:id="@+id/others_paid_cb"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not Paid" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="wrap_content"
+            android:background="@color/aquaman" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1.5"
+            android:orientation="vertical"
+            android:padding="@dimen/margin_5">
+
+            <TextView
+                android:id="@+id/paid_amount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100" />
+
+
+            <EditText
+                android:id="@+id/paid_amount_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="100"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/edit_mode_fl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_10"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_action_overflow" />
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/aquaman" />
+
+</LinearLayout>

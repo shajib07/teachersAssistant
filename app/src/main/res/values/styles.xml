@@ -25,6 +25,8 @@
     </style>
 
 
+
+
     <!--
         <style name="Theme.Ipvision" parent="@style/Theme.AppCompat.Light.NoActionBar">
             <item name="actionBarItemBackground">@drawable/selectable_background_ipvision</item>

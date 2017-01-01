@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -23,8 +24,8 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         ArrayList<UserProfileDTO> studentList = new ArrayList<>();
         Cursor cursor = null;
         try {
-            HelperMethod.debugLog(TAG, "getStudentListByBatch : batchId == "+batchId );
-            String selectQuery = "SELECT  * FROM " + TABLE_USER_PROFILE + " WHERE " + KEY_BATCH_ID +" = "+batchId;
+            HelperMethod.debugLog(TAG, "getStudentListByBatch : batchId == " + batchId);
+            String selectQuery = "SELECT  * FROM " + TABLE_USER_PROFILE + " WHERE " + KEY_BATCH_ID + " = " + batchId;
             cursor = db.rawQuery(selectQuery, null);
 
             if (cursor.moveToFirst()) {
@@ -52,7 +53,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     public void deleteStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "deleteStudent called ++++++ ");
         int id = userProfileDTO.getUserId();
-        HelperMethod.debugLog(TAG, "id = " +id+ " name = "+userProfileDTO.getUserName()+ " fee = "+userProfileDTO.getMonthlyFee());
+        HelperMethod.debugLog(TAG, "id = " + id + " name = " + userProfileDTO.getUserName() + " fee = " + userProfileDTO.getMonthlyFee());
         try {
             int ret = db.delete(TABLE_USER_PROFILE, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         } catch (Exception e) {
@@ -63,7 +64,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     public void updateStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "updateStudent called ++++++ ");
         int id = (int) userProfileDTO.getUserId();
-        HelperMethod.debugLog(TAG, "id = " +id+ " name = "+userProfileDTO.getUserName()+ " fee = "+userProfileDTO.getMonthlyFee());
+        HelperMethod.debugLog(TAG, "id = " + id + " name = " + userProfileDTO.getUserName() + " fee = " + userProfileDTO.getMonthlyFee());
 
         ContentValues values = new ContentValues();
         values.put(KEY_USERNAME, userProfileDTO.getUserName());
@@ -149,9 +150,9 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         ArrayList<ScheduleDTO> scheduleDTOs = new ArrayList<>();
         Cursor cursor = null;
         try {
-            HelperMethod.debugLog(TAG, "getScheduleListByBatch : batchId == "+batchId );
+            HelperMethod.debugLog(TAG, "getScheduleListByBatch : batchId == " + batchId);
 //            String selectQuery = "SELECT  * FROM " + TABLE_BATCH + " ORDER BY " + KEY_BATCH_NAME + " DESC";
-            String selectQuery = "SELECT  * FROM " + TABLE_SCHEDULE + " WHERE " + KEY_BATCH_ID +" = "+batchId;
+            String selectQuery = "SELECT  * FROM " + TABLE_SCHEDULE + " WHERE " + KEY_BATCH_ID + " = " + batchId;
             cursor = db.rawQuery(selectQuery, null);
 
             if (cursor.moveToFirst()) {
@@ -178,7 +179,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     public void updateSchedule(ScheduleDTO scheduleDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "updateSchedule called ++++++ ");
         int id = (int) scheduleDTO.getScheduleId();
-        HelperMethod.debugLog(TAG, "id = " +id+ " bat id = "+scheduleDTO.getBatchId()+ " st tm = "+scheduleDTO.getStartTime());
+        HelperMethod.debugLog(TAG, "id = " + id + " bat id = " + scheduleDTO.getBatchId() + " st tm = " + scheduleDTO.getStartTime());
 
         ContentValues values = new ContentValues();
         values.put(KEY_DAYS_OF_WEEK, scheduleDTO.getDaysOfWeek());
@@ -190,6 +191,59 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         } catch (Exception e) {
             HelperMethod.errorLog(TAG, "Exception : updateSchedule = " + e.toString());
         }
+    }
+
+    public ArrayList<PaymentDTO> getPaymentHistoryByStudent(SQLiteDatabase db, int studentId) {
+        ArrayList<PaymentDTO> historyList = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            HelperMethod.debugLog(TAG, "getPaymentHistoryByStudent : studentId == " + studentId);
+            String selectQuery = "SELECT  * FROM " + TABLE_PAYMENT_HISTORY + " WHERE " + KEY_ID + " = " + studentId;
+            cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    PaymentDTO dto = new PaymentDTO();
+                    dto.setPaymentMonth(cursor.getInt(2));
+                    dto.setPaymentYear(cursor.getInt(3));
+                    dto.setPaymentAmount(cursor.getInt(4));
+                    dto.setPaymentStatus(cursor.getInt(5));
+                    historyList.add(dto);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : getPaymentHistoryByStudent = " + e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return historyList;
+    }
+
+
+    public long addPaymentHistory(PaymentDTO paymentDTO, SQLiteDatabase db) {
+        HelperMethod.debugLog(TAG, "addPaymentHistory called ++++++ ");
+        long id = -1;
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, paymentDTO.getStudentId());
+        values.put(KEY_PAYMENT_MONTH, paymentDTO.getPaymentMonth());
+        values.put(KEY_PAYMENT_YEAR, paymentDTO.getPaymentYear());
+        values.put(KEY_PAYMENT_AMOUNT, paymentDTO.getPaymentAmount());
+        values.put(KEY_FULL_PAYMENT_STATUS, paymentDTO.getPaymentStatus());
+
+        try {
+            id = db.insert(TABLE_PAYMENT_HISTORY, null, values);
+            if (id != -1) {
+                HelperMethod.debugLog(TAG, " addPaymentHistory insert = " + id);
+            } else {
+                HelperMethod.debugLog(TAG, "Failed to Insert: addPaymentHistory insert = " + id);
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : addPaymentHistory = " + e.toString());
+        }
+        return id;
     }
 
     public long addSchedule(ScheduleDTO scheduleDTO, SQLiteDatabase db) {
@@ -217,7 +271,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
 
     public void updateBatch(BatchDTO batchDTO, SQLiteDatabase db) {
         int id = (int) batchDTO.getBatchId();
-        HelperMethod.debugLog(TAG, "updateBatch called ++++++ id = " +id+ " name = "+batchDTO.getBatchName());
+        HelperMethod.debugLog(TAG, "updateBatch called ++++++ id = " + id + " name = " + batchDTO.getBatchName());
 
         ContentValues values = new ContentValues();
         values.put(KEY_BATCH_NAME, batchDTO.getBatchName());
@@ -257,6 +311,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     private static final String TABLE_BATCH = "table_batch";
     private static final String TABLE_ROUTINE = "table_routine";
     private static final String TABLE_SCHEDULE = "table_schedule";
+    private static final String TABLE_PAYMENT_HISTORY = "table_pmnt_hstry";
 
 
     //    field for user_profile
@@ -284,10 +339,12 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     private static final String KEY_BATCH_ID = "bid";
     private static final String KEY_BATCH_NAME = "bat_name";
 
-    //    field for course table
-    private static final String KEY_COURSE_ID = "cid";
-    private static final String KEY_COURSE_TITLE = "cours_title";
-    private static final String KEY_COURSE_NAME = "cours_name";
+    //    field for PAYMENT HISTORY table
+    private static final String KEY_PAYMENT_HISTORY_ID = "pmnt_hstry_id";
+    private static final String KEY_PAYMENT_MONTH = "pmnt_mnth";
+    private static final String KEY_PAYMENT_YEAR = "pmnt_yr";
+    private static final String KEY_PAYMENT_AMOUNT = "pmnt_amnt";
+    private static final String KEY_FULL_PAYMENT_STATUS = "pmnt_sts";
 
     //    field for routine table
     private static final String KEY_ROUTINE_ID = "rid";
@@ -300,7 +357,6 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     private static final String KEY_SCHEDULE_STATUS = "se_status";
     private static final String KEY_START_TIME = "se_st_tm";
     private static final String KEY_END_TIME = "se_en_tm";
-
 
 
     public static String CREATE_TABLE_USER_PROFILE = "CREATE TABLE " + TABLE_USER_PROFILE
@@ -323,15 +379,17 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             + KEY_IS_TEACHER + " INTEGER ,"
             + KEY_BATCH_ID + " TEXT )";
 
-    public static String CREATE_TABLE_COURSE = "CREATE TABLE " + TABLE_COURSE
-            + " (" + KEY_COURSE_ID + " LONG PRIMARY KEY ,"
-            + KEY_COURSE_TITLE + " TEXT ,"
-            + KEY_COURSE_NAME + " TEXT )";
+    public static String CREATE_TABLE_PAYMENT_HISTORY = "CREATE TABLE " + TABLE_PAYMENT_HISTORY
+            + " (" + KEY_PAYMENT_HISTORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
+            + KEY_ID + " INTEGER ,"
+            + KEY_PAYMENT_MONTH + " INTEGER ,"
+            + KEY_PAYMENT_YEAR + " INTEGER ,"
+            + KEY_PAYMENT_AMOUNT + " INTEGER ,"
+            + KEY_FULL_PAYMENT_STATUS + " INTEGER )";
 
     public static String CREATE_TABLE_BATCH = "CREATE TABLE " + TABLE_BATCH
             + " (" + KEY_BATCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
             + KEY_BATCH_NAME + " TEXT ,"
-            + KEY_COURSE_ID + " LONG ,"
             + KEY_ROUTINE_ID + " LONG )";
 
 
@@ -361,6 +419,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_BATCH);
 //        db.execSQL(CREATE_TABLE_ROUTINE);
         db.execSQL(CREATE_TABLE_SCHEDULE);
+        db.execSQL(CREATE_TABLE_PAYMENT_HISTORY);
     }
 
     @Override

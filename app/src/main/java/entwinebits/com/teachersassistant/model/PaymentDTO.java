@@ -50,4 +50,59 @@ public class PaymentDTO {
     public void setStudentName(String studentName) {
         this.studentName = studentName;
     }
+
+    private int paymentId;
+    private int studentId;
+    private int paymentMonth;
+    private int paymentYear;
+    private int paymentAmount;
+    private int paymentStatus;
+
+    public int getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(int paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getPaymentMonth() {
+        return paymentMonth;
+    }
+
+    public void setPaymentMonth(int paymentMonth) {
+        this.paymentMonth = paymentMonth;
+    }
+
+    public int getPaymentYear() {
+        return paymentYear;
+    }
+
+    public void setPaymentYear(int paymentYear) {
+        this.paymentYear = paymentYear;
+    }
+
+    public int getPaymentAmount() {
+        return paymentAmount;
+    }
+
+    public void setPaymentAmount(int paymentAmount) {
+        this.paymentAmount = paymentAmount;
+    }
+
+    public int getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
 }

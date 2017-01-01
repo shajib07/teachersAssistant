@@ -30,7 +30,7 @@ public class DateChooserAdapter extends RecyclerView.Adapter<DateChooserAdapter.
 
     private void getMonthList() {
         mYear = false;
-        String[] arr = mActivity.getResources().getStringArray(R.array.Months);
+        String[] arr = mActivity.getResources().getStringArray(R.array.months);
         for (int i=0; i < arr.length; i++) {
             mList.add(arr[i]);
         }

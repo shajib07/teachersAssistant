@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.AddNewStudentActivity;
 import entwinebits.com.teachersassistant.R;
+import entwinebits.com.teachersassistant.StudentDetailsActivity;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
@@ -62,6 +63,16 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 showMenuDialog(dto);
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, StudentDetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
+                mActivity.startActivity(intent);
+            }
+        });
     }
 
     private void showMenuDialog(final UserProfileDTO dto) {
@@ -95,7 +106,12 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 public void onClick(View v) {
 
                     dialog.dismiss();
-                    showDeleteConfirmationDialog(dto);
+                    Intent intent = new Intent(mActivity, StudentDetailsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
+                    mActivity.startActivity(intent);
+
+//                    showDeleteConfirmationDialog(dto);
                 }
             });
             dialog.show();

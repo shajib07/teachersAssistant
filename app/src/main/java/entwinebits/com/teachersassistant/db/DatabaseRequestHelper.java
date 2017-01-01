@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -113,6 +114,23 @@ public class DatabaseRequestHelper {
         uniqInstance.closeDataBase(db);
         return studentList;
     }
+
+    public ArrayList<PaymentDTO> getPaymentHistoryByStudent(PaymentDTO paymentDTO, int studentId) {
+        HelperMethod.debugLog(TAG, " addPaymentHistory called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        ArrayList<PaymentDTO> historyList = uniqInstance.getPaymentHistoryByStudent(db, studentId);
+        uniqInstance.closeDataBase(db);
+        return historyList;
+    }
+
+    public long addPaymentHistory(PaymentDTO paymentDTO) {
+        HelperMethod.debugLog(TAG, " addPaymentHistory called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        long id = uniqInstance.addPaymentHistory(paymentDTO, db);
+        uniqInstance.closeDataBase(db);
+        return id;
+    }
+
 
 
 }
