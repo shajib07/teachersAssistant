@@ -101,12 +101,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/margin_10"
                 android:paddingLeft="@dimen/margin_10"
                 android:paddingRight="@dimen/margin_10"
-                android:paddingTop="@dimen/margin_10"
-                android:focusableInTouchMode="true">
+                android:paddingTop="@dimen/margin_10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -246,42 +246,45 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/show_history_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
                 android:background="@color/white"
-                android:orientation="horizontal"
                 android:padding="@dimen/margin_10">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_gravity="center"
                     android:text="Show Payment History"
                     android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true">
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/margin_10"/>
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:background="@drawable/rectangle_background">
 
-                    <ImageView
+                    <Spinner
+                        android:id="@+id/student_details_history_spinner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center"
-                        android:src="@mipmap/ic_action_trash" />
+                        android:background="@android:color/transparent"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/margin_5"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_5"
+                        android:spinnerMode="dropdown" />
 
                 </LinearLayout>
-            </RelativeLayout>
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/student_payment_history_rv"

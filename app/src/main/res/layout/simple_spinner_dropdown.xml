@@ -10,6 +10,3 @@
     android:paddingRight="10dp"
     android:paddingTop="5dp"
     android:singleLine="true" />
-
-
-    <!--http://stackoverflow.com/questions/16694786/how-to-customize-a-spinner-in-android-->

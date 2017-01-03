@@ -74,7 +74,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             }
         });
     }
-
+//    <!--http://stackoverflow.com/questions/16694786/how-to-customize-a-spinner-in-android-->
     private void showMenuDialog(final UserProfileDTO dto) {
         try {
             final Dialog dialog = new Dialog(mActivity);

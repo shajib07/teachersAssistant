@@ -6,10 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Field;
 
 import entwinebits.com.teachersassistant.adapter.StudentPaymentHistoryAdapter;
 import entwinebits.com.teachersassistant.listener.PaymentUpdateListener;
@@ -29,6 +33,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     private FrameLayout student_details_toolbar_back;
     private TextView student_details_toolbar_title;
 
+    private Spinner student_details_history_spinner;
     private UserProfileDTO mStudentDTO;
 
     private TextView student_name_tv, student_mobile_phn_tv, student_monthly_fee_tv, student_institute_tv, student_address_tv;
@@ -72,6 +77,12 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         student_institute_tv.setText(mStudentDTO.getUserInstituteName().equals("") ? "Not Set" : mStudentDTO.getUserInstituteName());
         student_address_tv.setText(mStudentDTO.getUserAddress().equals("") ? "Not Set" : mStudentDTO.getUserAddress());
 
+        student_details_history_spinner = (Spinner) findViewById(R.id.student_details_history_spinner);
+        String[] years = getResources().getStringArray(R.array.Years);
+        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years );
+        yearAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+        student_details_history_spinner.setAdapter(yearAdapter);
+
         historyAdapter = new StudentPaymentHistoryAdapter(this, this);
         student_payment_history_rv = (RecyclerView)findViewById(R.id.student_payment_history_rv);
         student_payment_history_rv.setNestedScrollingEnabled(false);
@@ -92,7 +103,8 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
             case R.id.edit_history_ll:
 
-//                Intent intent = new Intent(StudentDetailsActivity.this, );
+                Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.student_details_toolbar_back:
