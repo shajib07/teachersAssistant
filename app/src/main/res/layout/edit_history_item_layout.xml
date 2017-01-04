@@ -8,7 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:orientation="horizontal"
         android:weightSum="4">
 
@@ -28,15 +27,7 @@
                 android:text="JAN"
                 android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/paid_year_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_5"
-                android:text="2017" />
-
         </LinearLayout>
-
 
         <View
             android:layout_width="1px"
@@ -51,18 +42,27 @@
             android:orientation="vertical"
             android:padding="@dimen/margin_5">
 
-            <CheckBox
-                android:id="@+id/full_paid_cb"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Paid" />
+                android:orientation="vertical"
+                android:layout_gravity="center">
 
-            <CheckBox
-                android:id="@+id/others_paid_cb"
-                android:layout_marginTop="@dimen/margin_10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Not Paid" />
+                <CheckBox
+                    android:id="@+id/full_paid_cb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Paid" />
+
+                <CheckBox
+                    android:id="@+id/others_paid_cb"
+                    android:layout_marginTop="@dimen/margin_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Not Paid" />
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -75,6 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:gravity="center"
             android:layout_weight="1.5"
             android:orientation="vertical"
             android:padding="@dimen/margin_5">
@@ -83,32 +84,20 @@
                 android:id="@+id/paid_amount_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100" />
+                android:text="0"
+                android:visibility="gone"/>
 
 
             <EditText
                 android:id="@+id/paid_amount_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="100"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:text="0"
+                android:textSize="18sp"
+                android:inputType="numberDecimal"
+                android:visibility="visible" />
 
         </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/edit_mode_fl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/margin_10"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@mipmap/ic_action_overflow" />
-        </FrameLayout>
 
     </LinearLayout>
 

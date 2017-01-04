@@ -1,38 +1,56 @@
 package entwinebits.com.teachersassistant;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.MonthDisplayHelper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import entwinebits.com.teachersassistant.adapter.EditPaymentHistoryAdapter;
+import entwinebits.com.teachersassistant.model.PaymentDTO;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
+import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.Months;
 
 /**
  * Created by shajib on 1/2/2017.
  */
 public class EditPaymentHistoryActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG = "EditPaymentHistoryActivity";
     private FrameLayout edit_history_save_btn, edit_history_toolbar_back;
     private TextView edit_history_toolbar_title;
-    private RecyclerView edit_payment_history_rv;
-    private EditPaymentHistoryAdapter editPaymentHistoryAdapter;
     private Spinner edit_history_spinner;
+    private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
+    private LinearLayout[] edit_item_ll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_payment_history);
 
-
+        initData();
         initToolbar();
         initLayout();
 
+    }
+
+    private void initData() {
+        mPaymentHistoryList = new ArrayList<>();
     }
 
     private void initToolbar() {
@@ -45,14 +63,15 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     }
 
     private void initLayout() {
-        editPaymentHistoryAdapter = new EditPaymentHistoryAdapter(this);
-        edit_payment_history_rv = (RecyclerView) findViewById(R.id.edit_payment_history_rv);
-        edit_payment_history_rv.setLayoutManager(new LinearLayoutManager(this));
-        edit_payment_history_rv.setAdapter(editPaymentHistoryAdapter);
+        setupInput();
+        setUpSpinner();
 
+    }
+
+    private void setUpSpinner() {
         edit_history_spinner = (Spinner) findViewById(R.id.edit_history_spinner);
         String[] years = getResources().getStringArray(R.array.Years);
-        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years );
+        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
         yearAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
         edit_history_spinner.setAdapter(yearAdapter);
 
@@ -68,14 +87,99 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
 
             }
         });
-
     }
+
+    private LinearLayout[] inflatedLayout;
+    private CheckBox[] full_paid_cb, others_paid_cb;
+    private EditText[] paid_amount_et;
+    private TextView[] paid_month_tv;
+
+    private void setupInput() {
+        inflatedLayout = new LinearLayout[12];
+        full_paid_cb = new CheckBox[12];
+        others_paid_cb = new CheckBox[12];
+        paid_amount_et = new EditText[12];
+        paid_month_tv = new TextView[12];
+
+        inflatedLayout[0] = (LinearLayout) findViewById(R.id.edit_item_0);
+        inflatedLayout[1] = (LinearLayout) findViewById(R.id.edit_item_1);
+        inflatedLayout[2] = (LinearLayout) findViewById(R.id.edit_item_2);
+        inflatedLayout[3] = (LinearLayout) findViewById(R.id.edit_item_3);
+        inflatedLayout[4] = (LinearLayout) findViewById(R.id.edit_item_4);
+        inflatedLayout[5] = (LinearLayout) findViewById(R.id.edit_item_5);
+        inflatedLayout[6] = (LinearLayout) findViewById(R.id.edit_item_6);
+        inflatedLayout[7] = (LinearLayout) findViewById(R.id.edit_item_7);
+        inflatedLayout[8] = (LinearLayout) findViewById(R.id.edit_item_8);
+        inflatedLayout[9] = (LinearLayout) findViewById(R.id.edit_item_9);
+        inflatedLayout[10] = (LinearLayout) findViewById(R.id.edit_item_10);
+        inflatedLayout[11] = (LinearLayout) findViewById(R.id.edit_item_11);
+
+        for (int i = 0; i < 12; i++) {
+            paid_month_tv[i] = (TextView) inflatedLayout[i].findViewById(R.id.paid_month_tv);
+            paid_month_tv[i].setText(Months.get(i + 1) + "");
+
+            paid_amount_et[i] = (EditText) inflatedLayout[i].findViewById(R.id.paid_amount_et);
+            paid_amount_et[i].setEnabled(false);
+
+            full_paid_cb[i] = (CheckBox) inflatedLayout[i].findViewById(R.id.full_paid_cb);
+            others_paid_cb[i] = (CheckBox) inflatedLayout[i].findViewById(R.id.others_paid_cb);
+            full_paid_cb[i].setChecked(false);
+            others_paid_cb[i].setChecked(true);
+
+            final int finalI = i;
+            full_paid_cb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        others_paid_cb[finalI].setChecked(false);
+                        paid_amount_et[finalI].setEnabled(true);
+                    } else {
+                        others_paid_cb[finalI].setChecked(true);
+                        paid_amount_et[finalI].setText("0");
+                        paid_amount_et[finalI].setEnabled(false);
+                    }
+                }
+            });
+
+            others_paid_cb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        full_paid_cb[finalI].setChecked(false);
+                        paid_amount_et[finalI].setEnabled(false);
+                    } else {
+                        full_paid_cb[finalI].setChecked(true);
+                        paid_amount_et[finalI].setText("0");
+                        paid_amount_et[finalI].setEnabled(true);
+                    }
+                }
+            });
+
+        }
+    }
+
+    private void savePaymentHistory() {
+        PaymentHistoryDTO dto;
+        for (int i = 0; i < 12; i++) {
+            dto = new PaymentHistoryDTO();
+            dto.setPaidAmount(Integer.parseInt(paid_amount_et[i].getText().toString()));
+            dto.setPaid(full_paid_cb[i].isChecked());
+            mPaymentHistoryList.add(dto);
+        }
+
+        EditPaymentHistoryActivity.this.finish();
+    }
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.edit_history_save_btn:
 
+                savePaymentHistory();
+                for (PaymentHistoryDTO dto : mPaymentHistoryList) {
+                    HelperMethod.debugLog(TAG, dto.getMonth()+" "+ dto.getPaidAmount()+" "+dto.isPaid());
+                }
                 break;
 
             case R.id.edit_history_toolbar_back:

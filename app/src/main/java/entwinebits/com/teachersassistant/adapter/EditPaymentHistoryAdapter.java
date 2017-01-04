@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.R;
-import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 
 /**
  * Created by shajib on 1/3/2017.
@@ -23,10 +23,22 @@ public class EditPaymentHistoryAdapter extends RecyclerView.Adapter<EditPaymentH
 
     private Activity mActivity;
     private ArrayList<String> mMonthList;
+    private ArrayList<PaymentHistoryDTO> mHistoryDTOs;
 
     public EditPaymentHistoryAdapter(Activity activity) {
         this.mActivity = activity;
         getMonthList();
+        setupHistoryList();
+    }
+
+    private void setupHistoryList() {
+        mHistoryDTOs = new ArrayList<>();
+        for (int i=0; i<12; i++) {
+            PaymentHistoryDTO dto = new PaymentHistoryDTO();
+            dto.setMonth(i);
+            dto.setPaid(false);
+            mHistoryDTOs.add(dto);
+        }
     }
 
     @Override
@@ -43,11 +55,31 @@ public class EditPaymentHistoryAdapter extends RecyclerView.Adapter<EditPaymentH
         }
     }
 
+    public ArrayList<PaymentHistoryDTO> getHistoryDTOs() {
+        return mHistoryDTOs == null ? new ArrayList<PaymentHistoryDTO>() : mHistoryDTOs;
+    }
+
     @Override
-    public void onBindViewHolder(final PaymentHistoryHolder holder, int position) {
-        holder.paid_month_tv.setText(mMonthList.get(position));
-        holder.others_paid_cb.setChecked(true);
-        holder.paid_amount_et.setText("1000");
+    public void onBindViewHolder(final PaymentHistoryHolder holder, final int position) {
+        PaymentHistoryDTO dto = mHistoryDTOs.get(position);
+        holder.paid_month_tv.setText("" + dto.getMonth());
+        if (dto.isPaid()) {
+            holder.full_paid_cb.setChecked(true);
+            holder.others_paid_cb.setChecked(false);
+        } else {
+            holder.full_paid_cb.setChecked(false);
+            holder.others_paid_cb.setChecked(true);
+        }
+        holder.paid_amount_et.setText(""+ dto.getPaidAmount());
+        holder.paid_amount_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    mHistoryDTOs.get(position).setPaidAmount(Integer.parseInt(holder.paid_amount_et.getText().toString()));
+                    notifyDataSetChanged();
+                }
+            }
+        });
 
         holder.full_paid_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -55,6 +87,8 @@ public class EditPaymentHistoryAdapter extends RecyclerView.Adapter<EditPaymentH
                 if (isChecked) {
                     holder.paid_amount_et.setEnabled(true);
                     holder.others_paid_cb.setChecked(false);
+                    mHistoryDTOs.get(position).setPaid(true);
+                    notifyDataSetChanged();
                 }
             }
         });
@@ -65,15 +99,16 @@ public class EditPaymentHistoryAdapter extends RecyclerView.Adapter<EditPaymentH
                 if (isChecked) {
                     holder.paid_amount_et.setEnabled(false);
                     holder.full_paid_cb.setChecked(false);
+                    mHistoryDTOs.get(position).setPaid(false);
+                    notifyDataSetChanged();
                 }
-
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 12;
+        return mHistoryDTOs == null ? 0 : mHistoryDTOs.size();
     }
 
     public static class PaymentHistoryHolder extends RecyclerView.ViewHolder {
