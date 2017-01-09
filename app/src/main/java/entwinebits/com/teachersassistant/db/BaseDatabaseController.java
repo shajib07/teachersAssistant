@@ -294,20 +294,8 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
 
         try {
             if (isPaymentHistoryExist(db, paymentHistoryDTO.getStudentId(), paymentHistoryDTO.getMonth(), paymentHistoryDTO.getYear()) ) {
-//                db.update(TABLE_NAME,
-//                        contentValues,
-//                        NAME + " = ? AND " + LASTNAME + " = ?",
-//                        new String[]{"Manas", "Bajaj"});
-//                database.update(TABLE_NAME, cv, ""+KEY_UserName+"= '"+ username+"' AND "+KEY_CID+"='"+Cid+"'  AND "+KEY_Password+"='"+password+"'" , null);
-
 
                 HelperMethod.debugLog(TAG, "addPaymentHistory Update");
-//                id = db.update(TABLE_PAYMENT_HISTORY, values, "" + KEY_ID + " = '" + paymentHistoryDTO.getStudentId()
-//                        +"' AND " + KEY_PAYMENT_AMOUNT + " = '" + paymentHistoryDTO.get
-//                                + " AND " + KEY_PAYMENT_YEAR + " = ?",
-//                        new String[]{String.valueOf(paymentHistoryDTO.getStudentId()),
-//                                String.valueOf(paymentHistoryDTO.getMonth()), String.valueOf(paymentHistoryDTO.getYear())} );
-
                 id = db.update(TABLE_PAYMENT_HISTORY, values, KEY_ID + " = ?"
                         + " AND " + KEY_PAYMENT_MONTH + " = ?"
                         + " AND " + KEY_PAYMENT_YEAR + " = ?",
