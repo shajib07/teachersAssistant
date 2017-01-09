@@ -11,6 +11,7 @@ import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -193,8 +194,8 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         }
     }
 
-    public ArrayList<PaymentDTO> getPaymentHistoryByStudent(SQLiteDatabase db, int studentId) {
-        ArrayList<PaymentDTO> historyList = new ArrayList<>();
+    public ArrayList<PaymentHistoryDTO> getPaymentHistoryByStudent(SQLiteDatabase db, int studentId) {
+        ArrayList<PaymentHistoryDTO> paymentHistoryList = new ArrayList<>();
         Cursor cursor = null;
         try {
             HelperMethod.debugLog(TAG, "getPaymentHistoryByStudent : studentId == " + studentId);
@@ -203,12 +204,12 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
 
             if (cursor.moveToFirst()) {
                 do {
-                    PaymentDTO dto = new PaymentDTO();
-                    dto.setPaymentMonth(cursor.getInt(2));
-                    dto.setPaymentYear(cursor.getInt(3));
-                    dto.setPaymentAmount(cursor.getInt(4));
-                    dto.setPaymentStatus(cursor.getInt(5));
-                    historyList.add(dto);
+                    PaymentHistoryDTO dto = new PaymentHistoryDTO();
+                    dto.setMonth(cursor.getInt(2));
+                    dto.setYear(cursor.getInt(3));
+                    dto.setPaidAmount(cursor.getInt(4));
+                    dto.setPaid(cursor.getInt(5) == 1 ? true : false);
+                    paymentHistoryList.add(dto);
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
@@ -218,23 +219,105 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        return historyList;
+        return paymentHistoryList;
     }
 
+    public ArrayList<PaymentHistoryDTO> getPaymentHistoryByStudentYear(SQLiteDatabase db, int studentId, int year) {
+        ArrayList<PaymentHistoryDTO> paymentHistoryList = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            HelperMethod.debugLog(TAG, "getPaymentHistoryByStudentYear : studentId == " + studentId+ " year = "+year);
+            String selectQuery = "SELECT  * FROM " + TABLE_PAYMENT_HISTORY + " WHERE " + KEY_ID + " = " + studentId
+                    + " AND "+ KEY_PAYMENT_YEAR + " = " + year;
+            cursor = db.rawQuery(selectQuery, null);
 
-    public long addPaymentHistory(PaymentDTO paymentDTO, SQLiteDatabase db) {
+            if (cursor.moveToFirst()) {
+                do {
+                    PaymentHistoryDTO dto = new PaymentHistoryDTO();
+                    dto.setMonth(cursor.getInt(2));
+                    dto.setYear(cursor.getInt(3));
+                    dto.setPaidAmount(cursor.getInt(4));
+                    dto.setPaid(cursor.getInt(5) == 1 ? true : false);
+                    paymentHistoryList.add(dto);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : getPaymentHistoryByStudentYear = " + e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return paymentHistoryList;
+    }
+
+/*
+    private boolean isAlreadyAdded(String filePath, SQLiteDatabase db) {
+        boolean isexists;
+        String selectQuery = "SELECT " + KEY_FILE_PATH + " FROM " + TABLE_FILE_HISTORY + " WHERE " + KEY_FILE_PATH + "='" + filePath + "'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        isexists = cursor.getCount() != 0;
+        .debugLog(TAG, " isexists = " + isexists);
+        cursor.close();
+        return isexists;
+    }
+*/
+
+
+    private boolean isPaymentHistoryExist(SQLiteDatabase db, int id, int month, int year) {
+
+        HelperMethod.debugLog(TAG, "isPaymentHistoryExist called ++++++ "+id+" : mon "+month+" : yr "+year);
+        boolean isExist = false;
+        String selectQuery = "SELECT * FROM " + TABLE_PAYMENT_HISTORY
+                + " WHERE " + KEY_ID + " = '" + String.valueOf(id) + "'"
+                + " AND " + KEY_PAYMENT_MONTH + " = '" + String.valueOf(month) + "'"
+                + " AND " + KEY_PAYMENT_YEAR + " = '" + String.valueOf(year) + "'";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        isExist = cursor.getCount() != 0;
+        HelperMethod.debugLog(TAG, " isExist = " + isExist);
+        cursor.close();
+
+        return isExist;
+    }
+
+    public long addPaymentHistory(PaymentHistoryDTO paymentHistoryDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "addPaymentHistory called ++++++ ");
         long id = -1;
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, paymentDTO.getStudentId());
-        values.put(KEY_PAYMENT_MONTH, paymentDTO.getPaymentMonth());
-        values.put(KEY_PAYMENT_YEAR, paymentDTO.getPaymentYear());
-        values.put(KEY_PAYMENT_AMOUNT, paymentDTO.getPaymentAmount());
-        values.put(KEY_FULL_PAYMENT_STATUS, paymentDTO.getPaymentStatus());
+        values.put(KEY_ID, paymentHistoryDTO.getStudentId());
+        values.put(KEY_PAYMENT_MONTH, paymentHistoryDTO.getMonth());
+        values.put(KEY_PAYMENT_YEAR, paymentHistoryDTO.getYear());
+        values.put(KEY_PAYMENT_AMOUNT, paymentHistoryDTO.getPaidAmount());
+        values.put(KEY_FULL_PAYMENT_STATUS, paymentHistoryDTO.isPaid()==true ? 1 : 0);
 
         try {
-            id = db.insert(TABLE_PAYMENT_HISTORY, null, values);
+            if (isPaymentHistoryExist(db, paymentHistoryDTO.getStudentId(), paymentHistoryDTO.getMonth(), paymentHistoryDTO.getYear()) ) {
+//                db.update(TABLE_NAME,
+//                        contentValues,
+//                        NAME + " = ? AND " + LASTNAME + " = ?",
+//                        new String[]{"Manas", "Bajaj"});
+//                database.update(TABLE_NAME, cv, ""+KEY_UserName+"= '"+ username+"' AND "+KEY_CID+"='"+Cid+"'  AND "+KEY_Password+"='"+password+"'" , null);
+
+
+                HelperMethod.debugLog(TAG, "addPaymentHistory Update");
+//                id = db.update(TABLE_PAYMENT_HISTORY, values, "" + KEY_ID + " = '" + paymentHistoryDTO.getStudentId()
+//                        +"' AND " + KEY_PAYMENT_AMOUNT + " = '" + paymentHistoryDTO.get
+//                                + " AND " + KEY_PAYMENT_YEAR + " = ?",
+//                        new String[]{String.valueOf(paymentHistoryDTO.getStudentId()),
+//                                String.valueOf(paymentHistoryDTO.getMonth()), String.valueOf(paymentHistoryDTO.getYear())} );
+
+                id = db.update(TABLE_PAYMENT_HISTORY, values, KEY_ID + " = ?"
+                        + " AND " + KEY_PAYMENT_MONTH + " = ?"
+                        + " AND " + KEY_PAYMENT_YEAR + " = ?",
+                        new String[]{String.valueOf(paymentHistoryDTO.getStudentId()),
+                                String.valueOf(paymentHistoryDTO.getMonth()), String.valueOf(paymentHistoryDTO.getYear())} );
+
+            } else {
+                HelperMethod.debugLog(TAG, "addPaymentHistory Insert");
+                id = db.insert(TABLE_PAYMENT_HISTORY, null, values);
+            }
             if (id != -1) {
                 HelperMethod.debugLog(TAG, " addPaymentHistory insert = " + id);
             } else {

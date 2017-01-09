@@ -8,6 +8,7 @@ import java.util.List;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -77,13 +78,6 @@ public class DatabaseRequestHelper {
         return id;
     }
 
-//    public void updateScheduleID(int id) {
-//        HelperMethod.debugLog(TAG, " updateScheduleID called ++++++++");
-//        SQLiteDatabase db = uniqInstance.openDatabse();
-//        uniqInstance.updateScheduleID(id, db);
-//        uniqInstance.closeDataBase(db);
-//    }
-
     public void updateSchedule(ScheduleDTO scheduleDTO) {
         HelperMethod.debugLog(TAG, " updateSchedule called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();
@@ -115,18 +109,26 @@ public class DatabaseRequestHelper {
         return studentList;
     }
 
-    public ArrayList<PaymentDTO> getPaymentHistoryByStudent(PaymentDTO paymentDTO, int studentId) {
-        HelperMethod.debugLog(TAG, " addPaymentHistory called ++++++++");
+    public ArrayList<PaymentHistoryDTO> getPaymentHistoryByStudentYear(int studentId, int year) {
+        HelperMethod.debugLog(TAG, " getPaymentHistoryByStudentYear called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();
-        ArrayList<PaymentDTO> historyList = uniqInstance.getPaymentHistoryByStudent(db, studentId);
+        ArrayList<PaymentHistoryDTO> historyList = uniqInstance.getPaymentHistoryByStudentYear(db, studentId, year);
         uniqInstance.closeDataBase(db);
         return historyList;
     }
 
-    public long addPaymentHistory(PaymentDTO paymentDTO) {
+    public ArrayList<PaymentHistoryDTO> getPaymentHistoryByStudent(int studentId) {
         HelperMethod.debugLog(TAG, " addPaymentHistory called ++++++++");
         SQLiteDatabase db = uniqInstance.openDatabse();
-        long id = uniqInstance.addPaymentHistory(paymentDTO, db);
+        ArrayList<PaymentHistoryDTO> historyList = uniqInstance.getPaymentHistoryByStudent(db, studentId);
+        uniqInstance.closeDataBase(db);
+        return historyList;
+    }
+
+    public long addPaymentHistory(PaymentHistoryDTO paymentHistoryDTO) {
+        HelperMethod.debugLog(TAG, " addPaymentHistory called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        long id = uniqInstance.addPaymentHistory(paymentHistoryDTO, db);
         uniqInstance.closeDataBase(db);
         return id;
     }

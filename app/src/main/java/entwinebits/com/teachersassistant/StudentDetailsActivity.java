@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -14,10 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.adapter.StudentPaymentHistoryAdapter;
+import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.listener.PaymentUpdateListener;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -27,7 +31,7 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
  */
 public class StudentDetailsActivity extends AppCompatActivity implements View.OnClickListener, PaymentUpdateListener {
 
-    private String TAG = "StudentDetailsActivity";
+    private String TAG = "EditPaymentHistoryActivity";
     private RecyclerView student_payment_history_rv;
     private StudentPaymentHistoryAdapter historyAdapter;
     private FrameLayout student_details_toolbar_back;
@@ -38,19 +42,80 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
     private TextView student_name_tv, student_mobile_phn_tv, student_monthly_fee_tv, student_institute_tv, student_address_tv;
     private LinearLayout edit_history_ll;
+    private DatabaseRequestHelper mDatabaseRequestHelper;
+    private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
+    private int mShowHistoryYear = 2017;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        HelperMethod.debugLog(TAG, "StudentDetailsActivity : onCreate ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_details_layout);
 
         if (getIntent().hasExtra(Constants.EDIT_STUDENT_DTO)) {
             mStudentDTO = getIntent().getParcelableExtra(Constants.EDIT_STUDENT_DTO);
         }
+        initData();
 
         initToolbar();
         initLayout();
+        HelperMethod.debugLog(TAG, "oncrete finished");
+    }
 
+    private void initData() {
+        mPaymentHistoryList = new ArrayList<>();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        HelperMethod.debugLog(TAG, "StudentDetailsActivity : onResume ");
+        loadHistoryData();
+    }
+
+    private void loadHistoryData() {
+        if (mDatabaseRequestHelper == null) {
+            mDatabaseRequestHelper = new DatabaseRequestHelper(this);
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                HelperMethod.debugLog(TAG, "StudentDetailsActivity : Inside run: "+mStudentDTO.getUserId()+ " -- "+mShowHistoryYear);
+
+                ArrayList<PaymentHistoryDTO> list = mDatabaseRequestHelper.getPaymentHistoryByStudentYear(mStudentDTO.getUserId(), mShowHistoryYear);
+                mPaymentHistoryList.clear();
+                mPaymentHistoryList.addAll(list);
+                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before loop "+mPaymentHistoryList.size()+ " -- "+list.size());
+
+                for (PaymentHistoryDTO dto : mPaymentHistoryList) {
+//                    HelperMethod.debugLog(TAG, dto.getYear()+ " "+dto.getMonth()+" "+ dto.getPaidAmount()+" "+dto.isPaid());
+                }
+                HelperMethod.debugLog(TAG, "StudentDetailsActivity : runOnUiThread thread Before ");
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti ");
+
+                        if (historyAdapter == null) {
+                            historyAdapter = new StudentPaymentHistoryAdapter(StudentDetailsActivity.this, mPaymentHistoryList, null);
+                            student_payment_history_rv.setAdapter(historyAdapter);
+                            HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti NULL ++ ");
+
+                        } else {
+                            HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti ELSEE ++ ");
+
+                            historyAdapter.notifyDataSetChanged();
+                        }
+
+
+                        HelperMethod.debugLog(TAG, "StudentDetailsActivity : after noti ");
+
+                    }
+                });
+            }
+        }).start();
     }
 
     private void initToolbar() {
@@ -77,24 +142,49 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         student_institute_tv.setText(mStudentDTO.getUserInstituteName().equals("") ? "Not Set" : mStudentDTO.getUserInstituteName());
         student_address_tv.setText(mStudentDTO.getUserAddress().equals("") ? "Not Set" : mStudentDTO.getUserAddress());
 
-        student_details_history_spinner = (Spinner) findViewById(R.id.student_details_history_spinner);
-        String[] years = getResources().getStringArray(R.array.Years);
-        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years );
-        yearAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-        student_details_history_spinner.setAdapter(yearAdapter);
+        setUpSpinner();
 
-        historyAdapter = new StudentPaymentHistoryAdapter(this, this);
-        student_payment_history_rv = (RecyclerView)findViewById(R.id.student_payment_history_rv);
+//        historyAdapter = new StudentPaymentHistoryAdapter(this, mPaymentHistoryList, this);
+        student_payment_history_rv = (RecyclerView) findViewById(R.id.student_payment_history_rv);
         student_payment_history_rv.setNestedScrollingEnabled(false);
         student_payment_history_rv.setLayoutManager(new LinearLayoutManager(this));
         student_payment_history_rv.setHasFixedSize(true);
-        student_payment_history_rv.setAdapter(historyAdapter);
+//        student_payment_history_rv.setAdapter(historyAdapter);
+
+        HelperMethod.debugLog(TAG, "initLayout finish");
+    }
+
+    private void setUpSpinner() {
+        student_details_history_spinner = (Spinner) findViewById(R.id.student_details_history_spinner);
+        String[] years = getResources().getStringArray(R.array.Years);
+        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
+        yearAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+        student_details_history_spinner.setAdapter(yearAdapter);
+
+        student_details_history_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String year = parent.getItemAtPosition(position).toString();
+                if (year.equals("Select")) {
+                    Toast.makeText(StudentDetailsActivity.this, "Select slected ..", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mShowHistoryYear = Integer.parseInt(year);
+                HelperMethod.debugLog(TAG, "setOnItemSelectedListener yr : "+mShowHistoryYear+ " year : "+year);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        HelperMethod.debugLog(TAG, "setUpSpinner finish");
 
     }
 
     @Override
     public void onPaymentUpdate(PaymentDTO dto) {
-        HelperMethod.debugLog(TAG, "onPaymentUpdate +++ "+dto.getPaymentMonth()+" y : "+dto.getPaymentYear());
+        HelperMethod.debugLog(TAG, "onPaymentUpdate +++ " + dto.getPaymentMonth() + " y : " + dto.getPaymentYear());
 
     }
 
@@ -104,6 +194,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
             case R.id.edit_history_ll:
 
                 Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
+                intent.putExtra(Constants.STUDENT_ID, mStudentDTO.getUserId());
                 startActivity(intent);
                 break;
 
@@ -111,5 +202,18 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                 StudentDetailsActivity.this.finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HelperMethod.debugLog(TAG, "StudentDetailsActivity : onPause ");
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HelperMethod.debugLog(TAG, "StudentDetailsActivity : onDestroy ");
     }
 }

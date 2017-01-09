@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/margin_15"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/right_col"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/checkbox_ll">
+
+        <TextView
+            android:id="@+id/paid_amount_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="0"
+            android:visibility="gone" />
+
+
+        <EditText
+            android:id="@+id/paid_amount_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:hint="BDT"
+            android:textColorHint="@color/gray88"
+            android:inputType="numberDecimal"
+            android:text=""
+            android:textSize="18sp"
+            android:visibility="visible" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/paid_month_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="@dimen/margin_30"
+        android:text="JAN"
+        android:textSize="16sp" />
+
+
+    <LinearLayout
+        android:id="@+id/checkbox_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/paid_month_tv"
+        android:layout_centerVertical="true"
+        android:paddingLeft="@dimen/margin_30"
+        android:paddingRight="@dimen/margin_30"
+        android:orientation="vertical">
+
+        <CheckBox
+            android:id="@+id/full_paid_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paid" />
+
+        <CheckBox
+            android:id="@+id/others_paid_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_10"
+            android:text="Not Paid" />
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:paddingTop="@dimen/margin_15"
+        android:layout_alignParentBottom="true"
+        android:background="@color/aquaman" />
+
+</RelativeLayout>

@@ -26,7 +26,8 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
  */
 public class BatchDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private String TAG = "BatchDetailsActivity";
+
+    private String TAG = "StudentDetailsActivity";
     private FrameLayout batch_details_toolbar_back, add_student_done_btn;
     private TextView batch_details_toolbar_title;
     private RecyclerView student_list_rv;
@@ -41,6 +42,8 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        HelperMethod.debugLog(TAG, "BatchDetailsActivity : onCreate ");
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batch_details_layout);
 
@@ -58,6 +61,14 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onResume() {
         super.onResume();
+        HelperMethod.debugLog(TAG, "BatchDetailsActivity : onResume ");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HelperMethod.debugLog(TAG, "BatchDetailsActivity : onPause ");
+
     }
 
     private void loadStudentList() {
@@ -73,8 +84,8 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 mStudentList.clear();
                 mStudentList.addAll(studentList);
                 for (UserProfileDTO dto : studentList) {
-                    HelperMethod.debugLog(TAG, "After db read : id : " + dto.getUserId() + " name : " + dto.getUserName() +
-                            " id " + dto.getMonthlyFee() + "mob = " + dto.getUserMobilePhone());
+//                    HelperMethod.debugLog(TAG, "After db read : id : " + dto.getUserId() + " name : " + dto.getUserName() +
+//                            " id " + dto.getMonthlyFee() + "mob = " + dto.getUserMobilePhone());
                 }
 
 
@@ -199,4 +210,9 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HelperMethod.debugLog(TAG, "BatchDetailsActivity : onDestroy ");
+    }
 }

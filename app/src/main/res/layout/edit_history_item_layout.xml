@@ -92,7 +92,11 @@
                 android:id="@+id/paid_amount_et"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:minWidth="30dp"
+                android:gravity="center"
+                android:text=""
+                android:hint="0"
+                android:textColorHint="@color/gray88"
                 android:textSize="18sp"
                 android:inputType="numberDecimal"
                 android:visibility="visible" />

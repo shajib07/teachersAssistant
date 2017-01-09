@@ -1,5 +1,6 @@
 package entwinebits.com.teachersassistant;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,12 +18,15 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.adapter.EditPaymentHistoryAdapter;
+import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
+import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.Months;
 
@@ -36,30 +40,76 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     private TextView edit_history_toolbar_title;
     private Spinner edit_history_spinner;
     private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
-    private LinearLayout[] edit_item_ll;
+    private int mStudentId;
+    private int mEditYear;
+    private ProgressDialog mProgressDialog;
+    private DatabaseRequestHelper mDatabaseRequestHelper;
+
+    private LinearLayout[] inflatedLayout;
+    private CheckBox[] full_paid_cb, others_paid_cb;
+    private EditText[] paid_amount_et;
+    private TextView[] paid_month_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_payment_history);
+        mStudentId = getIntent().getIntExtra(Constants.STUDENT_ID, 0);
 
         initData();
         initToolbar();
         initLayout();
-
     }
 
-    private void initData() {
-        mPaymentHistoryList = new ArrayList<>();
+
+    private void bindHistoryData() {
+
+        int i = 0;
+        for (PaymentHistoryDTO dto : mPaymentHistoryList) {
+            HelperMethod.debugLog(TAG, "ispaid : "+dto.isPaid()+" amount : "+dto.getPaidAmount());
+
+            paid_amount_et[i].setText(dto.getPaidAmount() + "");
+            paid_amount_et[i].setEnabled(false);
+            full_paid_cb[i].setChecked(dto.isPaid());
+            others_paid_cb[i].setChecked(!dto.isPaid());
+            i++;
+        }
     }
 
-    private void initToolbar() {
-        edit_history_save_btn = (FrameLayout) findViewById(R.id.edit_history_save_btn);
-        edit_history_save_btn.setOnClickListener(this);
-        edit_history_toolbar_back = (FrameLayout) findViewById(R.id.edit_history_toolbar_back);
-        edit_history_toolbar_back.setOnClickListener(this);
-        edit_history_toolbar_title = (TextView) findViewById(R.id.edit_history_toolbar_title);
-        edit_history_toolbar_title.setText("Edit");
+    private void bindDefaultData() {
+        for (int i=0; i<12; i++) {
+            paid_amount_et[i].setEnabled(false);
+            full_paid_cb[i].setChecked(false);
+            others_paid_cb[i].setChecked(true);
+
+        }
+    }
+    private void loadHistoryData() {
+        showProgressDialog();
+
+        if (mDatabaseRequestHelper == null) {
+            mDatabaseRequestHelper = new DatabaseRequestHelper(this);
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mPaymentHistoryList.clear();
+                final ArrayList<PaymentHistoryDTO> list = mDatabaseRequestHelper.getPaymentHistoryByStudentYear(mStudentId, mEditYear);
+                HelperMethod.debugLog(TAG, "size inside bind = "+list.size());
+                mPaymentHistoryList.addAll(list);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (list.size() >= 1) {
+                            bindHistoryData();
+                        } else {
+                            bindDefaultData();
+                        }
+                        hideProgressDialog();
+                    }
+                });
+            }
+        }).start();
     }
 
     private void initLayout() {
@@ -78,8 +128,9 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         edit_history_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int year = Integer.parseInt(parent.getItemAtPosition(position).toString());
-
+                Toast.makeText(EditPaymentHistoryActivity.this, "select : "+parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                mEditYear = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                loadHistoryData();
             }
 
             @Override
@@ -88,11 +139,6 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             }
         });
     }
-
-    private LinearLayout[] inflatedLayout;
-    private CheckBox[] full_paid_cb, others_paid_cb;
-    private EditText[] paid_amount_et;
-    private TextView[] paid_month_tv;
 
     private void setupInput() {
         inflatedLayout = new LinearLayout[12];
@@ -119,12 +165,12 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             paid_month_tv[i].setText(Months.get(i + 1) + "");
 
             paid_amount_et[i] = (EditText) inflatedLayout[i].findViewById(R.id.paid_amount_et);
-            paid_amount_et[i].setEnabled(false);
+//            paid_amount_et[i].setEnabled(false);
 
             full_paid_cb[i] = (CheckBox) inflatedLayout[i].findViewById(R.id.full_paid_cb);
             others_paid_cb[i] = (CheckBox) inflatedLayout[i].findViewById(R.id.others_paid_cb);
-            full_paid_cb[i].setChecked(false);
-            others_paid_cb[i].setChecked(true);
+//            full_paid_cb[i].setChecked(false);
+//            others_paid_cb[i].setChecked(true);
 
             final int finalI = i;
             full_paid_cb[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -135,7 +181,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
                         paid_amount_et[finalI].setEnabled(true);
                     } else {
                         others_paid_cb[finalI].setChecked(true);
-                        paid_amount_et[finalI].setText("0");
+//                        paid_amount_et[finalI].setText();
                         paid_amount_et[finalI].setEnabled(false);
                     }
                 }
@@ -149,7 +195,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
                         paid_amount_et[finalI].setEnabled(false);
                     } else {
                         full_paid_cb[finalI].setChecked(true);
-                        paid_amount_et[finalI].setText("0");
+//                        paid_amount_et[finalI].setText("");
                         paid_amount_et[finalI].setEnabled(true);
                     }
                 }
@@ -159,15 +205,40 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     }
 
     private void savePaymentHistory() {
+
+        showProgressDialog();
         PaymentHistoryDTO dto;
         for (int i = 0; i < 12; i++) {
             dto = new PaymentHistoryDTO();
-            dto.setPaidAmount(Integer.parseInt(paid_amount_et[i].getText().toString()));
+            dto.setPaidAmount(Integer.parseInt(paid_amount_et[i].getText().toString().length() == 0
+                    ? "0" : paid_amount_et[i].getText().toString()));
             dto.setPaid(full_paid_cb[i].isChecked());
+            dto.setStudentId(mStudentId);
+            dto.setMonth(i + 1);
+            dto.setYear(mEditYear);
             mPaymentHistoryList.add(dto);
         }
 
-        EditPaymentHistoryActivity.this.finish();
+        if (mDatabaseRequestHelper == null) {
+            mDatabaseRequestHelper = new DatabaseRequestHelper(this);
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (PaymentHistoryDTO dto : mPaymentHistoryList) {
+                    mDatabaseRequestHelper.addPaymentHistory(dto);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressDialog();
+                        EditPaymentHistoryActivity.this.finish();
+                        HelperMethod.debugLog(TAG, "FInish called");
+                    }
+                });
+            }
+        }).start();
     }
 
 
@@ -177,9 +248,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             case R.id.edit_history_save_btn:
 
                 savePaymentHistory();
-                for (PaymentHistoryDTO dto : mPaymentHistoryList) {
-                    HelperMethod.debugLog(TAG, dto.getMonth()+" "+ dto.getPaidAmount()+" "+dto.isPaid());
-                }
+
                 break;
 
             case R.id.edit_history_toolbar_back:
@@ -187,4 +256,45 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
                 break;
         }
     }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
+            mProgressDialog = ProgressDialog.show(EditPaymentHistoryActivity.this, getString(R.string.loading_data),
+                    getString(R.string.please_Wait), true, false);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setIndeterminateDrawable(getResources().getDrawable(R.drawable.custom_progress));
+        }
+    }
+
+    private void hideProgressDialog() {
+        try {
+            if (mProgressDialog != null || mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+                mProgressDialog = null;
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HelperMethod.debugLog(TAG, "onDestroy ");
+    }
+
+    private void initData() {
+        mPaymentHistoryList = new ArrayList<>();
+        mEditYear = 2017;
+    }
+
+    private void initToolbar() {
+        edit_history_save_btn = (FrameLayout) findViewById(R.id.edit_history_save_btn);
+        edit_history_save_btn.setOnClickListener(this);
+        edit_history_toolbar_back = (FrameLayout) findViewById(R.id.edit_history_toolbar_back);
+        edit_history_toolbar_back.setOnClickListener(this);
+        edit_history_toolbar_title = (TextView) findViewById(R.id.edit_history_toolbar_title);
+        edit_history_toolbar_title.setText("Edit");
+    }
+
 }
