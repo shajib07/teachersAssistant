@@ -18,4 +18,9 @@ public class Constants {
 
     public static final int MONTH_TYPE = 1;
     public static final int YEAR_TYPE = 2;
+
+
+    public static final int DIALOG_STATE_POSITIVE = 1;
+    public static final int DIALOG_STATE_NEGATIVE = 2;
+    public static final int DIALOG_STATE_NEUTRAL = 3;
 }

@@ -281,6 +281,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
     }
 
     private TextView month_dialog_tv , year_dialog_tv;
+
     private void showMonthYearDialog(final TextView month, final TextView year) {
         View dialogView = LayoutInflater.from(mActivity).inflate(R.layout.month_year_dialog_view, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);

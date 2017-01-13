@@ -263,12 +263,25 @@
                     android:textSize="18sp" />
 
                 <LinearLayout
+                    android:id="@+id/history_showing_yr_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:background="@drawable/rectangle_background">
 
+                    <TextView
+                        android:id="@+id/history_showing_yr_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingBottom="@dimen/margin_5"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_5"
+                        android:text="2017" />
+
+<!--
                     <Spinner
                         android:id="@+id/student_details_history_spinner"
                         android:layout_width="wrap_content"
@@ -282,6 +295,7 @@
                         android:paddingRight="@dimen/margin_15"
                         android:paddingTop="@dimen/margin_5"
                         android:spinnerMode="dropdown" />
+-->
 
                 </LinearLayout>
             </LinearLayout>

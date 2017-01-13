@@ -1,24 +1,25 @@
 package entwinebits.com.teachersassistant;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.adapter.StudentPaymentHistoryAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
+import entwinebits.com.teachersassistant.dialogFragment.YearSelectionDialogFragment;
+import entwinebits.com.teachersassistant.listener.DialogCloseListener;
 import entwinebits.com.teachersassistant.listener.PaymentUpdateListener;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
@@ -29,13 +30,15 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
 /**
  * Created by shajib on 12/23/2016.
  */
-public class StudentDetailsActivity extends AppCompatActivity implements View.OnClickListener, PaymentUpdateListener {
+public class StudentDetailsActivity extends AppCompatActivity implements View.OnClickListener,
+        DialogCloseListener, PaymentUpdateListener {
 
     private String TAG = "EditPaymentHistoryActivity";
     private RecyclerView student_payment_history_rv;
     private StudentPaymentHistoryAdapter historyAdapter;
     private FrameLayout student_details_toolbar_back;
     private TextView student_details_toolbar_title;
+    private ProgressDialog mProgressDialog;
 
     private Spinner student_details_history_spinner;
     private UserProfileDTO mStudentDTO;
@@ -45,6 +48,9 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     private DatabaseRequestHelper mDatabaseRequestHelper;
     private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
     private int mShowHistoryYear = 2017;
+
+    private LinearLayout history_showing_yr_ll;
+    private TextView history_showing_yr_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +92,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                 ArrayList<PaymentHistoryDTO> list = mDatabaseRequestHelper.getPaymentHistoryByStudentYear(mStudentDTO.getUserId(), mShowHistoryYear);
                 mPaymentHistoryList.clear();
                 mPaymentHistoryList.addAll(list);
-                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before loop "+mPaymentHistoryList.size()+ " -- "+list.size());
-
-                for (PaymentHistoryDTO dto : mPaymentHistoryList) {
-//                    HelperMethod.debugLog(TAG, dto.getYear()+ " "+dto.getMonth()+" "+ dto.getPaidAmount()+" "+dto.isPaid());
-                }
-                HelperMethod.debugLog(TAG, "StudentDetailsActivity : runOnUiThread thread Before ");
+                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before ui thread loop "+mPaymentHistoryList.size()+ " -- "+list.size());
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -105,13 +106,11 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
                         } else {
                             HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti ELSEE ++ ");
-
                             historyAdapter.notifyDataSetChanged();
                         }
 
-
+                        hideProgressDialog();
                         HelperMethod.debugLog(TAG, "StudentDetailsActivity : after noti ");
-
                     }
                 });
             }
@@ -128,6 +127,10 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void initLayout() {
+        history_showing_yr_ll = (LinearLayout) findViewById(R.id.history_showing_yr_ll);
+        history_showing_yr_ll.setOnClickListener(this);
+        history_showing_yr_tv = (TextView) findViewById(R.id.history_showing_yr_tv);
+
         student_name_tv = (TextView) findViewById(R.id.student_name_tv);
         student_mobile_phn_tv = (TextView) findViewById(R.id.student_mobile_phn_tv);
         student_monthly_fee_tv = (TextView) findViewById(R.id.student_monthly_fee_tv);
@@ -142,7 +145,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         student_institute_tv.setText(mStudentDTO.getUserInstituteName().equals("") ? "Not Set" : mStudentDTO.getUserInstituteName());
         student_address_tv.setText(mStudentDTO.getUserAddress().equals("") ? "Not Set" : mStudentDTO.getUserAddress());
 
-        setUpSpinner();
+//        setUpSpinner();
 
 //        historyAdapter = new StudentPaymentHistoryAdapter(this, mPaymentHistoryList, this);
         student_payment_history_rv = (RecyclerView) findViewById(R.id.student_payment_history_rv);
@@ -154,32 +157,11 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         HelperMethod.debugLog(TAG, "initLayout finish");
     }
 
-    private void setUpSpinner() {
-        student_details_history_spinner = (Spinner) findViewById(R.id.student_details_history_spinner);
-        String[] years = getResources().getStringArray(R.array.Years);
-        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
-        yearAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-        student_details_history_spinner.setAdapter(yearAdapter);
 
-        student_details_history_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String year = parent.getItemAtPosition(position).toString();
-                if (year.equals("Select")) {
-                    Toast.makeText(StudentDetailsActivity.this, "Select slected ..", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                mShowHistoryYear = Integer.parseInt(year);
-                HelperMethod.debugLog(TAG, "setOnItemSelectedListener yr : "+mShowHistoryYear+ " year : "+year);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        HelperMethod.debugLog(TAG, "setUpSpinner finish");
-
+    private void showYearSelectionDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        YearSelectionDialogFragment yearSelectionDialogFragment = YearSelectionDialogFragment.newInstance("Select Year");
+        yearSelectionDialogFragment.show(fm, "");
     }
 
     @Override
@@ -191,6 +173,10 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.history_showing_yr_ll:
+                showYearSelectionDialog();
+                break;
             case R.id.edit_history_ll:
 
                 Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
@@ -208,12 +194,51 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     protected void onPause() {
         super.onPause();
         HelperMethod.debugLog(TAG, "StudentDetailsActivity : onPause ");
-
     }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null || !mProgressDialog.isShowing()) {
+            mProgressDialog = ProgressDialog.show(StudentDetailsActivity.this, getString(R.string.loading_data),
+                    getString(R.string.please_Wait), true, false);
+            mProgressDialog.setIndeterminate(true);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.setIndeterminateDrawable(getResources().getDrawable(R.drawable.custom_progress));
+        }
+    }
+
+    private void hideProgressDialog() {
+        try {
+            if (mProgressDialog != null || mProgressDialog.isShowing()) {
+                mProgressDialog.dismiss();
+                mProgressDialog = null;
+            }
+        } catch (Exception e) {
+        }
+    }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         HelperMethod.debugLog(TAG, "StudentDetailsActivity : onDestroy ");
+    }
+
+    @Override
+    public void onDialogClosed(int dialogState, String year, String month) {
+
+        switch (dialogState) {
+            case Constants.DIALOG_STATE_POSITIVE:
+                history_showing_yr_tv.setText(year);
+                mShowHistoryYear = Integer.parseInt(year);
+                showProgressDialog();
+                loadHistoryData();
+                break;
+            case Constants.DIALOG_STATE_NEGATIVE:
+
+                break;
+            case Constants.DIALOG_STATE_NEUTRAL:
+                break;
+        }
+
     }
 }

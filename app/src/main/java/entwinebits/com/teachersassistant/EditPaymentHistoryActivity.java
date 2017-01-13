@@ -2,7 +2,10 @@ package entwinebits.com.teachersassistant;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,8 +25,12 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import entwinebits.com.teachersassistant.adapter.DateChooserAdapter;
 import entwinebits.com.teachersassistant.adapter.EditPaymentHistoryAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
+import entwinebits.com.teachersassistant.dialogFragment.YearSelectionDialogFragment;
+import entwinebits.com.teachersassistant.listener.DateSelectionListener;
+import entwinebits.com.teachersassistant.listener.DialogCloseListener;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
@@ -33,7 +40,7 @@ import entwinebits.com.teachersassistant.utils.Months;
 /**
  * Created by shajib on 1/2/2017.
  */
-public class EditPaymentHistoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditPaymentHistoryActivity extends AppCompatActivity implements View.OnClickListener, DialogCloseListener {
 
     private String TAG = "EditPaymentHistoryActivity";
     private FrameLayout edit_history_save_btn, edit_history_toolbar_back;
@@ -50,6 +57,9 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     private EditText[] paid_amount_et;
     private TextView[] paid_month_tv;
 
+    private LinearLayout history_edit_yr_ll;
+    private TextView history_edit_yr_tv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +73,9 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
 
 
     private void bindHistoryData() {
-
         int i = 0;
         for (PaymentHistoryDTO dto : mPaymentHistoryList) {
-            HelperMethod.debugLog(TAG, "ispaid : "+dto.isPaid()+" amount : "+dto.getPaidAmount());
+            HelperMethod.debugLog(TAG, "ispaid : " + dto.isPaid() + " amount : " + dto.getPaidAmount());
 
             paid_amount_et[i].setText(dto.getPaidAmount() + "");
             paid_amount_et[i].setEnabled(false);
@@ -77,13 +86,14 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     }
 
     private void bindDefaultData() {
-        for (int i=0; i<12; i++) {
+        for (int i = 0; i < 12; i++) {
+            paid_amount_et[i].setText("");
             paid_amount_et[i].setEnabled(false);
             full_paid_cb[i].setChecked(false);
             others_paid_cb[i].setChecked(true);
-
         }
     }
+
     private void loadHistoryData() {
         showProgressDialog();
 
@@ -95,7 +105,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             public void run() {
                 mPaymentHistoryList.clear();
                 final ArrayList<PaymentHistoryDTO> list = mDatabaseRequestHelper.getPaymentHistoryByStudentYear(mStudentId, mEditYear);
-                HelperMethod.debugLog(TAG, "size inside bind = "+list.size());
+                HelperMethod.debugLog(TAG, "size inside bind = " + list.size());
                 mPaymentHistoryList.addAll(list);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -114,33 +124,16 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
 
     private void initLayout() {
         setupInput();
-        setUpSpinner();
-
     }
 
-    private void setUpSpinner() {
-        edit_history_spinner = (Spinner) findViewById(R.id.edit_history_spinner);
-        String[] years = getResources().getStringArray(R.array.Years);
-        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
-        yearAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
-        edit_history_spinner.setAdapter(yearAdapter);
 
-        edit_history_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EditPaymentHistoryActivity.this, "select : "+parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-                mEditYear = Integer.parseInt(parent.getItemAtPosition(position).toString());
-                loadHistoryData();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
 
     private void setupInput() {
+        history_edit_yr_ll = (LinearLayout) findViewById(R.id.history_edit_yr_ll);
+        history_edit_yr_ll.setOnClickListener(this);
+
+        history_edit_yr_tv = (TextView) findViewById(R.id.history_edit_yr_tv);
+
         inflatedLayout = new LinearLayout[12];
         full_paid_cb = new CheckBox[12];
         others_paid_cb = new CheckBox[12];
@@ -241,10 +234,19 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         }).start();
     }
 
+    private void showYearSelectionDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        YearSelectionDialogFragment yearSelectionDialogFragment = YearSelectionDialogFragment.newInstance("Select Year");
+        yearSelectionDialogFragment.show(fm, "");
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.history_edit_yr_ll:
+                showYearSelectionDialog();
+                break;
             case R.id.edit_history_save_btn:
 
                 savePaymentHistory();
@@ -297,4 +299,43 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         edit_history_toolbar_title.setText("Edit");
     }
 
+    @Override
+    public void onDialogClosed(int dialogState, String year, String month) {
+        switch (dialogState) {
+            case Constants.DIALOG_STATE_POSITIVE:
+                history_edit_yr_tv.setText(year);
+                mEditYear = Integer.parseInt(year);
+                showProgressDialog();
+                loadHistoryData();
+                break;
+            case Constants.DIALOG_STATE_NEGATIVE:
+
+                break;
+            case Constants.DIALOG_STATE_NEUTRAL:
+                break;
+        }
+    }
 }
+/*
+    private void setUpSpinner() {
+        edit_history_spinner = (Spinner) findViewById(R.id.edit_history_spinner);
+        String[] years = getResources().getStringArray(R.array.Years);
+        ArrayAdapter<CharSequence> yearAdapter = new ArrayAdapter<CharSequence>(this, R.layout.spinner_text, years);
+        yearAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+        edit_history_spinner.setAdapter(yearAdapter);
+
+        edit_history_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(EditPaymentHistoryActivity.this, "select : " + parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+                mEditYear = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                loadHistoryData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+*/

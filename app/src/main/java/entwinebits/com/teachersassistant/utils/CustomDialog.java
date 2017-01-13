@@ -1,10 +1,16 @@
 package entwinebits.com.teachersassistant.utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -12,11 +18,13 @@ import android.widget.TextView;
 
 import entwinebits.com.teachersassistant.AddNewStudentActivity;
 import entwinebits.com.teachersassistant.R;
+import entwinebits.com.teachersassistant.adapter.DateChooserAdapter;
 
 /**
  * Created by Nargis Rahman on 12/1/2016.
  */
 public class CustomDialog {
+
 
 /*
     public static void studentMenuDialog(final Context context) {
