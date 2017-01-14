@@ -15,9 +15,9 @@
             android:title="courses"/>
 
         <item
-            android:id="@+id/drawer_downloaded"
+            android:id="@+id/drawer_payment_history"
             android:icon="@mipmap/ic_action_overflow"
-            android:title="downloaded"/>
+            android:title="Payment History"/>
 
         <item
             android:id="@+id/drawer_more"

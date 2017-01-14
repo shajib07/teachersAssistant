@@ -7,21 +7,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
+
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
 
-import entwinebits.com.teachersassistant.adapter.BatchListAdapter;
 import entwinebits.com.teachersassistant.adapter.ViewPagerAdapter;
-import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.fragment.PaymentHistoryFragment;
 import entwinebits.com.teachersassistant.fragment.TeachersHomeFragment;
-import entwinebits.com.teachersassistant.model.BatchDTO;
 
 /**
  * Created by Nargis Rahman on 12/1/2016.
@@ -37,8 +33,6 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
-
-    private ImageView add_course, home_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +59,9 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
                         startActivity(intent);
                         break;
 
-                    case R.id.drawer_downloaded:
+                    case R.id.drawer_payment_history:
+                        intent = new Intent(TeachersHomeActivity.this, PaymentHistoryActivity.class);
+                        startActivity(intent);
                         break;
 
                     case R.id.drawer_more:
