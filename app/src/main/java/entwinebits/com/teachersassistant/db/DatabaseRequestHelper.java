@@ -116,6 +116,13 @@ public class DatabaseRequestHelper {
         uniqInstance.closeDataBase(db);
         return historyList;
     }
+    public ArrayList<PaymentHistoryDTO> getPaymentHistoryByBatchMonth(int batchId, int month) {
+        HelperMethod.debugLog(TAG, " getPaymentHistoryByBatchMonth called ++++++++");
+        SQLiteDatabase db = uniqInstance.openDatabse();
+        ArrayList<PaymentHistoryDTO> historyList = uniqInstance.getPaymentHistoryByStudentYear(db, batchId, month);
+        uniqInstance.closeDataBase(db);
+        return historyList;
+    }
 
     public ArrayList<PaymentHistoryDTO> getPaymentHistoryByStudent(int studentId) {
         HelperMethod.debugLog(TAG, " addPaymentHistory called ++++++++");

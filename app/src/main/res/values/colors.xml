@@ -19,12 +19,30 @@
     <color name="day_text_bg_out">#FFFFFF</color>
     <color name="month_year_dialog_bg">#238E68</color>
 
-
-
-
     <color name="aquamarine">#37BC61</color>
     <color name="aquaman">#70DB93</color>
     <color name="green_line">#329555</color>
 
+
+
+
+    <color name="blue_mist">#82CFFD</color>
+    <color name="neonpink">#FF6EC7</color>
+    <color name="turquoiseblue">#00C78C</color>
+    <color name="soylent_yellow">#F4F776</color>
+    <color name="orangered">#FF007F</color>
+    <color name="lightsalmon">#FFA07A</color>
+    <color name="plum">#DDA0DD</color>
+    <color name="swimming_pool">#67E6EC</color>
+    <color name="lightpink">#FFB6C1</color>
+    <color name="light_green">#90EE90</color>
+    <color name="lightgoldenrodyellow">#FAFAD2</color>
+
+    <color name="packer_gold">#FCB514</color>
+    <color name="bubble_gum">#FF92BB</color>
+    <color name="cadetblue1">#98F5FF</color>
+
+    <color name="pear">#D1E231</color>
+    <color name="orchid">#DA70D6</color>
 
 </resources>

@@ -209,6 +209,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
                     dto.setYear(cursor.getInt(3));
                     dto.setPaidAmount(cursor.getInt(4));
                     dto.setPaid(cursor.getInt(5) == 1 ? true : false);
+                    dto.setStudentName(cursor.getString(6));
                     paymentHistoryList.add(dto);
                 } while (cursor.moveToNext());
             }
@@ -238,6 +239,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
                     dto.setYear(cursor.getInt(3));
                     dto.setPaidAmount(cursor.getInt(4));
                     dto.setPaid(cursor.getInt(5) == 1 ? true : false);
+                    dto.setStudentName(cursor.getString(6));
                     paymentHistoryList.add(dto);
                 } while (cursor.moveToNext());
             }
@@ -250,6 +252,37 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         }
         return paymentHistoryList;
     }
+
+    public ArrayList<PaymentHistoryDTO> getPaymentHistoryByBatchMonth(SQLiteDatabase db, int batchId, int month) {
+        ArrayList<PaymentHistoryDTO> paymentHistoryList = new ArrayList<>();
+        Cursor cursor = null;
+        try {
+            HelperMethod.debugLog(TAG, "getPaymentHistoryByBatchMonth : batchId == " + batchId+ " month = "+month);
+            String selectQuery = "SELECT  * FROM " + TABLE_PAYMENT_HISTORY + " WHERE " + KEY_BATCH_ID + " = " + batchId
+                    + " AND "+ KEY_PAYMENT_MONTH + " = " + month;
+            cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                do {
+                    PaymentHistoryDTO dto = new PaymentHistoryDTO();
+                    dto.setMonth(cursor.getInt(2));
+                    dto.setYear(cursor.getInt(3));
+                    dto.setPaidAmount(cursor.getInt(4));
+                    dto.setPaid(cursor.getInt(5) == 1 ? true : false);
+                    dto.setStudentName(cursor.getString(6));
+                    paymentHistoryList.add(dto);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "Exception : getPaymentHistoryByBatchMonth = " + e.toString());
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return paymentHistoryList;
+    }
+
 
 /*
     private boolean isAlreadyAdded(String filePath, SQLiteDatabase db) {
@@ -291,6 +324,8 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         values.put(KEY_PAYMENT_YEAR, paymentHistoryDTO.getYear());
         values.put(KEY_PAYMENT_AMOUNT, paymentHistoryDTO.getPaidAmount());
         values.put(KEY_FULL_PAYMENT_STATUS, paymentHistoryDTO.isPaid()==true ? 1 : 0);
+        values.put(KEY_USERNAME, paymentHistoryDTO.getStudentName());
+        values.put(KEY_BATCH_ID, paymentHistoryDTO.getBatchId());
 
         try {
             if (isPaymentHistoryExist(db, paymentHistoryDTO.getStudentId(), paymentHistoryDTO.getMonth(), paymentHistoryDTO.getYear()) ) {
@@ -456,7 +491,9 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             + KEY_PAYMENT_MONTH + " INTEGER ,"
             + KEY_PAYMENT_YEAR + " INTEGER ,"
             + KEY_PAYMENT_AMOUNT + " INTEGER ,"
-            + KEY_FULL_PAYMENT_STATUS + " INTEGER )";
+            + KEY_FULL_PAYMENT_STATUS + " INTEGER ,"
+            + KEY_USERNAME + " TEXT ,"
+            + KEY_BATCH_ID + " INTEGER )";
 
     public static String CREATE_TABLE_BATCH = "CREATE TABLE " + TABLE_BATCH
             + " (" + KEY_BATCH_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"

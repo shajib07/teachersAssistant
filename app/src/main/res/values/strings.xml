@@ -9,9 +9,21 @@
     <string name="schedule">Schedule</string>
     <string name="cancel">Cancel</string>
 
-
     <string name="please_Wait">Please wait</string>
     <string name="loading_data">Loading Data</string>
+
+
+    <array name="dayColor">
+        <item>@color/blue_mist</item>
+        <item>@color/neonpink</item>
+        <item>@color/light_green</item>
+        <item>@color/lightgoldenrodyellow</item>
+        <item>@color/lightpink</item>
+        <item>@color/lightsalmon</item>
+        <item>@color/plum</item>
+        <item>@color/orchid</item>
+
+    </array>
 
 
     <string-array name="months">

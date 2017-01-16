@@ -1,7 +1,11 @@
 package entwinebits.com.teachersassistant;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -48,6 +53,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private List<TextView> editTextTimeTo;
     private List<TextView> dayOfWeekList;
     private List<LinearLayout> dayViewLayout;
+    private ArrayList<ImageView> mScheduleCancelIvList;
     private Button add_student_btn;
 
     private boolean mIsEditMode = false;
@@ -82,6 +88,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         addedUserRecycler = (RecyclerView) findViewById(R.id.added_user_recycler_view);
 
         batch_title_et = (EditText) findViewById(R.id.batch_title_et);
+        batch_title_et.requestFocus();
         add_student_btn = (Button) findViewById(R.id.add_student_btn);
         add_student_btn.setOnClickListener(this);
 
@@ -172,6 +179,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private void initTimeSetLayout() {
 
         dayViewLayout = new ArrayList<>();
+        mScheduleCancelIvList = new ArrayList<>();
         dayViewLayout.add((LinearLayout) findViewById(R.id.layout_sat));
         dayViewLayout.add((LinearLayout) findViewById(R.id.layout_sun));
         dayViewLayout.add((LinearLayout) findViewById(R.id.layout_mon));
@@ -179,21 +187,34 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         dayViewLayout.add((LinearLayout) findViewById(R.id.layout_wed));
         dayViewLayout.add((LinearLayout) findViewById(R.id.layout_thu));
         dayViewLayout.add((LinearLayout) findViewById(R.id.layout_fri));
+
+        for (int i = 0; i < 7; i++) {
+            mScheduleCancelIvList.add((ImageView) dayViewLayout.get(i).findViewById(R.id.schedule_cancel_iv));
+            final int finalI = i;
+            mScheduleCancelIvList.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dayViewLayout.get(finalI).setVisibility(View.GONE);
+                    editTextTimeTo.get(finalI).setText("TO");
+                    editTextTimeFrom.get(finalI).setText("FROM");
+                }
+            });
+        }
     }
+
 
     private void initToolbar() {
         add_batch_toolbar_title = (TextView) findViewById(R.id.add_batch_toolbar_title);
         add_batch_toolbar_title.setText("Add New Batch");
-
         add_batch_toolbar_back = (FrameLayout) findViewById(R.id.add_batch_toolbar_back);
         add_batch_toolbar_back.setOnClickListener(this);
-
         add_batch_save_btn = (FrameLayout) findViewById(R.id.add_batch_save_btn);
         add_batch_save_btn.setOnClickListener(this);
     }
 
 
     private void initDayOfWeek() {
+        int[] dayColor = getResources().getIntArray(R.array.dayColor);
 
         dayOfWeekList = new ArrayList<>();
         dayOfWeekList.add((TextView) findViewById(R.id.day_sat));
@@ -206,6 +227,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
         for (int i = 0; i < dayOfWeekList.size(); i++) {
             dayOfWeekList.get(i).setOnClickListener(this);
+
+            GradientDrawable bgShape = (GradientDrawable)dayOfWeekList.get(i).getBackground();
+            bgShape.setColor(dayColor[i]);
+
         }
     }
 
@@ -282,6 +307,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
+        AddNewBatchActivity.this.finish();
+
     }
 
     private void saveNewBatch() {
@@ -321,6 +348,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
+        AddNewBatchActivity.this.finish();
+
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
@@ -348,6 +377,21 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private void makeVisibleAnimation(final View view) {
+        view.setVisibility(View.VISIBLE);
+        view.animate()
+                .translationY(0)
+                .alpha(1.0f)
+                .setDuration(10000)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        view.setVisibility(View.GONE);
+                    }
+                });
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -362,10 +406,14 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 for (int i = 0; i < dayOfWeekList.size(); i++) {
                     if (view.getId() == dayOfWeekList.get(i).getId()) {
                         day = i;
+                        break;
                     }
                 }
                 findViewById(R.id.scroll).setVisibility(View.VISIBLE);
-                findViewById(dayViewLayout.get(day).getId()).setVisibility(View.VISIBLE);
+                dayViewLayout.get(day).setVisibility(View.VISIBLE);
+//                findViewById(dayViewLayout.get(day).getId()).setVisibility(View.VISIBLE);
+//                makeVisibleAnimation(findViewById(dayViewLayout.get(day).getId()));
+
                 break;
 
             case R.id.add_batch_save_btn:
@@ -375,7 +423,6 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 } else {
                     saveNewBatch();
                 }
-                AddNewBatchActivity.this.finish();
                 break;
 
             case R.id.add_batch_toolbar_back:

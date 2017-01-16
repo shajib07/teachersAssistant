@@ -15,7 +15,7 @@ public class BatchDTO {
     private ArrayList<ScheduleDTO> scheduleDTOList;
     private ArrayList<UserProfileDTO> studentDtoList;
 
-    public List<UserProfileDTO> getStudentDtoList() {
+    public ArrayList<UserProfileDTO> getStudentDtoList() {
         return studentDtoList;
     }
 

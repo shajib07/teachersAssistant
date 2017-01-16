@@ -47,7 +47,9 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     private TextView edit_history_toolbar_title;
     private Spinner edit_history_spinner;
     private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
+    private String mStudentName;
     private int mStudentId;
+    private int mBatchId;
     private int mEditYear;
     private ProgressDialog mProgressDialog;
     private DatabaseRequestHelper mDatabaseRequestHelper;
@@ -65,6 +67,8 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_payment_history);
         mStudentId = getIntent().getIntExtra(Constants.STUDENT_ID, 0);
+        mBatchId = getIntent().getIntExtra(Constants.BATCH_ID, 0);
+        mStudentName = getIntent().getStringExtra(Constants.STUDENT_NAME);
 
         initData();
         initToolbar();
@@ -207,8 +211,10 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
                     ? "0" : paid_amount_et[i].getText().toString()));
             dto.setPaid(full_paid_cb[i].isChecked());
             dto.setStudentId(mStudentId);
+            dto.setBatchId(mBatchId);
             dto.setMonth(i + 1);
             dto.setYear(mEditYear);
+            dto.setStudentName(mStudentName);
             mPaymentHistoryList.add(dto);
         }
 
@@ -296,7 +302,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         edit_history_toolbar_back = (FrameLayout) findViewById(R.id.edit_history_toolbar_back);
         edit_history_toolbar_back.setOnClickListener(this);
         edit_history_toolbar_title = (TextView) findViewById(R.id.edit_history_toolbar_title);
-        edit_history_toolbar_title.setText("Edit");
+        edit_history_toolbar_title.setText("Edit "+mStudentName+"'s History");
     }
 
     @Override

@@ -19,17 +19,18 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:id="@+id/edit_history_toolbar_back"
-                android:layout_width="48dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:padding="5dp">
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -41,13 +42,14 @@
 
             <FrameLayout
                 android:id="@+id/edit_history_save_btn"
-                android:layout_width="80dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center_vertical"
-                android:padding="5dp">
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -63,15 +65,14 @@
 
             <TextView
                 android:id="@+id/edit_history_toolbar_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:layout_toLeftOf="@+id/add_batch_save_btn"
-                android:layout_toRightOf="@+id/student_details_toolbar_back"
+                android:layout_toLeftOf="@+id/edit_history_save_btn"
+                android:layout_toRightOf="@+id/edit_history_toolbar_back"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="Course1"
+                android:text="Payment History"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
 

@@ -76,6 +76,7 @@ public class SingleItemDialogFragment extends DialogFragment implements View.OnC
 
     @Override
     public void onDateSelected(boolean type, String month) {
+        Toast.makeText(getActivity(), "month : "+month, Toast.LENGTH_SHORT).show();
         if (type) {
             first_item_tv.setText(month);
         } else {

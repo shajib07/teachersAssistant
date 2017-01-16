@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/selectableItemBackground"
             android:padding="@dimen/margin_5"
-            android:text="JAN"
+            android:text="Select"
             android:textColor="@color/black"
             android:textSize="30sp" />
 

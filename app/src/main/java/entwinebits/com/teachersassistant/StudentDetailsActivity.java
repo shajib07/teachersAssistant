@@ -48,7 +48,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     private DatabaseRequestHelper mDatabaseRequestHelper;
     private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
     private int mShowHistoryYear = 2017;
-
+    private int mBatchId;
     private LinearLayout history_showing_yr_ll;
     private TextView history_showing_yr_tv;
 
@@ -60,6 +60,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
         if (getIntent().hasExtra(Constants.EDIT_STUDENT_DTO)) {
             mStudentDTO = getIntent().getParcelableExtra(Constants.EDIT_STUDENT_DTO);
+            mBatchId = getIntent().getIntExtra(Constants.BATCH_ID, 0);
         }
         initData();
 
@@ -181,6 +182,8 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
                 Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
                 intent.putExtra(Constants.STUDENT_ID, mStudentDTO.getUserId());
+                intent.putExtra(Constants.STUDENT_NAME, mStudentDTO.getUserName());
+                intent.putExtra(Constants.BATCH_ID, mBatchId);
                 startActivity(intent);
                 break;
 

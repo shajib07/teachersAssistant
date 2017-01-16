@@ -70,6 +70,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 Intent intent = new Intent(mActivity, StudentDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
+                intent.putExtra(Constants.BATCH_ID, mBatchId);
                 mActivity.startActivity(intent);
             }
         });

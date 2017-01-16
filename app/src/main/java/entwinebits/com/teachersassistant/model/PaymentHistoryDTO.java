@@ -9,6 +9,8 @@ public class PaymentHistoryDTO {
     private boolean paid;
     private int paidAmount;
     private int studentId;
+    private int batchId;
+    private String studentName;
 
     public int getYear() {
         return year;
@@ -48,5 +50,21 @@ public class PaymentHistoryDTO {
 
     public void setStudentId(int studentId) {
         this.studentId = studentId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public int getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(int batchId) {
+        this.batchId = batchId;
     }
 }
