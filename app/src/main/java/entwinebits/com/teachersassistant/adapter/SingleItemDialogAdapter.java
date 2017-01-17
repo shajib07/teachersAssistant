@@ -26,6 +26,12 @@ public class SingleItemDialogAdapter extends RecyclerView.Adapter<SingleItemDial
         this.mDateSelectionListener = listener;
     }
 
+    public void setAdapterData(ArrayList<String> list) {
+        mItemList.clear();
+        mItemList.addAll(list);
+        notifyDataSetChanged();
+    }
+
     @Override
     public SingleItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.date_chooser_single_item, parent, false);

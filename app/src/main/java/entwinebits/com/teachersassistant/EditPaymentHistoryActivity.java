@@ -243,7 +243,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
 
     private void showYearSelectionDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        YearSelectionDialogFragment yearSelectionDialogFragment = YearSelectionDialogFragment.newInstance("Select Year");
+        YearSelectionDialogFragment yearSelectionDialogFragment = YearSelectionDialogFragment.newInstance(0);
         yearSelectionDialogFragment.show(fm, "");
     }
 
@@ -307,12 +307,14 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     }
 
     @Override
-    public void onDialogClosed(int dialogState, String year, String month) {
+    public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
         switch (dialogState) {
             case Constants.DIALOG_STATE_POSITIVE:
-                history_edit_yr_tv.setText(year);
-                mEditYear = Integer.parseInt(year);
-                loadHistoryData();
+                if (dialogId == 0) {
+                    history_edit_yr_tv.setText(year);
+                    mEditYear = Integer.parseInt(year);
+                    loadHistoryData();
+                }
                 break;
             case Constants.DIALOG_STATE_NEGATIVE:
 

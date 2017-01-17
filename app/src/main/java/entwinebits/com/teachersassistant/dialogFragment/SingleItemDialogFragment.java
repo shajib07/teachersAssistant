@@ -33,16 +33,17 @@ public class SingleItemDialogFragment extends DialogFragment implements View.OnC
     private TextView first_item_tv, dialog_cancel_tv, dialog_ok_tv;
     private DialogCloseListener dialogCloseListener;
     private ArrayList<String> mItemList;
+    private int dialogId;
 
     public SingleItemDialogFragment() {
 
     }
 
-    public static SingleItemDialogFragment newInstance(String title, ArrayList<String> list) {
+    public static SingleItemDialogFragment newInstance(int dialogId, ArrayList<String> list) {
         SingleItemDialogFragment frag = new SingleItemDialogFragment();
         Bundle args = new Bundle();
         args.putStringArrayList("ItemList", list);
-        args.putString("title", title);
+        args.putInt("dialogId", dialogId);
         frag.setArguments(args);
         return frag;
     }
@@ -58,6 +59,7 @@ public class SingleItemDialogFragment extends DialogFragment implements View.OnC
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         Bundle bundle = getArguments();
         mItemList = bundle.getStringArrayList("ItemList");
+        dialogId = bundle.getInt("dialogId");
         HelperMethod.debugLog(TAG, "mItemList size : "+mItemList.size());
 
         dialogCloseListener = (DialogCloseListener)getActivity();
@@ -91,7 +93,7 @@ public class SingleItemDialogFragment extends DialogFragment implements View.OnC
             case R.id.dialog_ok_tv:
                 String selectedYear = first_item_tv.getText().toString();
 //                Toast.makeText(getActivity(), "Selected " + selectedYear, Toast.LENGTH_SHORT).show();
-                dialogCloseListener.onDialogClosed(Constants.DIALOG_STATE_POSITIVE, selectedYear, "");
+                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, "");
                 dismiss();
                 break;
 

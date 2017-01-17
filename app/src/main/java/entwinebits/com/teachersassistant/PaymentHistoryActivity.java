@@ -2,11 +2,13 @@ package entwinebits.com.teachersassistant;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +17,9 @@ import java.util.HashMap;
 
 import entwinebits.com.teachersassistant.adapter.BatchPaymentAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
+import entwinebits.com.teachersassistant.dialogFragment.DoubleItemDialogFragment;
 import entwinebits.com.teachersassistant.dialogFragment.SingleItemDialogFragment;
+import entwinebits.com.teachersassistant.dialogFragment.YearSelectionDialogFragment;
 import entwinebits.com.teachersassistant.listener.DialogCloseListener;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
@@ -32,6 +36,9 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private FrameLayout payment_history_toolbar_back;
     private TextView payment_history_toolbar_title;
     private ProgressDialog mProgressDialog;
+
+    private LinearLayout from_ll, to_ll;
+    private TextView to_month_tv, to_yr_tv, from_month_tv, from_yr_tv;
 
     private RecyclerView student_payment_history_rv;
     private BatchPaymentAdapter mBatchPaymentAdapter;
@@ -105,6 +112,15 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     }
 
     private void initLayout() {
+        to_ll = (LinearLayout) findViewById(R.id.to_ll);
+        to_ll.setOnClickListener(this);
+        from_ll = (LinearLayout) findViewById(R.id.from_ll);
+        from_ll.setOnClickListener(this);
+        from_yr_tv = (TextView) findViewById(R.id.from_yr_tv);
+        from_month_tv = (TextView) findViewById(R.id.from_month_tv);
+        to_yr_tv = (TextView) findViewById(R.id.to_yr_tv);
+        to_month_tv = (TextView) findViewById(R.id.to_month_tv);
+
         history_batch_tv = (TextView)findViewById(R.id.history_batch_tv);
         history_batch_tv.setOnClickListener(this);
 
@@ -124,17 +140,49 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
     }
 
-    private void showSingleItemDialog() {
-        SingleItemDialogFragment singleItemDialogFragment = SingleItemDialogFragment.newInstance("SingleItemDialogFragment", mBatchNameList);
+    private ArrayList<String> getMonthList() {
+        ArrayList<String> list = new ArrayList<>();
+        String[] arr = getResources().getStringArray(R.array.months);
+        for (int i=0; i < arr.length; i++) {
+            list.add(arr[i]);
+        }
+        return list;
+    }
+
+    private ArrayList<String> getYearList() {
+        ArrayList<String> list = new ArrayList<>();
+        String[] arr = getResources().getStringArray(R.array.Years);
+        for (int i=0; i < arr.length; i++) {
+            list.add(arr[i]);
+        }
+        return list;
+    }
+
+    private void showSingleItemDialog(int dialogId) {
+        SingleItemDialogFragment singleItemDialogFragment = SingleItemDialogFragment.newInstance(dialogId, mBatchNameList);
         singleItemDialogFragment.show(getSupportFragmentManager(), "");
+    }
+
+    private void showDateSelectionDialog(int dialogId) {
+        FragmentManager fm = getSupportFragmentManager();
+        DoubleItemDialogFragment doubleItemDialogFragment = DoubleItemDialogFragment.newInstance(dialogId, getYearList(), getMonthList());
+        doubleItemDialogFragment.show(fm, "");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.from_ll:
+                showDateSelectionDialog(1);
+                break;
+
+            case R.id.to_ll:
+                showDateSelectionDialog(2);
+                break;
+
             case R.id.history_batch_tv:
 
-                showSingleItemDialog();
+                showSingleItemDialog(0);
                 break;
 
             case R.id.payment_history_toolbar_back:
@@ -166,18 +214,33 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
     }
     @Override
-    public void onDialogClosed(int dialogState, String year, String month) {
+    public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
         switch (dialogState) {
             case Constants.DIALOG_STATE_POSITIVE:
-                history_batch_tv.setText(year);
-                for (BatchDTO dto : mBatchList) {
-                    if (dto.getBatchName().equals(year)) {
-                        mPaymentHistoryList.clear();
-                        HelperMethod.debugLog(TAG, "selected : "+year+" size : "+mBatchPaymentMap.get(year).size());
-                        mPaymentHistoryList.addAll(mBatchPaymentMap.get(year));
-                        mBatchPaymentAdapter.notifyDataSetChanged();
+
+                switch (dialogId) {
+                    case 0:
+                        history_batch_tv.setText(year);
+                        for (BatchDTO dto : mBatchList) {
+                            if (dto.getBatchName().equals(year)) {
+                                mPaymentHistoryList.clear();
+                                HelperMethod.debugLog(TAG, "selected : " + year + " size : " + mBatchPaymentMap.get(year).size());
+                                mPaymentHistoryList.addAll(mBatchPaymentMap.get(year));
+                                mBatchPaymentAdapter.notifyDataSetChanged();
+                                break;
+                            }
+                        }
                         break;
-                    }
+
+                    case 1:
+                        from_month_tv.setText(month);
+                        from_yr_tv.setText(year);
+                        break;
+
+                    case 2:
+                        to_month_tv.setText(month);
+                        to_yr_tv.setText(year);
+                        break;
                 }
                 break;
             case Constants.DIALOG_STATE_NEGATIVE:

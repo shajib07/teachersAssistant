@@ -161,7 +161,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
     private void showYearSelectionDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        YearSelectionDialogFragment yearSelectionDialogFragment = YearSelectionDialogFragment.newInstance("Select Year");
+        YearSelectionDialogFragment yearSelectionDialogFragment = YearSelectionDialogFragment.newInstance(0);
         yearSelectionDialogFragment.show(fm, "");
     }
 
@@ -227,14 +227,16 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void onDialogClosed(int dialogState, String year, String month) {
+    public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
 
         switch (dialogState) {
             case Constants.DIALOG_STATE_POSITIVE:
-                history_showing_yr_tv.setText(year);
-                mShowHistoryYear = Integer.parseInt(year);
-                showProgressDialog();
-                loadHistoryData();
+                if (dialogId == 0) {
+                    history_showing_yr_tv.setText(year);
+                    mShowHistoryYear = Integer.parseInt(year);
+                    showProgressDialog();
+                    loadHistoryData();
+                }
                 break;
             case Constants.DIALOG_STATE_NEGATIVE:
 

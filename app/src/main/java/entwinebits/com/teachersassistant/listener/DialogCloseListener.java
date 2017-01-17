@@ -5,5 +5,5 @@ package entwinebits.com.teachersassistant.listener;
  */
 public interface DialogCloseListener {
 
-    void onDialogClosed(int dialogState, String year, String month);
+    void onDialogClosed(int dialogId, int dialogState, String year, String month);
 }

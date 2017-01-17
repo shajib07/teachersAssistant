@@ -26,15 +26,16 @@ public class YearSelectionDialogFragment extends DialogFragment implements Dialo
     private RecyclerView year_month_rv;
     private TextView year_dialog_tv, dialog_cancel_tv, dialog_ok_tv;
     private DialogCloseListener dialogCloseListener;
+    private int dialogId;
 
     public YearSelectionDialogFragment() {
 
     }
 
-    public static YearSelectionDialogFragment newInstance(String title) {
+    public static YearSelectionDialogFragment newInstance(int dialogId) {
         YearSelectionDialogFragment frag = new YearSelectionDialogFragment();
         Bundle args = new Bundle();
-        args.putString("title", title);
+        args.putInt("dialogId", dialogId);
         frag.setArguments(args);
         return frag;
     }
@@ -47,6 +48,8 @@ public class YearSelectionDialogFragment extends DialogFragment implements Dialo
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        dialogId = bundle.getInt("dialogId");
 
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialogCloseListener = (DialogCloseListener)getActivity();
@@ -84,7 +87,7 @@ public class YearSelectionDialogFragment extends DialogFragment implements Dialo
             case R.id.dialog_ok_tv:
                 String selectedYear = year_dialog_tv.getText().toString();
 //                Toast.makeText(getActivity(), "Selected " + selectedYear, Toast.LENGTH_SHORT).show();
-                dialogCloseListener.onDialogClosed(Constants.DIALOG_STATE_POSITIVE, selectedYear, "");
+                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, "");
                 dismiss();
                 break;
 

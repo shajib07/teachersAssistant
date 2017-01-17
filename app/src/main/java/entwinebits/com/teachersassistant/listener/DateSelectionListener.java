@@ -5,5 +5,5 @@ package entwinebits.com.teachersassistant.listener;
  */
 public interface DateSelectionListener {
 
-    void onDateSelected(boolean type, String month);
+    void onDateSelected(boolean type, String item);
 }
