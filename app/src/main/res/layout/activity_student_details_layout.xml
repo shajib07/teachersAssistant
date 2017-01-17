@@ -281,30 +281,20 @@
                         android:paddingTop="@dimen/margin_5"
                         android:text="2017" />
 
-<!--
-                    <Spinner
-                        android:id="@+id/student_details_history_spinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_gravity="center"
-                        android:background="@android:color/transparent"
-                        android:gravity="center"
-                        android:paddingBottom="@dimen/margin_5"
-                        android:paddingLeft="@dimen/margin_15"
-                        android:paddingRight="@dimen/margin_15"
-                        android:paddingTop="@dimen/margin_5"
-                        android:spinnerMode="dropdown" />
--->
-
                 </LinearLayout>
             </LinearLayout>
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                layout="@layout/student_payment_single_item" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/student_payment_history_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_2"
                 android:background="@color/white" />
 
         </LinearLayout>

@@ -11,6 +11,8 @@
 
     <string name="please_Wait">Please wait</string>
     <string name="loading_data">Loading Data</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 
     <array name="dayColor">

@@ -101,7 +101,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                         HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti ");
 
                         if (historyAdapter == null) {
-                            historyAdapter = new StudentPaymentHistoryAdapter(StudentDetailsActivity.this, mPaymentHistoryList, null);
+                            historyAdapter = new StudentPaymentHistoryAdapter(StudentDetailsActivity.this, mPaymentHistoryList);
                             student_payment_history_rv.setAdapter(historyAdapter);
                             HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti NULL ++ ");
 

@@ -71,7 +71,6 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
                         intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
                         startActivity(intent);
                         break;
-
                     default:
                         break;
                 }
@@ -85,6 +84,7 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mTabLayout.setupWithViewPager(mViewPager);
     }
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new TeachersHomeFragment(), "Home");

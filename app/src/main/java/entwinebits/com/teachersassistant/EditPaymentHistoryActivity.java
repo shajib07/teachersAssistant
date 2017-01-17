@@ -73,6 +73,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         initData();
         initToolbar();
         initLayout();
+//        loadHistoryData();
     }
 
 
@@ -311,7 +312,6 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             case Constants.DIALOG_STATE_POSITIVE:
                 history_edit_yr_tv.setText(year);
                 mEditYear = Integer.parseInt(year);
-                showProgressDialog();
                 loadHistoryData();
                 break;
             case Constants.DIALOG_STATE_NEGATIVE:
