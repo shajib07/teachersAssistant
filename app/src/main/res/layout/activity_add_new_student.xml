@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:layout_toLeftOf="@+id/add_student_done_btn"
+                android:layout_toLeftOf="@+id/add_student_toolbar_btn"
                 android:layout_toRightOf="@+id/add_student_toolbar_back"
                 android:gravity="center"
                 android:singleLine="true"
@@ -53,7 +53,7 @@
                 android:textSize="18sp" />
 
             <FrameLayout
-                android:id="@+id/add_student_done_btn"
+                android:id="@+id/add_student_toolbar_btn"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -63,14 +63,24 @@
                 android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/toolbar_save_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:background="@null"
                     android:gravity="center"
-                    android:text="Done"
+                    android:text="@string/save"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/toolbar_add_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_action_add"
+                    android:layout_gravity="center_vertical|right"
+                    android:paddingRight="@dimen/margin_10"/>
 
             </FrameLayout>
 
@@ -83,10 +93,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/add_new_student_toolbar"
-        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_10"
         android:paddingLeft="@dimen/margin_10"
         android:paddingRight="@dimen/margin_10"
         android:paddingBottom="@dimen/margin_15" >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/added_student_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:visibility="gone"/>
+
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -157,12 +175,12 @@
                 android:layout_weight=".5" />
 
             <Button
-                android:id="@+id/add_student_btn"
+                android:id="@+id/add_student_save_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/navy_btn_bg"
-                android:text="@string/add"
+                android:text="@string/save"
                 android:textColor="@drawable/navy_btn_text"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -175,17 +193,7 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/added_student_rv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/add_student_btn" />
-
-
 
     </LinearLayout>
-
-
 
 </RelativeLayout>

@@ -74,6 +74,8 @@ public class DoubleItemDialogFragment extends DialogFragment implements View.OnC
         dialog_cancel_tv.setOnClickListener(this);
         dialog_ok_tv.setOnClickListener(this);
 
+        // as the initial item shown is firstItemList ; isFirstItem set to TRUE
+        isFirstItem = true;
         first_item_tv = (TextView) view.findViewById(R.id.first_item_tv);
         first_item_tv.setOnClickListener(new View.OnClickListener() {
             @Override

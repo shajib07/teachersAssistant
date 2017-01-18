@@ -10,6 +10,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,9 +28,11 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
 public class AddNewStudentActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "AddNewStudentActivity";
-    private FrameLayout add_student_toolbar_back, add_student_done_btn;
+    private FrameLayout add_student_toolbar_back, add_student_toolbar_btn;
     private EditText added_student_name, added_student_mobile_phn, added_student_payment_amount, added_student_institution, added_student_address;
-    private Button add_student_btn;
+    private Button add_student_save_btn;
+    private TextView toolbar_save_btn;
+    private ImageView toolbar_add_btn;
     private ArrayList<UserProfileDTO> mAddedStudentList;
     private AddedUserHorizontalAdapter mAddedStudentAdapter;
 
@@ -72,20 +76,25 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         added_student_institution.setSingleLine(true);
         added_student_address.setSingleLine(true);
 
-        add_student_btn = (Button) findViewById(R.id.add_student_btn);
-        add_student_btn.setOnClickListener(this);
+        add_student_save_btn = (Button) findViewById(R.id.add_student_save_btn);
+        add_student_save_btn.setOnClickListener(this);
+
+        toolbar_add_btn = (ImageView) findViewById(R.id.toolbar_add_btn);
+        toolbar_save_btn = (TextView) findViewById(R.id.toolbar_save_btn);
 
         mAddedStudentAdapter = new AddedUserHorizontalAdapter(mAddedStudentList);
         added_student_rv = (RecyclerView) findViewById(R.id.added_student_rv);
         added_student_rv.setNestedScrollingEnabled(false);
-        added_student_rv.setLayoutManager(new LinearLayoutManager(this));
+        added_student_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         added_student_rv.setAdapter(mAddedStudentAdapter);
 
 
         if (isEditable) {
             setEditInfo();
-            add_student_btn.setVisibility(View.GONE);
+            add_student_save_btn.setVisibility(View.GONE);
             added_student_rv.setVisibility(View.GONE);
+            toolbar_add_btn.setVisibility(View.GONE);
+            toolbar_save_btn.setVisibility(View.VISIBLE);
         }
 
     }
@@ -102,8 +111,8 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
     private void initToolbar() {
         add_student_toolbar_back = (FrameLayout) findViewById(R.id.add_student_toolbar_back);
         add_student_toolbar_back.setOnClickListener(this);
-        add_student_done_btn = (FrameLayout) findViewById(R.id.add_student_done_btn);
-        add_student_done_btn.setOnClickListener(this);
+        add_student_toolbar_btn = (FrameLayout) findViewById(R.id.add_student_toolbar_btn);
+        add_student_toolbar_btn.setOnClickListener(this);
     }
 
     private void inputStudentInfo() {
@@ -129,6 +138,26 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
     }
 
     private void sendAddedStudentList() {
+        if (mAddedStudentList.size() < 1) {
+            UserProfileDTO userDto = new UserProfileDTO();
+            userDto.setUserName(added_student_name.getText().toString());
+            userDto.setUserAddress(added_student_address.getText().toString());
+            String amount = added_student_payment_amount.getText().toString();
+            int payment_amount = 0;
+            if (amount.length() > 0) {
+                payment_amount = Integer.parseInt(amount);
+            }
+            userDto.setMonthlyFee(payment_amount);
+            userDto.setUserMobilePhone(added_student_mobile_phn.getText().toString());
+            userDto.setUserInstituteName(added_student_institution.getText().toString());
+
+            if (userDto.getUserName().length() > 0) {
+                mAddedStudentList.add(userDto);
+            } else {
+                Toast.makeText(AddNewStudentActivity.this, "Please, Insert Student Name", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
         Intent BackIntent = new Intent();
         HelperMethod.debugLog(AddNewBatchActivity.TAG, "mAddedStudentList : " + mAddedStudentList.size());
         BackIntent.putParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST, mAddedStudentList);
@@ -159,16 +188,17 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.add_student_btn:
-                inputStudentInfo();
+            case R.id.add_student_save_btn:
+                sendAddedStudentList();
                 break;
 
-            case R.id.add_student_done_btn:
+            case R.id.add_student_toolbar_btn:
                 if (isEditable) {
                     saveEditInfo();
                     return;
                 }
-                sendAddedStudentList();
+                added_student_rv.setVisibility(View.VISIBLE);
+                inputStudentInfo();
                 break;
 
             case R.id.add_student_toolbar_back:

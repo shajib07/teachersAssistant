@@ -158,6 +158,16 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                     return;
                 }
                 ArrayList<UserProfileDTO> addedStuList = data.getParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST);
+                if (dbRequestHelper == null) {
+                    dbRequestHelper = new DatabaseRequestHelper(this);
+                }
+                for (UserProfileDTO dto : addedStuList) {
+                    dto.setBatchId(mBatchId);
+                    dto.setTeacher(false);
+                    long id = dbRequestHelper.addStudent(dto);
+                    dto.setUserId((int) id);
+                }
+
                 mStudentList.addAll(addedStuList);
                 HelperMethod.debugLog(TAG, "onActivityResult : after added, size = " + mStudentList.size());
 
@@ -171,14 +181,14 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 mTotalStudent += addedStuList.size();
                 total_student_tv.setText("" + mTotalStudent);
 
-                if (dbRequestHelper == null) {
-                    dbRequestHelper = new DatabaseRequestHelper(this);
-                }
-                for (UserProfileDTO dto : addedStuList) {
-                    dto.setBatchId(mBatchId);
-                    dto.setTeacher(false);
-                    dbRequestHelper.addStudent(dto);
-                }
+//                if (dbRequestHelper == null) {
+//                    dbRequestHelper = new DatabaseRequestHelper(this);
+//                }
+//                for (UserProfileDTO dto : addedStuList) {
+//                    dto.setBatchId(mBatchId);
+//                    dto.setTeacher(false);
+//                    dbRequestHelper.addStudent(dto);
+//                }
 
             }
         }

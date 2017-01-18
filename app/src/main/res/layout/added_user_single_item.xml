@@ -3,9 +3,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_margin="@dimen/margin_2"
+    android:paddingLeft="@dimen/margin_10"
+    android:paddingRight="@dimen/margin_5"
+    android:paddingTop="@dimen/margin_5"
+    android:paddingBottom="@dimen/margin_5"
+    android:layout_marginRight="@dimen/margin_5"
     android:orientation="horizontal"
-    android:background="@color/white">
+    android:background="@drawable/added_student_bg">
 
     <TextView
         android:id="@+id/user_name_tv"
@@ -21,6 +25,6 @@
         android:layout_height="wrap_content"
         android:maxHeight="3dp"
         android:maxWidth="3dp"
-        android:src="@mipmap/ic_action_add_black" />
+        android:src="@mipmap/ic_clear_black_18dp" />
 
 </LinearLayout>
