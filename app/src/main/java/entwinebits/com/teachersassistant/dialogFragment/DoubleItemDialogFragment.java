@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +28,8 @@ public class DoubleItemDialogFragment extends DialogFragment implements View.OnC
 
     private String TAG = "DoubleItemDialogFragment";
     private RecyclerView dialog_item_rv;
-    private TextView first_item_tv, second_item_tv, dialog_cancel_tv, dialog_ok_tv;
+    private TextView first_item_tv, second_item_tv;
+    private Button dialog_cancel_btn, dialog_ok_btn;
     private DialogCloseListener dialogCloseListener;
     private ArrayList<String> mFirstItemList, mSecondItemList;
     private boolean isFirstItem ;
@@ -69,10 +71,10 @@ public class DoubleItemDialogFragment extends DialogFragment implements View.OnC
         dialog_item_rv.setAdapter(singleItemDialogAdapter);
         singleItemDialogAdapter.setAdapterData(mFirstItemList);
 
-        dialog_cancel_tv = (TextView) view.findViewById(R.id.dialog_cancel_tv);
-        dialog_ok_tv = (TextView) view.findViewById(R.id.dialog_ok_tv);
-        dialog_cancel_tv.setOnClickListener(this);
-        dialog_ok_tv.setOnClickListener(this);
+        dialog_cancel_btn = (Button) view.findViewById(R.id.dialog_cancel_btn);
+        dialog_ok_btn = (Button) view.findViewById(R.id.dialog_ok_btn);
+        dialog_cancel_btn.setOnClickListener(this);
+        dialog_ok_btn.setOnClickListener(this);
 
         // as the initial item shown is firstItemList ; isFirstItem set to TRUE
         isFirstItem = true;
@@ -114,7 +116,7 @@ public class DoubleItemDialogFragment extends DialogFragment implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dialog_ok_tv:
+            case R.id.dialog_ok_btn:
                 String selectedYear = first_item_tv.getText().toString();
                 String selectedMonth = second_item_tv.getText().toString();
 //                Toast.makeText(getActivity(), "Selected " + selectedYear, Toast.LENGTH_SHORT).show();
@@ -122,7 +124,7 @@ public class DoubleItemDialogFragment extends DialogFragment implements View.OnC
                 dismiss();
                 break;
 
-            case R.id.dialog_cancel_tv:
+            case R.id.dialog_cancel_btn:
 //                dialogCloseListener.onDialogClosed(Constants.DIALOG_STATE_NEGATIVE);
                 dismiss();
                 break;

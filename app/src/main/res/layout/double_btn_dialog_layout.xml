@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/margin_20"
     android:layout_marginRight="@dimen/margin_20"
-    android:background="@drawable/dialog_btn_bg"
+    android:background="@drawable/dialog_bg"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="@dimen/margin_20"
