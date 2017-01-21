@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,8 @@ import entwinebits.com.teachersassistant.utils.Constants;
 public class YearSelectionDialogFragment extends DialogFragment implements DialogInterface.OnDismissListener, View.OnClickListener, DateSelectionListener {
 
     private RecyclerView year_month_rv;
-    private TextView year_dialog_tv, dialog_cancel_tv, dialog_ok_tv;
+    private TextView year_dialog_tv;
+    private Button dialog_cancel_btn, dialog_ok_btn;
     private DialogCloseListener dialogCloseListener;
     private int dialogId;
 
@@ -60,10 +62,10 @@ public class YearSelectionDialogFragment extends DialogFragment implements Dialo
         dateChooserAdapter.setDateSelectionListener(this);
         dateChooserAdapter.setAdapterData(true);
 
-        dialog_cancel_tv = (TextView) view.findViewById(R.id.dialog_cancel_tv);
-        dialog_ok_tv = (TextView) view.findViewById(R.id.dialog_ok_tv);
-        dialog_cancel_tv.setOnClickListener(this);
-        dialog_ok_tv.setOnClickListener(this);
+        dialog_cancel_btn = (Button) view.findViewById(R.id.dialog_cancel_btn);
+        dialog_ok_btn = (Button) view.findViewById(R.id.dialog_ok_btn);
+        dialog_cancel_btn.setOnClickListener(this);
+        dialog_ok_btn.setOnClickListener(this);
 
         view.findViewById(R.id.month_dialog_tv).setVisibility(View.GONE);
 
@@ -84,14 +86,14 @@ public class YearSelectionDialogFragment extends DialogFragment implements Dialo
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.dialog_ok_tv:
+            case R.id.dialog_ok_btn:
                 String selectedYear = year_dialog_tv.getText().toString();
 //                Toast.makeText(getActivity(), "Selected " + selectedYear, Toast.LENGTH_SHORT).show();
                 dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, "");
                 dismiss();
                 break;
 
-            case R.id.dialog_cancel_tv:
+            case R.id.dialog_cancel_btn:
 //                dialogCloseListener.onDialogClosed(Constants.DIALOG_STATE_NEGATIVE);
                 dismiss();
                 break;

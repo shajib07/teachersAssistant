@@ -52,27 +52,33 @@
         android:layout_marginBottom="@dimen/margin_20"
         android:weightSum="2">
 
-        <TextView
-            android:id="@+id/dialog_cancel_tv"
+        <Button
+            android:id="@+id/dialog_cancel_btn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_marginRight="@dimen/margin_10"
             android:layout_weight="1"
-            android:background="@drawable/rectangle_background"
+            android:background="@drawable/dialog_btn_bg"
             android:gravity="center"
-            android:padding="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5"
             android:text="Cancel" />
 
 
-        <TextView
-            android:id="@+id/dialog_ok_tv"
-            android:layout_marginLeft="@dimen/margin_10"
+        <Button
+            android:id="@+id/dialog_ok_btn"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginLeft="@dimen/margin_10"
             android:layout_weight="1"
-            android:background="@drawable/rectangle_background"
+            android:background="@drawable/dialog_btn_bg"
             android:gravity="center"
-            android:padding="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingTop="@dimen/margin_5"
             android:text="OK" />
     </LinearLayout>
 
