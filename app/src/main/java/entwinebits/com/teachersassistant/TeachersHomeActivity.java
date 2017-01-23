@@ -39,8 +39,6 @@ public class TeachersHomeActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private SmoothActionBarDrawerToggle mDrawerToggle;
-    private FragmentManager fragmentManager;
-    private Handler mHandler ;
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -50,7 +48,6 @@ public class TeachersHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teachers_home);
 
-        mHandler = new Handler();
         initLayout();
         setUpHeaderView();
         onMenuItemSelected();
@@ -83,9 +80,7 @@ public class TeachersHomeActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 mDrawerLayout.closeDrawer(Gravity.LEFT);
-                Intent intent;
                 switch (item.getItemId()) {
-
                     case R.id.drawer_home:
                         break;
 
@@ -95,14 +90,10 @@ public class TeachersHomeActivity extends AppCompatActivity {
                             public void run() {
                                 Intent intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
                                 startActivity(intent);
-//                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
+                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                             }
                         });
                         mDrawerLayout.closeDrawer(Gravity.LEFT);
-
-//                        intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
-//                        startActivity(intent);
-//                        overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                         break;
 
                     case R.id.drawer_payment_history:
@@ -116,10 +107,6 @@ public class TeachersHomeActivity extends AppCompatActivity {
                             }
                         });
                         mDrawerLayout.closeDrawer(Gravity.LEFT);
-
-//                        intent = new Intent(TeachersHomeActivity.this, PaymentHistoryActivity.class);
-//                        startActivity(intent);
-//                        overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                         break;
 
                     case R.id.drawer_more:
@@ -135,10 +122,8 @@ public class TeachersHomeActivity extends AppCompatActivity {
                             }
                         });
                         mDrawerLayout.closeDrawer(Gravity.LEFT);
-
-//                        intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
-//                        startActivity(intent);
                         break;
+
                     default:
                         break;
                 }
@@ -157,9 +142,7 @@ public class TeachersHomeActivity extends AppCompatActivity {
         for (int i = 0; i < size; i++) {
             navigationView.getMenu().getItem(i).setChecked(false);
         }
-
     }
-
 
     private class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
 
@@ -174,11 +157,13 @@ public class TeachersHomeActivity extends AppCompatActivity {
             super.onDrawerOpened(drawerView);
             invalidateOptionsMenu();
         }
+
         @Override
         public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
             invalidateOptionsMenu();
         }
+
         @Override
         public void onDrawerStateChanged(int newState) {
             super.onDrawerStateChanged(newState);
@@ -191,24 +176,6 @@ public class TeachersHomeActivity extends AppCompatActivity {
         public void runWhenIdle(Runnable runnable) {
             this.runnable = runnable;
         }
-    }
-
-
-    private ActionBarDrawerToggle setUpDrawerToggle() {
-        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                invalidateOptionsMenu();
-            }
-        };
-        return drawerToggle;
     }
 
     @Override
@@ -227,10 +194,11 @@ public class TeachersHomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT))
+        if (mDrawerLayout.isDrawerOpen(Gravity.LEFT)) {
             mDrawerLayout.closeDrawer(Gravity.LEFT);
-        else
-            super.onBackPressed();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -241,10 +209,24 @@ public class TeachersHomeActivity extends AppCompatActivity {
             return true;
         }
         // Handle your other action bar items...
-
         return super.onOptionsItemSelected(item);
     }
 
-
+//    private ActionBarDrawerToggle setUpDrawerToggle() {
+//        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                invalidateOptionsMenu();
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//                invalidateOptionsMenu();
+//            }
+//        };
+//        return drawerToggle;
+//    }
 
 }
