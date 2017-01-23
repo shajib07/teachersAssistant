@@ -1,5 +1,6 @@
 package entwinebits.com.teachersassistant;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -37,7 +38,7 @@ public class TeachersHomeActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
-    private ActionBarDrawerToggle mDrawerToggle;
+    private SmoothActionBarDrawerToggle mDrawerToggle;
     private FragmentManager fragmentManager;
     private Handler mHandler ;
 
@@ -59,7 +60,8 @@ public class TeachersHomeActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mDrawerToggle = setUpDrawerToggle();
+
+        mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -88,21 +90,54 @@ public class TeachersHomeActivity extends AppCompatActivity {
                         break;
 
                     case R.id.drawer_courses:
-                        intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
-                        startActivity(intent);
+                        mDrawerToggle.runWhenIdle(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
+                                startActivity(intent);
+//                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
+                            }
+                        });
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+
+//                        intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                         break;
 
                     case R.id.drawer_payment_history:
-                        intent = new Intent(TeachersHomeActivity.this, PaymentHistoryActivity.class);
-                        startActivity(intent);
+
+                        mDrawerToggle.runWhenIdle(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(TeachersHomeActivity.this, PaymentHistoryActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
+                            }
+                        });
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+
+//                        intent = new Intent(TeachersHomeActivity.this, PaymentHistoryActivity.class);
+//                        startActivity(intent);
+//                        overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                         break;
 
                     case R.id.drawer_more:
                         break;
 
                     case R.id.drawer_settings:
-                        intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
-                        startActivity(intent);
+                        mDrawerToggle.runWhenIdle(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
+                            }
+                        });
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+
+//                        intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
+//                        startActivity(intent);
                         break;
                     default:
                         break;
@@ -123,6 +158,39 @@ public class TeachersHomeActivity extends AppCompatActivity {
             navigationView.getMenu().getItem(i).setChecked(false);
         }
 
+    }
+
+
+    private class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
+
+        private Runnable runnable;
+
+        public SmoothActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
+            super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
+        }
+
+        @Override
+        public void onDrawerOpened(View drawerView) {
+            super.onDrawerOpened(drawerView);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerClosed(View view) {
+            super.onDrawerClosed(view);
+            invalidateOptionsMenu();
+        }
+        @Override
+        public void onDrawerStateChanged(int newState) {
+            super.onDrawerStateChanged(newState);
+            if (runnable != null && newState == DrawerLayout.STATE_IDLE) {
+                runnable.run();
+                runnable = null;
+            }
+        }
+
+        public void runWhenIdle(Runnable runnable) {
+            this.runnable = runnable;
+        }
     }
 
 
