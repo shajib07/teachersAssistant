@@ -147,7 +147,6 @@ public class TeachersHomeActivity extends AppCompatActivity {
     private class SmoothActionBarDrawerToggle extends ActionBarDrawerToggle {
 
         private Runnable runnable;
-
         public SmoothActionBarDrawerToggle(Activity activity, DrawerLayout drawerLayout, Toolbar toolbar, int openDrawerContentDescRes, int closeDrawerContentDescRes) {
             super(activity, drawerLayout, toolbar, openDrawerContentDescRes, closeDrawerContentDescRes);
         }
