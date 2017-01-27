@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Teachers Assistant</string>
+
+    <string name="signup">Sign Up</string>
+    <string name="signin">Sign In</string>
+
     <string name="batch_activity_title">Batch List</string>
     <string name="add_new_batch">Add New Batch</string>
     <string name="add_shedule">Add Shedule</string>

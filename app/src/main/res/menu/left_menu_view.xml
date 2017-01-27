@@ -20,9 +20,9 @@
             android:title="Payment History"/>
 
         <item
-            android:id="@+id/drawer_more"
+            android:id="@+id/drawer_search"
             android:icon="@mipmap/ic_action_search"
-            android:title="more"/>
+            android:title="Search"/>
 
         <item
             android:id="@+id/drawer_settings"

@@ -2,9 +2,11 @@ package entwinebits.com.teachersassistant;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +28,7 @@ import android.widget.TextView;
 import entwinebits.com.teachersassistant.adapter.ViewPagerAdapter;
 import entwinebits.com.teachersassistant.fragment.PaymentHistoryFragment;
 import entwinebits.com.teachersassistant.fragment.TeachersHomeFragment;
+import entwinebits.com.teachersassistant.utils.Constants;
 
 /**
  * Created by Nargis Rahman on 12/1/2016.
@@ -46,12 +49,24 @@ public class TeachersHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkFirstTime();
         setContentView(R.layout.activity_teachers_home);
 
         initLayout();
         setUpHeaderView();
         onMenuItemSelected();
     }
+
+    private void checkFirstTime() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isLoggedIn = preferences.getBoolean(Constants.ALREADY_LOGGED_IN, false);
+        if (!isLoggedIn) {
+            finish();
+            Intent intent = new Intent(TeachersHomeActivity.this, SignupActivity.class);
+            startActivity(intent);
+        }
+    }
+
 
     private void initLayout() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -109,7 +124,17 @@ public class TeachersHomeActivity extends AppCompatActivity {
                         mDrawerLayout.closeDrawer(Gravity.LEFT);
                         break;
 
-                    case R.id.drawer_more:
+                    case R.id.drawer_search:
+                        mDrawerToggle.runWhenIdle(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(TeachersHomeActivity.this, SearchActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
+                            }
+                        });
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+
                         break;
 
                     case R.id.drawer_settings:

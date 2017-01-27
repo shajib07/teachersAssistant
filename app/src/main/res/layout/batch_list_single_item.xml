@@ -19,8 +19,8 @@
             android:paddingBottom="@dimen/margin_5"
             android:paddingLeft="@dimen/margin_5"
             android:text="Batch Morning"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
 
         <LinearLayout
@@ -44,8 +44,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sun"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darker_gray"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
             </LinearLayout>
@@ -64,8 +65,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sun"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darker_gray"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
             </LinearLayout>
@@ -83,8 +85,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sun"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darker_gray"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
             </LinearLayout>
@@ -102,8 +105,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="sun"
-                    android:textColor="@color/black"
+                    android:textColor="@color/darker_gray"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     android:visibility="visible" />
 
             </LinearLayout>
