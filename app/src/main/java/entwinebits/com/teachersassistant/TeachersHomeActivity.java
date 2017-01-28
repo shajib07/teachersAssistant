@@ -49,7 +49,7 @@ public class TeachersHomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkFirstTime();
+//        checkFirstTime();
         setContentView(R.layout.activity_teachers_home);
 
         initLayout();
@@ -57,15 +57,6 @@ public class TeachersHomeActivity extends AppCompatActivity {
         onMenuItemSelected();
     }
 
-    private void checkFirstTime() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isLoggedIn = preferences.getBoolean(Constants.ALREADY_LOGGED_IN, false);
-        if (!isLoggedIn) {
-            finish();
-            Intent intent = new Intent(TeachersHomeActivity.this, SignupActivity.class);
-            startActivity(intent);
-        }
-    }
 
 
     private void initLayout() {

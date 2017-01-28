@@ -45,9 +45,21 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_laoyout);
+
+        checkFirstTime();
         initLayout();
     }
 
+    private void checkFirstTime() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isLoggedIn = preferences.getBoolean(Constants.ALREADY_LOGGED_IN, false);
+        if (!isLoggedIn) {
+            Intent intent = new Intent(SignupActivity.this, TeachersHomeActivity.class);
+            startActivity(intent);
+            SignupActivity.this.finish();
+
+        }
+    }
 
     private void initLayout() {
         skip = (TextView) findViewById(R.id.skip);
