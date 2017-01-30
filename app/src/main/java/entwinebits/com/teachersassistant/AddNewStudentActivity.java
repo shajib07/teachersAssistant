@@ -180,9 +180,6 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         BackIntent.putExtra(Constants.EDIT_STUDENT_DTO, mEditStudentDTO);
         setResult(RESULT_OK, BackIntent);
         finish();
-
-        finish();
-
     }
 
     @Override

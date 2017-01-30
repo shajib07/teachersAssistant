@@ -45,23 +45,36 @@
 
                 <FrameLayout
                     android:id="@+id/add_batch_save_btn"
-                    android:layout_width="80dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:background="?android:attr/selectableItemBackground"
-                    android:gravity="center_vertical"
-                    android:padding="5dp">
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/student_details_edit_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingRight="@dimen/margin_10"
+                        android:paddingLeft="@dimen/margin_10"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:src="@mipmap/ic_action_edit" />
 
                     <TextView
+                        android:id="@+id/student_details_edit_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:background="@null"
                         android:gravity="center"
+                        android:paddingLeft="@dimen/margin_10"
+                        android:paddingRight="@dimen/margin_10"
                         android:text="Save"
                         android:textAllCaps="true"
-                        android:textColor="@android:color/white" />
+                        android:textColor="@android:color/white"
+                        android:visibility="gone" />
 
                 </FrameLayout>
 
@@ -285,10 +298,10 @@
             </LinearLayout>
 
             <include
+                layout="@layout/student_payment_single_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_10"
-                layout="@layout/student_payment_single_item" />
+                android:layout_marginTop="@dimen/margin_10" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/student_payment_history_rv"

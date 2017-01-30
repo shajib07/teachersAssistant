@@ -8,18 +8,31 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.utils.Constants;
+import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
+
 /**
  * Created by shajib on 1/24/2017.
  */
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG = "SearchActivity";
     private FrameLayout search_toolbar_back;
     private SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_layout);
-
 
         initLayout();
     }
@@ -54,6 +67,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                HelperMethod.debugLog(TAG, "onQueryTextSubmit : "+query);
+                sendSearchJsonRequest(query);
                 return false;
             }
 
@@ -63,6 +78,28 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         });
 
+    }
+
+    private void sendSearchJsonRequest(String srchParam) {
+
+        JSONObject jsonObject = ServerRequestHelper.sendUserSearchRequest(srchParam);
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
     }
 
     @Override

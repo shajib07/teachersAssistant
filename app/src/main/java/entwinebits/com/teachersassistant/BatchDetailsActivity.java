@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
+import entwinebits.com.teachersassistant.utils.DialogProvider;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -30,15 +32,20 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private String TAG = "StudentDetailsActivity";
     private FrameLayout batch_details_toolbar_back, add_student_done_btn;
     private TextView batch_details_toolbar_title;
+    private ImageView batch_details_edit_iv;
     private RecyclerView student_list_rv;
     private StudentListAdapter mStudentListAdapter;
     private ArrayList<UserProfileDTO> mStudentList;
     private long mBatchId;
     private DatabaseRequestHelper dbRequestHelper;
+    private ArrayList<ScheduleDTO> mScheduleList;
 
     private TextView total_student_tv, batch_schedule_tv;
     private Button add_student_btn;
     private int mTotalStudent;
+
+    private String mBatchName;
+    private String mWeekDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +55,12 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_batch_details_layout);
 
         mBatchId = getIntent().getLongExtra(Constants.BATCH_ID, -1);
+        mBatchName = getIntent().getStringExtra(Constants.BATCH_NAME);
+        mWeekDays = getIntent().getStringExtra(Constants.BATCH_WEEK_DAYS);
+        mScheduleList = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
+        for (ScheduleDTO dto : mScheduleList) {
+            HelperMethod.debugLog(TAG, "here "+dto.getDaysOfWeek()+" time "+dto.getStartTime());
+        }
         if (mBatchId == -1) {
             Toast.makeText(this, "Error Occured : " + getClass().getName(), Toast.LENGTH_SHORT).show();
             finish();
@@ -111,8 +124,10 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void initLayout() {
 
-        String tempDays = getIntent().getStringExtra(Constants.BATCH_WEEK_DAYS);
-        String[] weekDays = tempDays.split(",");
+        batch_details_edit_iv = (ImageView) findViewById(R.id.batch_details_edit_iv);
+        batch_details_edit_iv.setOnClickListener(this);
+
+        String[] weekDays = mWeekDays.split(",");
         StringBuilder builder = new StringBuilder();
         for (String s: weekDays) {
             builder.append(s);
@@ -139,6 +154,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         if (requestCode == 120) {
             if (resultCode == RESULT_OK) {
                 if (data.hasExtra(Constants.EDIT_STUDENT_DTO)) {
+
                     UserProfileDTO editedDto = data.getParcelableExtra(Constants.EDIT_STUDENT_DTO);
                     HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : "+editedDto.getUserName());
                     if (dbRequestHelper == null) {
@@ -157,6 +173,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                     mStudentListAdapter.notifyDataSetChanged();
                     return;
                 }
+
                 ArrayList<UserProfileDTO> addedStuList = data.getParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST);
                 if (dbRequestHelper == null) {
                     dbRequestHelper = new DatabaseRequestHelper(this);
@@ -191,12 +208,44 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 //                }
 
             }
+        } else if (requestCode == 130) {
+            if (resultCode == RESULT_OK) {
+
+                batch_details_toolbar_title.setText(data.getStringExtra(Constants.BATCH_NAME));
+
+            }
         }
+    }
+
+    private void editBatchInfo() {
+        String upperText = "Edit", lowerText = "Delete";
+        View.OnClickListener upperListener, lowerListener;
+        upperListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BatchDetailsActivity.this, AddNewBatchActivity.class);
+                intent.putExtra(Constants.BATCH_ID, mBatchId);
+                intent.putExtra(Constants.BATCH_NAME, mBatchName);
+                intent.putExtra(Constants.BATCH_SCHEDULE_LIST, mScheduleList);
+                startActivityForResult(intent, 130);
+            }
+        };
+        lowerListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {}
+        };
+        DialogProvider.showDoubleOptionDialog(this, upperText, lowerText, upperListener, lowerListener);
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.batch_details_edit_iv:
+
+                editBatchInfo();
+                break;
+
             case R.id.add_student_btn:
                 Intent addIntent = new Intent(BatchDetailsActivity.this, AddNewStudentActivity.class);
                 addIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -204,14 +253,14 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
                 break;
             case R.id.batch_details_toolbar_back:
-                finish();
+                BatchDetailsActivity.this.finish();
                 break;
         }
     }
 
     private void initToolbar() {
         batch_details_toolbar_title = (TextView) findViewById(R.id.batch_details_toolbar_title);
-        batch_details_toolbar_title.setText(getIntent().getStringExtra(Constants.BATCH_NAME));
+        batch_details_toolbar_title.setText(mBatchName);
 
         batch_details_toolbar_back = (FrameLayout) findViewById(R.id.batch_details_toolbar_back);
         batch_details_toolbar_back.setOnClickListener(this);

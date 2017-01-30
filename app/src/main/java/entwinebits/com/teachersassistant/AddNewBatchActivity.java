@@ -67,6 +67,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
     private ArrayList<UserProfileDTO> mAddedStudentList;
     private ArrayList<ScheduleDTO> mScheduleList;
+    private ArrayList<ScheduleDTO> mEditScheduleList;
     private DatabaseRequestHelper dbRequestHelper;
 
     private String mEditBatchName;
@@ -154,16 +155,16 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         if (mIsEditMode) {
             batch_title_et.setText(getIntent().getStringExtra(Constants.BATCH_NAME));
 
-            ArrayList<ScheduleDTO> scheduleDTOs = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
-            mScheduleList = scheduleDTOs;
-            setEditModeLayout(scheduleDTOs);
+            mEditScheduleList = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
+            mScheduleList.addAll(mEditScheduleList);
+            setEditModeLayout();
         }
 
     }
 
-    private void setEditModeLayout(ArrayList<ScheduleDTO> scheduleList) {
-        HelperMethod.debugLog(TAG, "setEditModeLayout : size = "+scheduleList.size());
-        for (ScheduleDTO dto : scheduleList) {
+    private void setEditModeLayout() {
+        HelperMethod.debugLog(TAG, "setEditModeLayout : size = "+mScheduleList.size());
+        for (ScheduleDTO dto : mScheduleList) {
 
             int day = dto.getDaysOfWeek();
             findViewById(R.id.scroll).setVisibility(View.VISIBLE);
@@ -290,10 +291,42 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         editBatchDTO.setBatchName(batchName);
         dbRequestHelper.updateBatch(editBatchDTO);
 
+//        if (mScheduleList != null) {
+//            HelperMethod.debugLog(TAG, "EDit : mScheduleList : "+mScheduleList.size() );
+//            editBatchDTO.setScheduleDTOList(mScheduleList);
+//            for (ScheduleDTO dto : mScheduleList) {
+//                dto.setBatchId(mEditBatchId);
+//                dbRequestHelper.updateSchedule(dto);
+//                HelperMethod.debugLog(TAG, "EDit : after schedule update : schedule id == " );
+//            }
+//        }
+
         if (mScheduleList != null) {
+
+            boolean found = false;
+            ArrayList<ScheduleDTO> removeList = new ArrayList<>();
+            HelperMethod.debugLog(TAG, " TAR : mScheduleList "+mScheduleList.size()+" "+mEditScheduleList.size());
+
             for (ScheduleDTO dto : mScheduleList) {
-                dbRequestHelper.updateSchedule(dto);
-                HelperMethod.debugLog(TAG, "EDit : after schedule update : schedule id == " );
+                for (ScheduleDTO editScheduleDTO : mEditScheduleList) {
+                    if (dto.getDaysOfWeek() == editScheduleDTO.getDaysOfWeek()) {
+
+                        HelperMethod.debugLog(TAG, " TAR : inside update ");
+                        dbRequestHelper.updateSchedule(dto);
+                        removeList.add(editScheduleDTO);
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    mEditScheduleList.removeAll(removeList);
+                    found = false;
+                } else {
+                    HelperMethod.debugLog(TAG, " TAR : inside addSchedule ");
+                    dto.setBatchId(mEditBatchId);
+                    dbRequestHelper.addSchedule(dto);
+
+                }
             }
         }
 
@@ -307,6 +340,11 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra(Constants.BATCH_ID, mEditBatchId);
+        resultIntent.putExtra(Constants.BATCH_NAME, editBatchDTO.getBatchName());
+        resultIntent.putParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST, editBatchDTO.getScheduleDTOList());
+        setResult(RESULT_OK, resultIntent);
         AddNewBatchActivity.this.finish();
 
     }
@@ -426,7 +464,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.add_batch_toolbar_back:
-                finish();
+                AddNewBatchActivity.this.finish();
                 break;
             case R.id.add_student_btn:
                 Intent addIntent = new Intent(AddNewBatchActivity.this, AddNewStudentActivity.class);

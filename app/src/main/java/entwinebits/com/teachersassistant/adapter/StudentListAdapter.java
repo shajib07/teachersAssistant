@@ -45,7 +45,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
     @Override
     public StudentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_single_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.student_list_single_item, parent, false);
         return new StudentViewHolder(view);
     }
 
@@ -56,13 +56,13 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         holder.student_name_tv.setText(dto.getUserName());
         holder.student_contact_tv.setText(dto.getUserMobilePhone());
         holder.student_monthly_fee.setText(dto.getMonthlyFee() + "");
-        holder.student_list_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                showMenuDialog(dto);
-            }
-        });
+//        holder.student_list_settings.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                showMenuDialog(dto);
+//            }
+//        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +70,8 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 Intent intent = new Intent(mActivity, StudentDetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
-                intent.putExtra(Constants.BATCH_ID, mBatchId);
-                mActivity.startActivity(intent);
+                intent.putExtra(Constants.BATCH_ID, (int)mBatchId);
+                mActivity.startActivityForResult(intent, 120);
             }
         });
     }
@@ -171,7 +171,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
         public StudentViewHolder(View itemView) {
             super(itemView);
-            student_list_settings = (FrameLayout) itemView.findViewById(R.id.student_list_settings);
+//            student_list_settings = (FrameLayout) itemView.findViewById(R.id.student_list_settings);
             student_name_tv = (TextView) itemView.findViewById(R.id.student_name_tv);
             student_contact_tv = (TextView) itemView.findViewById(R.id.student_contact_tv);
             student_monthly_fee = (TextView) itemView.findViewById(R.id.student_monthly_fee);

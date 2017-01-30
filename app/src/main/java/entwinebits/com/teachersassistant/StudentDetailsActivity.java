@@ -1,14 +1,20 @@
 package entwinebits.com.teachersassistant;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +57,8 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     private int mBatchId;
     private LinearLayout history_showing_yr_ll;
     private TextView history_showing_yr_tv;
+    private ImageView student_details_edit_iv;
+    private DatabaseRequestHelper mDbRequestHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +96,12 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
             @Override
             public void run() {
 
-                HelperMethod.debugLog(TAG, "StudentDetailsActivity : Inside run: "+mStudentDTO.getUserId()+ " -- "+mShowHistoryYear);
+                HelperMethod.debugLog(TAG, "StudentDetailsActivity : Inside run: " + mStudentDTO.getUserId() + " -- " + mShowHistoryYear);
 
                 ArrayList<PaymentHistoryDTO> list = mDatabaseRequestHelper.getPaymentHistoryByStudentYear(mStudentDTO.getUserId(), mShowHistoryYear);
                 mPaymentHistoryList.clear();
                 mPaymentHistoryList.addAll(list);
-                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before ui thread loop "+mPaymentHistoryList.size()+ " -- "+list.size());
+                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before ui thread loop " + mPaymentHistoryList.size() + " -- " + list.size());
 
                 runOnUiThread(new Runnable() {
                     @Override
@@ -128,6 +136,9 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     }
 
     private void initLayout() {
+
+        student_details_edit_iv = (ImageView) findViewById(R.id.student_details_edit_iv);
+        student_details_edit_iv.setOnClickListener(this);
         history_showing_yr_ll = (LinearLayout) findViewById(R.id.history_showing_yr_ll);
         history_showing_yr_ll.setOnClickListener(this);
         history_showing_yr_tv = (TextView) findViewById(R.id.history_showing_yr_tv);
@@ -190,7 +201,145 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
             case R.id.student_details_toolbar_back:
                 StudentDetailsActivity.this.finish();
                 break;
+            case R.id.student_details_edit_iv:
+                showMenuDialog();
+                break;
         }
+    }
+
+    private void showMenuDialog() {
+        try {
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.student_menu_dialog_layout);
+            dialog.setCancelable(true);
+
+            final TextView dialog_title = (TextView) dialog.findViewById(R.id.dialog_title);
+            dialog_title.setText("Please Choose");
+
+            final Button dialog_upper_btn = (Button) dialog.findViewById(R.id.dialog_upper_btn);
+            dialog_upper_btn.setText("Edit");
+            dialog_upper_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    Intent intent = new Intent(StudentDetailsActivity.this, AddNewStudentActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(Constants.EDIT_STUDENT_DTO, mStudentDTO);
+                    startActivityForResult(intent, 120);
+                }
+            });
+
+            final Button dialog_lower_btn = (Button) dialog.findViewById(R.id.dialog_lower_btn);
+            dialog_lower_btn.setText("Delete");
+            dialog_lower_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+//                    Intent intent = new Intent(StudentDetailsActivity.this, StudentDetailsActivity.class);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                    intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
+//                    startActivity(intent);
+
+                    showDeleteConfirmationDialog();
+                }
+            });
+            dialog.show();
+
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 120) {
+            if (resultCode == RESULT_OK) {
+                if (data.hasExtra(Constants.EDIT_STUDENT_DTO)) {
+
+                    mStudentDTO = data.getParcelableExtra(Constants.EDIT_STUDENT_DTO);
+                    HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : "+mStudentDTO.getUserName());
+
+                    student_name_tv.setText(mStudentDTO.getUserName());
+                    student_mobile_phn_tv.setText(mStudentDTO.getUserMobilePhone());
+                    student_monthly_fee_tv.setText("" + mStudentDTO.getMonthlyFee());
+                    student_institute_tv.setText(mStudentDTO.getUserInstituteName());
+                    student_address_tv.setText(mStudentDTO.getUserAddress());
+
+                    if (mDbRequestHelper == null) {
+                        mDbRequestHelper = new DatabaseRequestHelper(this);
+                    }
+                    mDbRequestHelper.updateStudent(mStudentDTO);
+//                    int idx = 0 ;
+//                    for (int i =0; i< mStudentList.size();i++) {
+//                        if (mStudentList.get(i).getUserId() == editedDto.getUserId()) {
+//                            idx = i;
+//                            break;
+//                        }
+//                    }
+//                    mStudentList.remove(idx);
+//                    mStudentList.add(idx, editedDto);
+//                    mStudentListAdapter.notifyDataSetChanged();
+
+                    sendActivityResult();
+                }
+
+            }
+        }
+
+    }
+
+    private void sendActivityResult() {
+        UserProfileDTO updatedStudentDTO = new UserProfileDTO();
+        updatedStudentDTO.setUserName(student_name_tv.getText().toString());
+        updatedStudentDTO.setUserMobilePhone(student_mobile_phn_tv.getText().toString());
+        updatedStudentDTO.setMonthlyFee(Integer.parseInt(student_monthly_fee_tv.getText().toString() ));
+        updatedStudentDTO.setUserInstituteName(student_institute_tv.getText().toString());
+        updatedStudentDTO.setUserAddress(student_address_tv.getText().toString());
+        Intent BackIntent = new Intent();
+        HelperMethod.debugLog(AddNewBatchActivity.TAG, "updatedStudentDTO : " + updatedStudentDTO.getUserName());
+        BackIntent.putExtra(Constants.EDIT_STUDENT_DTO, updatedStudentDTO);
+        setResult(RESULT_OK, BackIntent);
+    }
+
+    private void showDeleteConfirmationDialog() {
+        try {
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.double_btn_dialog_layout);
+            dialog.setCancelable(true);
+
+            final Button dialog_left_btn = (Button) dialog.findViewById(R.id.dialog_left_btn);
+            dialog_left_btn.setText("Cancel");
+            dialog_left_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            final Button dialog_right_btn = (Button) dialog.findViewById(R.id.dialog_right_btn);
+            dialog_right_btn.setText("OK");
+            dialog_right_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    dialog.dismiss();
+//                    mStudentList.remove(dto);
+//                    notifyDataSetChanged();
+                    if (mDbRequestHelper == null) {
+                        mDbRequestHelper = new DatabaseRequestHelper(StudentDetailsActivity.this);
+                    }
+                    mDbRequestHelper.deleteStudent(mStudentDTO);
+                }
+            });
+            dialog.show();
+
+        } catch (Exception e) {
+        }
+
     }
 
     @Override

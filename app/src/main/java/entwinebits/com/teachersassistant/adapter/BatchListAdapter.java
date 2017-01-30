@@ -50,7 +50,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
 
     @Override
     public BatchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.batch_list_single_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.batch_list_single_item, parent, false);
         return new BatchViewHolder(view);
     }
 
@@ -232,33 +232,34 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                 batchIntent.putExtra(Constants.BATCH_ID, dto.getBatchId());
                 batchIntent.putExtra(Constants.BATCH_NAME, dto.getBatchName());
                 batchIntent.putExtra(Constants.BATCH_WEEK_DAYS, finalTempDays);
+                batchIntent.putParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST, dto.getScheduleDTOList());
                 mActivity.startActivity(batchIntent);
             }
         });
-
-        holder.batch_list_settings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final BatchDTO dto = mBatchDTOList.get(position);
-                String upperText = "Edit", lowerText = "Delete";
-                View.OnClickListener upperListener, lowerListener;
-                upperListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(mActivity, AddNewBatchActivity.class);
-                        intent.putExtra(Constants.BATCH_ID, dto.getBatchId());
-                        intent.putExtra(Constants.BATCH_NAME, dto.getBatchName());
-                        intent.putExtra(Constants.BATCH_SCHEDULE_LIST, dto.getScheduleDTOList());
-                        mActivity.startActivity(intent);
-                    }
-                };
-                lowerListener = new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {}
-                };
-                DialogProvider.showDoubleOptionDialog(mActivity, upperText, lowerText, upperListener, lowerListener);
-            }
-        });
+//
+//        holder.batch_list_settings.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                final BatchDTO dto = mBatchDTOList.get(position);
+//                String upperText = "Edit", lowerText = "Delete";
+//                View.OnClickListener upperListener, lowerListener;
+//                upperListener = new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Intent intent = new Intent(mActivity, AddNewBatchActivity.class);
+//                        intent.putExtra(Constants.BATCH_ID, dto.getBatchId());
+//                        intent.putExtra(Constants.BATCH_NAME, dto.getBatchName());
+//                        intent.putExtra(Constants.BATCH_SCHEDULE_LIST, dto.getScheduleDTOList());
+//                        mActivity.startActivity(intent);
+//                    }
+//                };
+//                lowerListener = new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {}
+//                };
+//                DialogProvider.showDoubleOptionDialog(mActivity, upperText, lowerText, upperListener, lowerListener);
+//            }
+//        });
     }
 
     @Override
@@ -274,7 +275,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
 
         public BatchViewHolder(View itemView) {
             super(itemView);
-            batch_list_settings = (FrameLayout) itemView.findViewById(R.id.batch_list_settings);
+//            batch_list_settings = (FrameLayout) itemView.findViewById(R.id.batch_list_settings);
             batch_name_tv = (TextView) itemView.findViewById(R.id.batch_name_tv);
             batch_schedule_from_tv = (TextView) itemView.findViewById(R.id.batch_schedule_from_tv);
             batch_schedule_to_tv = (TextView) itemView.findViewById(R.id.batch_schedule_to_tv);
