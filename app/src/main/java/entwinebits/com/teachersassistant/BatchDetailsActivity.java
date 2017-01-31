@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +22,10 @@ import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
+import entwinebits.com.teachersassistant.utils.Days;
 import entwinebits.com.teachersassistant.utils.DialogProvider;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.Months;
 
 /**
  * Created by shajib on 12/23/2016.
@@ -33,6 +37,9 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private FrameLayout batch_details_toolbar_back, add_student_done_btn;
     private TextView batch_details_toolbar_title;
     private ImageView batch_details_edit_iv;
+
+    private LinearLayout batch_details_schedule_ll;
+
     private RecyclerView student_list_rv;
     private StudentListAdapter mStudentListAdapter;
     private ArrayList<UserProfileDTO> mStudentList;
@@ -40,12 +47,12 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private DatabaseRequestHelper dbRequestHelper;
     private ArrayList<ScheduleDTO> mScheduleList;
 
-    private TextView total_student_tv, batch_schedule_tv;
-    private Button add_student_btn;
+    private TextView total_student_tv;
+    private ImageView add_student_iv;
     private int mTotalStudent;
 
     private String mBatchName;
-    private String mWeekDays;
+//    private String mWeekDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +63,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
         mBatchId = getIntent().getLongExtra(Constants.BATCH_ID, -1);
         mBatchName = getIntent().getStringExtra(Constants.BATCH_NAME);
-        mWeekDays = getIntent().getStringExtra(Constants.BATCH_WEEK_DAYS);
+//        mWeekDays = getIntent().getStringExtra(Constants.BATCH_WEEK_DAYS);
         mScheduleList = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
         for (ScheduleDTO dto : mScheduleList) {
             HelperMethod.debugLog(TAG, "here "+dto.getDaysOfWeek()+" time "+dto.getStartTime());
@@ -122,27 +129,50 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     }
 
+
+    private void initScheduleLayout() {
+
+        for (ScheduleDTO dto : mScheduleList) {
+            View inflatedView = LayoutInflater.from(this).inflate(R.layout.batch_schedule_layout, batch_details_schedule_ll, false);
+            TextView week_day_tv;
+            TextView batch_schedule_from_tv, batch_schedule_to_tv;
+
+            week_day_tv = (TextView) inflatedView.findViewById(R.id.week_day_tv);
+            batch_schedule_from_tv = (TextView) inflatedView.findViewById(R.id.batch_schedule_from_tv);
+            batch_schedule_to_tv = (TextView) inflatedView.findViewById(R.id.batch_schedule_to_tv);
+
+            week_day_tv.setText(Days.get(dto.getDaysOfWeek() + 1) + "");
+            batch_schedule_from_tv.setText(dto.getStartTime());
+            batch_schedule_to_tv.setText(dto.getEndTime());
+
+            batch_details_schedule_ll.addView(inflatedView);
+        }
+    }
+
     private void initLayout() {
 
         batch_details_edit_iv = (ImageView) findViewById(R.id.batch_details_edit_iv);
         batch_details_edit_iv.setOnClickListener(this);
 
-        String[] weekDays = mWeekDays.split(",");
-        StringBuilder builder = new StringBuilder();
-        for (String s: weekDays) {
-            builder.append(s);
-            builder.append("  ");
-        }
+        batch_details_schedule_ll = (LinearLayout)findViewById(R.id.batch_details_schedule_ll);
+        initScheduleLayout();
+
+
+//        String[] weekDays = mWeekDays.split(",");
+//        StringBuilder builder = new StringBuilder();
+//        for (String s: weekDays) {
+//            builder.append(s);
+//            builder.append("  ");
+//        }
 
         student_list_rv = (RecyclerView) findViewById(R.id.student_list_rv);
         student_list_rv.setLayoutManager(new LinearLayoutManager(this));
 
-        batch_schedule_tv = (TextView) findViewById(R.id.batch_schedule_tv);
 
-        batch_schedule_tv.setText(builder.toString().trim());
+//        batch_schedule_tv.setText(builder.toString().trim());
         total_student_tv = (TextView) findViewById(R.id.total_student_tv);
-        add_student_btn = (Button) findViewById(R.id.add_student_btn);
-        add_student_btn.setOnClickListener(this);
+        add_student_iv = (ImageView) findViewById(R.id.add_student_iv);
+        add_student_iv.setOnClickListener(this);
     }
 
     private void initData() {
@@ -246,7 +276,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 editBatchInfo();
                 break;
 
-            case R.id.add_student_btn:
+            case R.id.add_student_iv:
                 Intent addIntent = new Intent(BatchDetailsActivity.this, AddNewStudentActivity.class);
                 addIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivityForResult(addIntent, 120);
