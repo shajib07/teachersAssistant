@@ -75,7 +75,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         ImageView searchIcon = (ImageView) searchView.findViewById(android.support.v7.appcompat.R.id.search_button);
         if (searchIcon != null) {
-            searchIcon.setImageResource(R.mipmap.ic_action_add);
+            searchIcon.setImageResource(R.drawable.ic_action_add);
             searchIcon.setAlpha(0.6f);
         }
 
@@ -83,7 +83,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         ImageView crossButton = (ImageView) searchET.findViewById(android.support.v7.appcompat.R.id.search_close_btn);
         if (crossButton != null) {
-            crossButton.setImageResource(R.mipmap.ic_action_add);
+            crossButton.setImageResource(R.drawable.ic_action_add);
             crossButton.setAlpha(0.5f);
         }
 

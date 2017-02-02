@@ -11,7 +11,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/list_item_bg"
         android:orientation="vertical"
-        android:padding="@dimen/margin_5">
+        android:paddingBottom="@dimen/margin_5"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_5"
+        android:paddingTop="@dimen/margin_5">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,7 +25,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_mobile_phn" />
+                android:src="@drawable/ic_action_person" />
 
             <TextView
                 android:id="@+id/search_user_name_tv"
@@ -64,7 +67,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_mobile_phn" />
+                android:src="@drawable/ic_action_institute" />
 
             <TextView
                 android:id="@+id/search_user_institute"

@@ -16,9 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
+            android:fitsSystemWindows="true"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
-            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -33,14 +33,15 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:padding="5dp">
+                    android:background="?android:attr/selectableItemBackground">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@null"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_10"
                         android:src="@mipmap/ic_toolbar_back" />
                 </FrameLayout>
 
@@ -76,7 +77,7 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:paddingLeft="@dimen/margin_10"
                         android:paddingRight="@dimen/margin_10"
-                        android:src="@mipmap/ic_action_add" />
+                        android:src="@drawable/ic_action_add" />
 
                     <ImageView
                         android:id="@+id/batch_details_edit_iv"
@@ -84,9 +85,8 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:background="?android:attr/selectableItemBackground"
-                        android:paddingLeft="@dimen/margin_10"
                         android:paddingRight="@dimen/margin_10"
-                        android:src="@mipmap/ic_action_edit" />
+                        android:src="@drawable/ic_action_edit" />
 
                 </LinearLayout>
 
@@ -128,9 +128,9 @@
             android:id="@+id/contact_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_5"
             android:background="@color/white"
-            android:padding="@dimen/margin_5"
-            android:layout_margin="@dimen/margin_5">
+            android:padding="@dimen/margin_5">
 
 
             <LinearLayout

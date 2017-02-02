@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -33,7 +34,7 @@ import entwinebits.com.teachersassistant.utils.Constants;
 /**
  * Created by Nargis Rahman on 12/1/2016.
  */
-public class TeachersHomeActivity extends AppCompatActivity {
+public class TeachersHomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "TeachersHomeActivity";
     private FrameLayout home_toolbar_add;
@@ -42,6 +43,8 @@ public class TeachersHomeActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
     private SmoothActionBarDrawerToggle mDrawerToggle;
+
+    private LinearLayout overflow_ll;
 
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -66,6 +69,9 @@ public class TeachersHomeActivity extends AppCompatActivity {
 
         mDrawerToggle = new SmoothActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        overflow_ll = (LinearLayout)findViewById(R.id.overflow_ll);
+        overflow_ll.setOnClickListener(this);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
@@ -157,6 +163,15 @@ public class TeachersHomeActivity extends AppCompatActivity {
         int size = navigationView.getMenu().size();
         for (int i = 0; i < size; i++) {
             navigationView.getMenu().getItem(i).setChecked(false);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.overflow_ll:
+
+                break;
         }
     }
 

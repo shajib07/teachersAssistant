@@ -45,7 +45,13 @@
     Path = F:\ANDROID RESOURCES\material-design-icons-master\navigation\drawable-mdpi
 
     ic_action_call  >>>  ic_mobile_phn
-    Path = F:\ANDROID RESOURCES\Android_Design_Icons_20131106\Android Design - Icons 20131120\Action Bar Icons\holo_light\01_core_call\drawable-xxhdpi
+    F:\ANDROID RESOURCES\Android_Design_Icons_20131106\Android Design - Icons 20131120\Action Bar Icons\holo_light\01_core_call\drawable-xxhdpi
+
+    ic_action_person >>> ic_action_person
+    F:\ANDROID RESOURCES\Android_Design_Icons_20131106\Android Design - Icons 20131120\Action Bar Icons\holo_light\06_social_person
+
     -->
+
+
 
 </resources>

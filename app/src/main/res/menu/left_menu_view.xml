@@ -6,7 +6,7 @@
 
         <item
             android:id="@+id/drawer_home"
-            android:icon="@mipmap/ic_action_overflow"
+            android:icon="@drawable/ic_action_overflow"
             android:title="home"/>
 
         <item
@@ -16,7 +16,7 @@
 
         <item
             android:id="@+id/drawer_payment_history"
-            android:icon="@mipmap/ic_action_overflow"
+            android:icon="@drawable/ic_action_overflow"
             android:title="Payment History"/>
 
         <item
@@ -26,7 +26,7 @@
 
         <item
             android:id="@+id/drawer_settings"
-            android:icon="@mipmap/ic_action_overflow"
+            android:icon="@drawable/ic_action_overflow"
             android:title="settings"/>
 
     </group>
