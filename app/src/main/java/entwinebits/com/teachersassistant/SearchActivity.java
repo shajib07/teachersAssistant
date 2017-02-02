@@ -2,6 +2,8 @@ package entwinebits.com.teachersassistant;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.EditText;
@@ -16,7 +18,12 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import entwinebits.com.teachersassistant.adapter.SearchUserAdapter;
+import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.server.ServerResponseParser;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
@@ -29,10 +36,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private String TAG = "SearchActivity";
     private FrameLayout search_toolbar_back;
     private SearchView searchView;
+
+    private RecyclerView search_user_list_rv;
+    private SearchUserAdapter mSearchUserAdapter;
+    private ArrayList<UserProfileDTO> mSearchUserList ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_layout);
+        mSearchUserList = new ArrayList<>();
 
         initLayout();
     }
@@ -44,6 +57,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchView = (SearchView) findViewById(R.id.searchView);
         searchView.setQueryHint("Name/Mobile Phone");
 
+        initSearchView();
+
+        search_user_list_rv = (RecyclerView)findViewById(R.id.search_user_list_rv);
+        search_user_list_rv.setLayoutManager(new LinearLayoutManager(this));
+        mSearchUserAdapter = new SearchUserAdapter(this, mSearchUserList);
+        search_user_list_rv.setAdapter(mSearchUserAdapter);
+
+    }
+
+    private void initSearchView() {
         final EditText searchET = ((EditText) searchView.findViewById(android.support.v7.appcompat.R.id.search_src_text));
         if (searchET != null) {
             searchET.setTextColor(getResources().getColor(android.R.color.black));
@@ -79,7 +102,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         });
 
     }
-
     private void sendSearchJsonRequest(String srchParam) {
 
         JSONObject jsonObject = ServerRequestHelper.sendUserSearchRequest(srchParam);
@@ -88,6 +110,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onResponse(JSONObject response) {
                         HelperMethod.debugLog(TAG, response.toString());
+                        try {
+                            if (!response.getBoolean(ServerConstants.ERROR)) {
+                                mSearchUserList.clear();
+                                mSearchUserList.addAll(ServerResponseParser.parseUserSearchResponse(response));
+                                mSearchUserAdapter.notifyDataSetChanged();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                     }
                 }, new Response.ErrorListener() {

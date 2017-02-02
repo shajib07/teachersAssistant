@@ -21,6 +21,7 @@ import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.system.DeviceConfig;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.Days;
 import entwinebits.com.teachersassistant.utils.DialogProvider;
@@ -76,6 +77,9 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         initToolbar();
         initLayout();
         loadStudentList();
+
+        DeviceConfig deviceConfig = new DeviceConfig(this);
+        deviceConfig.getDeviceDensity();
     }
 
     @Override
@@ -103,11 +107,6 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 HelperMethod.debugLog(TAG, "loadBatchList size = " + studentList.size());
                 mStudentList.clear();
                 mStudentList.addAll(studentList);
-                for (UserProfileDTO dto : studentList) {
-//                    HelperMethod.debugLog(TAG, "After db read : id : " + dto.getUserId() + " name : " + dto.getUserName() +
-//                            " id " + dto.getMonthlyFee() + "mob = " + dto.getUserMobilePhone());
-                }
-
 
                 if (studentList != null && studentList.size() > 0) {
                     runOnUiThread(new Runnable() {

@@ -53,11 +53,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private void checkFirstTime() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isLoggedIn = preferences.getBoolean(Constants.ALREADY_LOGGED_IN, false);
-        if (!isLoggedIn) {
+        HelperMethod.debugLog(TAG, "isLoggedIn === "+isLoggedIn);
+        if (isLoggedIn) {
             Intent intent = new Intent(SignupActivity.this, TeachersHomeActivity.class);
             startActivity(intent);
             SignupActivity.this.finish();
-
         }
     }
 
