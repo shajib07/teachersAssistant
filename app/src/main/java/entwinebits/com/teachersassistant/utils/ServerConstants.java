@@ -5,7 +5,18 @@ package entwinebits.com.teachersassistant.utils;
  */
 public class ServerConstants {
 
+    public static final int ACTION_ADD_USER = 0;
     public static final int ACTION_ADD_USER_LIST = 1;
+    public static final int ACTION_DELETE_USER = 2;
+    public static final int ACTION_UPDATE_USER_INFO = 3;
+    public static final int ACTION_ADD_NEW_BATCH = 4;
+    public static final int ACTION_GET_ALL_BATCHES = 5;
+    public static final int ACTION_ADD_USER_NEW_BATCH = 6;
+    public static final int ACTION_GET_USER_ALL_BATCHES = 7;
+    public static final int ACTION_SEARCH_USER = 9;
+    public static final int ACTION_SEARCH_USER_BY_TYPE = 10;
+    public static final int ACTION_SIGN_IN_USER = 11;
+
 
     public  static final String ACTION = "actn";
     public  static final String ERROR = "error";

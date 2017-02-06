@@ -113,7 +113,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
                     @Override
                     public void run() {
                         mPaymentHistoryAdapter.notifyDataSetChanged();
-                        loadSpinnerData();
+                        loadSpinnerData(2);
                     }
                 });
             }
@@ -121,9 +121,10 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
 
     }
 
-    private void loadSpinnerData() {
+    private void loadSpinnerData(int i) {
+
         for (Map.Entry<Long, String> entry : mSpinnerMap.entrySet()) {
-            HelperMethod.debugLog(TAG, "key = " +entry.getKey()+ "val = " +entry.getValue());
+            HelperMethod.debugLog(TAG, "key = " +entry.getKey()+ "val = " +entry.getValue()+ " from == "+i);
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, new ArrayList(mSpinnerMap.values()));
@@ -154,7 +155,10 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
+                HelperMethod.debugLog(TAG, "onItemSelected ==  "+item);
+
                 if (item.equalsIgnoreCase("All")) {
+                    HelperMethod.debugLog(TAG, "before processAllBatchHistory +++ ");
                     processAllBatchHistory();
                     return;
                 }
@@ -207,6 +211,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
 
     private void processAllBatchHistory() {
 
+
         if (mAllBatchHistoryList.size() > 0) {
             mPaymentHistoryList.clear();
             mPaymentHistoryList.addAll(mAllBatchHistoryList);
@@ -248,7 +253,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
                     @Override
                     public void run() {
                         mPaymentHistoryAdapter.notifyDataSetChanged();
-                        loadSpinnerData();
+                        loadSpinnerData(1);
                     }
                 });
             }

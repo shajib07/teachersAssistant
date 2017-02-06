@@ -55,7 +55,7 @@
                             android:layout_height="match_parent"
                             android:paddingLeft="@dimen/margin_5"
                             android:paddingRight="@dimen/margin_5"
-                            android:src="@drawable/ic_action_overflow" />
+                            android:src="@drawable/ic_action_more_vert" />
                     </LinearLayout>
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
