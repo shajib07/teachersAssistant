@@ -85,6 +85,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:background="?android:attr/selectableItemBackground"
+                        android:paddingLeft="@dimen/margin_5"
                         android:paddingRight="@dimen/margin_10"
                         android:src="@drawable/ic_action_edit" />
 

@@ -113,7 +113,6 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
                     @Override
                     public void run() {
                         mPaymentHistoryAdapter.notifyDataSetChanged();
-                        loadSpinnerData(2);
                     }
                 });
             }

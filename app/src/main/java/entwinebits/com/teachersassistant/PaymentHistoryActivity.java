@@ -6,11 +6,21 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +37,7 @@ import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
 
 /**
  * Created by shajib on 1/14/2017.
@@ -62,6 +73,43 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         initData();
         initLayout();
         loadBatchList();
+
+    }
+
+    private void addPaymentHistoryRequest()
+    {
+        String message = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, 8);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.ID, 9);
+            jsonObject.put(ServerConstants.BATCH_ID, 1);
+            jsonObject.put(ServerConstants.MONTH, 1);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.YEAR, 2017);
+            jsonObject.put(ServerConstants.AMOUNT, 300);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.STATUS, 0);
+        }catch (Exception e){}
+
+        final String message1 = jsonObject.toString();
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
+                Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("JSON", response.toString());
+
+                    }
+                }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                VolleyLog.d("JSON", "Error: " + error.getMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
 
     }
 

@@ -111,38 +111,37 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     private void sendSignUpRequest() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ServerConstants.ACTION, 0);
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_ADD_USER);
             jsonObject.put(ServerConstants.FULL_NAME, name);
             jsonObject.put(ServerConstants.PHONE_NUMBER, mobilePhone);
+            jsonObject.put(ServerConstants.USER_TYPE, 0);
             jsonObject.put(ServerConstants.PASSWORD, password);
         } catch (Exception e) {
         }
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
-
                         HelperMethod.debugLog(TAG, response.toString());
                         try {
                             if (!response.getBoolean(ServerConstants.ERROR)) {
+                                HelperMethod.debugLog(TAG, response.toString());
                                 mAppUserId = response.getLong(ServerConstants.ID);
                                 saveUserId();
                             } else {
                                 Toast.makeText(SignupActivity.this, response.getString(ServerConstants.MESSAGE), Toast.LENGTH_SHORT).show();
                             }
-
                         } catch (Exception e) {
                         }
                     }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
-            }
-        });
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);

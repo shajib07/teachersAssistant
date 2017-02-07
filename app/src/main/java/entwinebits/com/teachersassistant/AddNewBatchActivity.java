@@ -21,6 +21,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,6 +46,8 @@ import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.DateTimeFormatHelper;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by Nargis Rahman on 12/2/2016.
@@ -109,10 +121,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             public void onTimeSet(TimePicker timePicker, int hour, int min) {
                 ScheduleDTO scheduleDTO = null;
                 boolean found = false;
-                HelperMethod.debugLog(TAG, "day == "+day+" mScheduleList size = "+mScheduleList.size());
+                HelperMethod.debugLog(TAG, "day == " + day + " mScheduleList size = " + mScheduleList.size());
                 for (ScheduleDTO dto : mScheduleList) {
                     if (dto.getDaysOfWeek() == day) {
-                        HelperMethod.debugLog(TAG, "dto == "+dto.getDaysOfWeek()+ " day = "+day);
+                        HelperMethod.debugLog(TAG, "dto == " + dto.getDaysOfWeek() + " day = " + day);
                         scheduleDTO = dto;
                         found = true;
                     }
@@ -163,7 +175,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void setEditModeLayout() {
-        HelperMethod.debugLog(TAG, "setEditModeLayout : size = "+mScheduleList.size());
+        HelperMethod.debugLog(TAG, "setEditModeLayout : size = " + mScheduleList.size());
         for (ScheduleDTO dto : mScheduleList) {
 
             int day = dto.getDaysOfWeek();
@@ -229,7 +241,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         for (int i = 0; i < dayOfWeekList.size(); i++) {
             dayOfWeekList.get(i).setOnClickListener(this);
 
-            GradientDrawable bgShape = (GradientDrawable)dayOfWeekList.get(i).getBackground();
+            GradientDrawable bgShape = (GradientDrawable) dayOfWeekList.get(i).getBackground();
             bgShape.setColor(dayColor[i]);
 
         }
@@ -291,21 +303,11 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         editBatchDTO.setBatchName(batchName);
         dbRequestHelper.updateBatch(editBatchDTO);
 
-//        if (mScheduleList != null) {
-//            HelperMethod.debugLog(TAG, "EDit : mScheduleList : "+mScheduleList.size() );
-//            editBatchDTO.setScheduleDTOList(mScheduleList);
-//            for (ScheduleDTO dto : mScheduleList) {
-//                dto.setBatchId(mEditBatchId);
-//                dbRequestHelper.updateSchedule(dto);
-//                HelperMethod.debugLog(TAG, "EDit : after schedule update : schedule id == " );
-//            }
-//        }
-
         if (mScheduleList != null) {
 
             boolean found = false;
             ArrayList<ScheduleDTO> removeList = new ArrayList<>();
-            HelperMethod.debugLog(TAG, " TAR : mScheduleList "+mScheduleList.size()+" "+mEditScheduleList.size());
+            HelperMethod.debugLog(TAG, " TAR : mScheduleList " + mScheduleList.size() + " " + mEditScheduleList.size());
 
             for (ScheduleDTO dto : mScheduleList) {
                 for (ScheduleDTO editScheduleDTO : mEditScheduleList) {
@@ -349,6 +351,93 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
     }
 
+    private String mBatchName;
+
+    private void addNewBatchRequest() {
+        mBatchName = batch_title_et.getText().toString();
+        long userId = UserProfileHelper.getInstance(this).getUserId();
+        if (mBatchName.length() < 1) {
+            Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(this, mScheduleList.get(0).getStartTime(), Toast.LENGTH_SHORT);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, 6);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.TITLE, mBatchName);
+            jsonObject.put(ServerConstants.ID, userId);
+
+            HelperMethod.debugLog(TAG, "mScheduleList == "+mScheduleList.size());
+
+            JSONArray jsonArray = new JSONArray();
+            for (ScheduleDTO dto : mScheduleList) {
+
+                HelperMethod.debugLog(TAG, "mScheduleList == "+dto.getDaysOfWeek()+ " "+dto.getStartTime());
+                JSONObject jsonobj = new JSONObject();
+                jsonobj.put(ServerConstants.DAY_OF_WEEK, dto.getDaysOfWeek());
+                jsonobj.put(ServerConstants.START_TIME, 10f);//Integer.parseInt(dto.getStartTime())
+                jsonobj.put(ServerConstants.END_TIME, 11.30f);//Integer.parseInt(dto.getEndTime())
+                jsonArray.put(jsonobj);
+            }
+
+            HelperMethod.debugLog(TAG, "bedore add");
+            jsonObject.put(ServerConstants.ROUTINE_INFLO_LIST, jsonArray);
+
+            HelperMethod.debugLog(TAG, "addNewBatchRequest1 : req == "+jsonObject.toString());
+            JSONArray jsonStudentArray = new JSONArray();
+            for (UserProfileDTO dto : mAddedStudentList) {
+                JSONObject jobj = new JSONObject();
+                jobj.put(ServerConstants.FULL_NAME, dto.getUserName());
+                jobj.put(ServerConstants.EMAIL, dto.getUserEmail());
+                jobj.put(ServerConstants.PASSWORD, dto.getUserPwd());
+                jobj.put(ServerConstants.GENDER, 1);
+                jobj.put(ServerConstants.USER_TYPE, 1);
+                jsonStudentArray.put(jobj);
+            }
+            jsonObject.put("usrLst", jsonStudentArray);
+
+            HelperMethod.debugLog(TAG, "addNewBatchRequest2 : req == "+jsonObject.toString());
+//
+//            JSONArray arrayStu = new JSONArray();
+//            JSONObject objStu = new JSONObject();
+//            obj.put(ServerConstants.FULL_NAME, "nnmnnn1");
+//            obj.put(ServerConstants.EMAIL, "bmmmmm3@snnnnhajibnn");
+//            obj.put(ServerConstants.PASSWORD, "pronn123");
+//            obj.put(ServerConstants.GENDER, "male@shajibnn");
+//            obj.put(ServerConstants.USER_TYPE, 1);
+//            JSONObject objStu1 = new JSONObject();
+//            obj1.put(ServerConstants.FULL_NAME, "nn2gf");
+//            obj1.put(ServerConstants.EMAIL, "OK12mmmmm3@s456hajibn2");
+//            obj1.put(ServerConstants.PASSWORD, "pro12");
+//            obj1.put(ServerConstants.GENDER, "male@shajib12");
+//            obj1.put(ServerConstants.USER_TYPE, 1);
+//            arrayStu.put(objStu);
+//            arrayStu.put(objStu1);
+//            jsonObject.put("usrLst", array);
+        } catch (Exception e) {
+            HelperMethod.errorLog(TAG, "exception: "+e.toString());
+        }
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "addNewBatchRequest : " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+        HelperMethod.debugLog(TAG, "addNewBatchRequestiu iiugiu : req == "+jsonObject.toString());
+    }
+
     private void saveNewBatch() {
         BatchDTO saveBatchDTO = new BatchDTO();
         if (dbRequestHelper == null) {
@@ -385,20 +474,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 HelperMethod.debugLog(TAG, "after schedule insert : schedule id == " + schId);
             }
         }
-
         AddNewBatchActivity.this.finish();
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                ArrayList<ScheduleDTO> list = dbRequestHelper.getScheduleListByBatch((int) batchId);
-//                int i = 1;
-//                for (ScheduleDTO dto : list) {
-//                    HelperMethod.debugLog(TAG, "" + i + " batch Id = " + dto.getBatchId() + " st = " + dto.getStartTime() + " "+dto.getEndTime());
-//                    i++;
-//                }
-//            }
-//        }).start();
 
     }
 
@@ -409,7 +485,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 ArrayList<UserProfileDTO> addedStuList = data.getParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST);
                 mAddedStudentList.clear();
                 mAddedStudentList.addAll(addedStuList);
-                HelperMethod.debugLog(TAG, "onActivityResult : addedStuList size = "+mAddedStudentList.size());
+                HelperMethod.debugLog(TAG, "onActivityResult : addedStuList size = " + mAddedStudentList.size());
                 addedUserAdapter.notifyDataSetChanged();
             }
         }
@@ -459,6 +535,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 if (mIsEditMode) {
                     saveEditBatch();
                 } else {
+                    addNewBatchRequest();
                     saveNewBatch();
                 }
                 break;

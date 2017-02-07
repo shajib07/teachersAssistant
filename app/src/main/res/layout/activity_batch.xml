@@ -33,7 +33,7 @@
                     android:paddingRight="@dimen/margin_10"
                     android:layout_gravity="center"
                     android:background="@null"
-                    android:src="@mipmap/ic_action_arrow_left" />
+                    android:src="@mipmap/ic_toolbar_back" />
             </FrameLayout>
 
             <TextView
