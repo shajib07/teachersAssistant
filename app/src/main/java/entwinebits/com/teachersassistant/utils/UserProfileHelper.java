@@ -13,7 +13,6 @@ public class UserProfileHelper {
     private Context mContext;
 
     private UserProfileHelper(Context context) {
-
         this.mContext = context;
     }
 
@@ -29,4 +28,6 @@ public class UserProfileHelper {
         long id = preferences.getLong(Constants.APP_USER_ID, 0);
         return id;
     }
+
+
 }

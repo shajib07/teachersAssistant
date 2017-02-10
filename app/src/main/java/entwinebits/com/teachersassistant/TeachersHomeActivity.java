@@ -96,11 +96,11 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
                     case R.id.drawer_home:
                         break;
 
-                    case R.id.drawer_courses:
+                    case R.id.drawer_profile:
                         mDrawerToggle.runWhenIdle(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
+                                Intent intent = new Intent(TeachersHomeActivity.this, ProfileActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                             }

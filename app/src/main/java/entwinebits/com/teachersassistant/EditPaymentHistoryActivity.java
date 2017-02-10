@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.MonthDisplayHelper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.adapter.DateChooserAdapter;
@@ -36,6 +46,7 @@ import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.Months;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
 
 /**
  * Created by shajib on 1/2/2017.
@@ -203,7 +214,6 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     }
 
     private void savePaymentHistory() {
-
         showProgressDialog();
         PaymentHistoryDTO dto;
         for (int i = 0; i < 12; i++) {
@@ -216,6 +226,8 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             dto.setMonth(i + 1);
             dto.setYear(mEditYear);
             dto.setStudentName(mStudentName);
+            if (dto.isPaid())
+            addPaymentHistoryRequest(dto.getMonth(), dto.getYear(), dto.getPaidAmount(), dto.isPaid());
             mPaymentHistoryList.add(dto);
         }
 
@@ -239,6 +251,41 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
                 });
             }
         }).start();
+    }
+
+    private void addPaymentHistoryRequest(int month, int year, int amount, boolean status) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, 8);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.ID, mStudentId);
+            jsonObject.put(ServerConstants.BATCH_ID, mBatchId);
+            jsonObject.put(ServerConstants.MONTH, month);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.YEAR, year);
+            jsonObject.put(ServerConstants.AMOUNT, amount);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.STATUS, status);
+        }catch (Exception e){
+        }
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("JSON", response.toString());
+
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d("JSON", "Error: " + error.getMessage());
+                        //hideProgressDialog();
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
     }
 
     private void showYearSelectionDialog() {

@@ -36,5 +36,16 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject getBatchStudentList(long batchId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_BATCH_STUDENTS);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 
 }

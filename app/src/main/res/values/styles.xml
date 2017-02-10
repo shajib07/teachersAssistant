@@ -36,6 +36,14 @@
 
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem" />
 
+    <style name="Widget.CardContent" parent="android:Widget">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingTop">24dp</item>
+        <item name="android:paddingBottom">24dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
 
     <!--
         <style name="Theme.Ipvision" parent="@style/Theme.AppCompat.Light.NoActionBar">

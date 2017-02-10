@@ -7,12 +7,12 @@
         <item
             android:id="@+id/drawer_home"
             android:icon="@drawable/ic_action_overflow"
-            android:title="home"/>
+            android:title="Home"/>
 
         <item
-            android:id="@+id/drawer_courses"
+            android:id="@+id/drawer_profile"
             android:icon="@mipmap/ic_action_list"
-            android:title="courses"/>
+            android:title="Profile"/>
 
         <item
             android:id="@+id/drawer_payment_history"
@@ -27,7 +27,7 @@
         <item
             android:id="@+id/drawer_settings"
             android:icon="@drawable/ic_action_overflow"
-            android:title="settings"/>
+            android:title="Settings"/>
 
     </group>
 </menu>

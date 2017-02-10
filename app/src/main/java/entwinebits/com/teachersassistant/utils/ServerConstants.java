@@ -16,6 +16,7 @@ public class ServerConstants {
     public static final int ACTION_SEARCH_USER = 9;
     public static final int ACTION_SEARCH_USER_BY_TYPE = 10;
     public static final int ACTION_SIGN_IN_USER = 11;
+    public static final int ACTION_GET_BATCH_STUDENTS = 12;
 
 
     public  static final String ACTION = "actn";
