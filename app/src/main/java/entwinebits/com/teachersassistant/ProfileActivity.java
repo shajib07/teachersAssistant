@@ -1,5 +1,6 @@
 package entwinebits.com.teachersassistant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()) {
 
             case R.id.user_profile_edit_iv:
-
+                Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                startActivity(intent);
                 break;
 
             case R.id.user_profile_toolbar_back:

@@ -47,5 +47,21 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject sendAddPaymentHistoryRequest(int user_id, int batch_id, int month, int year, int amount, boolean status) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, 8);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.ID, user_id);
+            jsonObject.put(ServerConstants.BATCH_ID, batch_id);
+            jsonObject.put(ServerConstants.MONTH, month);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.YEAR, year);
+            jsonObject.put(ServerConstants.AMOUNT, amount);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.STATUS, status);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
 
 }

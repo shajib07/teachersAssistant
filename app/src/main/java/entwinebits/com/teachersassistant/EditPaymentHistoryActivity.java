@@ -43,6 +43,7 @@ import entwinebits.com.teachersassistant.listener.DateSelectionListener;
 import entwinebits.com.teachersassistant.listener.DialogCloseListener;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.Months;
@@ -226,8 +227,9 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             dto.setMonth(i + 1);
             dto.setYear(mEditYear);
             dto.setStudentName(mStudentName);
-            if (dto.isPaid())
-            addPaymentHistoryRequest(dto.getMonth(), dto.getYear(), dto.getPaidAmount(), dto.isPaid());
+            if (dto.isPaid()) {
+                addPaymentHistoryRequest(dto.getMonth(), dto.getYear(), dto.getPaidAmount(), dto.isPaid());
+            }
             mPaymentHistoryList.add(dto);
         }
 
@@ -254,33 +256,28 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     }
 
     private void addPaymentHistoryRequest(int month, int year, int amount, boolean status) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(ServerConstants.ACTION, 8);//add batch 4 5 for get all batch
-            jsonObject.put(ServerConstants.ID, mStudentId);
-            jsonObject.put(ServerConstants.BATCH_ID, mBatchId);
-            jsonObject.put(ServerConstants.MONTH, month);//add batch 4 5 for get all batch
-            jsonObject.put(ServerConstants.YEAR, year);
-            jsonObject.put(ServerConstants.AMOUNT, amount);//add batch 4 5 for get all batch
-            jsonObject.put(ServerConstants.STATUS, status);
-        }catch (Exception e){
-        }
+
+        JSONObject jsonObject = ServerRequestHelper.sendAddPaymentHistoryRequest(mStudentId, mBatchId, month, year, amount, status);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("JSON", response.toString());
-
+                        try {
+                            Log.d(TAG, response.toString());
+                            if (!response.getBoolean(ServerConstants.ERROR)) {
+                                Toast.makeText(EditPaymentHistoryActivity.this, ""+response.optString("msg"), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            HelperMethod.errorLog(TAG, e.toString());
+                        }
                     }
                 },
                 new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        VolleyLog.d("JSON", "Error: " + error.getMessage());
-                        //hideProgressDialog();
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                        Toast.makeText(EditPaymentHistoryActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
