@@ -60,15 +60,22 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
         holder.batch_name_tv.setText(batchDTO.getBatchName());
 
         ArrayList<ScheduleDTO> scheduleDTOs = batchDTO.getScheduleDTOList();
+        HelperMethod.debugLog(TAG, "scheduleDTOs size == "+scheduleDTOs.size());
         if (scheduleDTOs != null && scheduleDTOs.size() > 0) {
             holder.batch_schedule_from_tv.setText(scheduleDTOs.get(0).getStartTime());
             holder.batch_schedule_to_tv.setText(scheduleDTOs.get(0).getEndTime());
         }
         String tempDays = "";
 
+        for (ScheduleDTO dto : scheduleDTOs) {
+            HelperMethod.debugLog(TAG, "loop dto getDaysOfWeek == "+dto.getDaysOfWeek());
+
+        }
+
         for (int dayIndex = 0; dayIndex < scheduleDTOs.size(); dayIndex++) {
 
             final ScheduleDTO dto = scheduleDTOs.get(dayIndex);
+            HelperMethod.debugLog(TAG, " dto getDaysOfWeek == "+dto.getDaysOfWeek());
             holder.batch_schedule_from_tv.setText(dto.getStartTime());
             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 
@@ -87,7 +94,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
 //                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[3].setVisibility(View.INVISIBLE);
-//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);
+//                            holder.dayWeekIndi[4].setVisibility(View.INVISIBLE);0
 //                            holder.dayWeekIndi[5].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[6].setVisibility(View.INVISIBLE);
 

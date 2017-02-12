@@ -40,11 +40,10 @@ public class ServerResponseParser {
 
         ArrayList<BatchDTO> userBatchList = new ArrayList<>();
         try {
-            BatchDTO batchDTO = new BatchDTO();
-
             JSONArray jsonArray = response.getJSONArray(ServerConstants.BATCHES);
             HelperMethod.debugLog(TAG, "parseUserBatchListResponse size "+jsonArray.length());
             for (int i = 0; i < jsonArray.length(); i++) {
+                BatchDTO batchDTO = new BatchDTO();
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 batchDTO.setBatchId(jsonObject.optInt(ServerConstants.ID));
                 batchDTO.setBatchName(jsonObject.optString(ServerConstants.TITLE));
@@ -53,7 +52,7 @@ public class ServerResponseParser {
                 JSONArray routineArray = jsonObject.optJSONArray(ServerConstants.ROUTINE_INFLO_LIST);
                 for (int j=0; j<routineArray.length(); j++) {
                     ScheduleDTO scheduleDTO = new ScheduleDTO();
-                    JSONObject routineObj = (JSONObject) routineArray.get(i);
+                    JSONObject routineObj = (JSONObject) routineArray.get(j);
                     scheduleDTO.setDaysOfWeek(routineObj.optInt(ServerConstants.DAY_OF_WEEK) );
                     scheduleDTO.setScheduleId(routineObj.optInt(ServerConstants.ID));
                     scheduleDTO.setStartTime(routineObj.optString(ServerConstants.START_TIME));
@@ -61,6 +60,11 @@ public class ServerResponseParser {
                     routineList.add(scheduleDTO);
                 }
                 batchDTO.setScheduleDTOList(routineList);
+
+//                for (ScheduleDTO dto : routineList) {
+//                    HelperMethod.debugLog(TAG, "loop dto getDaysOfWeek == "+dto.getDaysOfWeek());
+//
+//                }
                 userBatchList.add(batchDTO);
             }
 
