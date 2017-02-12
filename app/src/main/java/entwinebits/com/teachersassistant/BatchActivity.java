@@ -85,15 +85,6 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
                                 @Override
                                 public void run() {
                                     HelperMethod.debugLog(TAG, "loadBatchList size = "+batchList.size());
-//                                    for (BatchDTO dto : batchList) {
-//
-////                                        ArrayList<ScheduleDTO> scheduleDTOs = dbRequestHelper.getScheduleListByBatch((int)dto.getBatchId());
-//                                        ArrayList<ScheduleDTO> scheduleDTOs = dto.getScheduleDTOList();
-//                                        dto.setScheduleDTOList(scheduleDTOs);
-//                                        HelperMethod.debugLog(TAG, "After db read : batch name : "+dto.getBatchName()+" id "+dto.getBatchId()
-//                                                + "schedule size = "+dto.getScheduleDTOList().size());
-//                                    }
-
                                     if (batchList != null && batchList.size() > 0) {
                                         runOnUiThread(new Runnable() {
                                             @Override
