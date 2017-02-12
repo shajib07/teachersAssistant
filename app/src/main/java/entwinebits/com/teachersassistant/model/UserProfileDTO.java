@@ -13,7 +13,7 @@ public class UserProfileDTO implements Parcelable{
     private String userPwd;
     private String userFirstName;
     private String userLastName;
-    private String userGender;
+    private int userGender;
     private String userCity;
     private String userCountry;
     private String userMobilePhone;
@@ -74,11 +74,11 @@ public class UserProfileDTO implements Parcelable{
         this.userLastName = userLastName;
     }
 
-    public String getUserGender() {
+    public int getUserGender() {
         return userGender;
     }
 
-    public void setUserGender(String userGender) {
+    public void setUserGender(int userGender) {
         this.userGender = userGender;
     }
 
@@ -177,7 +177,7 @@ public class UserProfileDTO implements Parcelable{
         userPwd = in.readString();
         userFirstName = in.readString();
         userLastName = in.readString();
-        userGender = in.readString();
+        userGender = in.readInt();
         userCity = in.readString();
         userCountry = in.readString();
         userMobilePhone = in.readString();
@@ -198,7 +198,7 @@ public class UserProfileDTO implements Parcelable{
         dest.writeString(userPwd);
         dest.writeString(userFirstName);
         dest.writeString(userLastName);
-        dest.writeString(userGender);
+        dest.writeInt(userGender);
         dest.writeString(userCity);
         dest.writeString(userCountry);
         dest.writeString(userMobilePhone);

@@ -96,35 +96,120 @@
                 android:layout_marginBottom="@dimen/margin_5"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_5" >
+                android:layout_marginTop="@dimen/margin_5">
 
                 <LinearLayout
-                    style="@style/Widget.CardContent"
+                    style="@style/Widget.CardContent.Edit.Profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <LinearLayout
+                    <RelativeLayout
+                        android:id="@+id/user_name_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/user_mobile_ll"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:layout_marginTop="@dimen/margin_10">
 
                         <ImageView
+                            android:id="@+id/user_person_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/margin_10"
-                            android:src="@drawable/ic_action_call"/>
+                            android:src="@drawable/ic_action_person" />
 
                         <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/user_person_edit_iv"
+                            android:layout_toRightOf="@+id/user_person_iv"
+                            android:hint="Full Name"
+                            android:text=""
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/user_person_edit_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            android:hint="First Name"/>
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_action_person"
+                            android:visibility="invisible" />
 
-                    </LinearLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/user_mobile_rl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10">
+
+                        <ImageView
+                            android:id="@+id/user_call_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@drawable/ic_action_call" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/user_call_edit_iv"
+                            android:layout_toRightOf="@+id/user_call_iv"
+                            android:hint="Mobile Phone"
+                            android:text=""
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/user_call_edit_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_action_call"
+                            android:visibility="invisible" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/user_email_rl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10">
+
+                        <ImageView
+                            android:id="@+id/user_email_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@drawable/ic_action_email" />
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@+id/user_email_edit_iv"
+                            android:layout_toRightOf="@+id/user_email_iv"
+                            android:hint="Email"
+                            android:text=""
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            android:id="@+id/user_email_edit_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_action_email"
+                            android:visibility="invisible" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 

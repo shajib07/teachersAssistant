@@ -1,5 +1,7 @@
 package entwinebits.com.teachersassistant.server;
 
+import android.widget.Toast;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -81,8 +83,20 @@ public class ServerResponseParser {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 userProfileDTO = new UserProfileDTO();
                 userProfileDTO.setUserFirstName(jsonObject.optString(ServerConstants.FULL_NAME));
-                userProfileDTO.setUserMobilePhone(jsonObject.optString(ServerConstants.PHONE_NUMBER));
-                userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.INSTITUTE));
+                userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.EMAIL) == true ? "" : jsonObject.optString(ServerConstants.EMAIL));
+                userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.PHONE_NUMBER) == true ? "" : jsonObject.optString(ServerConstants.PHONE_NUMBER));
+                userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.INSTITUTE) == true ? "" : jsonObject.optString(ServerConstants.INSTITUTE));
+                userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.USER_TYPE) == true ? "" : jsonObject.optString(ServerConstants.USER_TYPE));
+                userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.CITY) == true ? "" : jsonObject.optString(ServerConstants.CITY));
+                userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.COUNTRY) == true ? "" : jsonObject.optString(ServerConstants.COUNTRY));
+                userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.GENDER) == true ? "" : jsonObject.optString(ServerConstants.GENDER));
+
+//                userProfileDTO.setUserMobilePhone(jsonObject.optString(ServerConstants.PHONE_NUMBER) == null ? "Not Set" : );
+//                userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.INSTITUTE));
+//                userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.EMAIL));
+//                userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.USER_TYPE));
+//                userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.CITY));
+//                userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.COUNTRY));
 //                userProfileDTO.setUserGender(jsonObject.optBoolean(ServerConstants.GENDER) == true ? 1 : 0);
                 searchUserList.add(userProfileDTO);
             }

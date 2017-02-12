@@ -1,6 +1,7 @@
 package entwinebits.com.teachersassistant.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import entwinebits.com.teachersassistant.ProfileActivity;
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
@@ -34,14 +37,24 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
     }
 
     @Override
-    public void onBindViewHolder(SearchUserHolder holder, int position) {
+    public void onBindViewHolder(SearchUserHolder holder, final int position) {
 
+        HelperMethod.debugLog(TAG, "onBindViewHolder " +position);
         UserProfileDTO dto = mSearchUserList.get(position);
         holder.search_user_name_tv.setText(dto.getUserFirstName());
         holder.search_user_mobile_phn.setText((dto.getUserMobilePhone() == null || dto.getUserMobilePhone().length() == 0)
                 ? mActivity.getString(R.string.not_set) : dto.getUserMobilePhone());
         holder.search_user_institute.setText((dto.getUserInstituteName() == null || dto.getUserInstituteName().length() == 0)
                 ? mActivity.getString(R.string.not_set) : dto.getUserInstituteName());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(mActivity, ProfileActivity.class);
+                intent.putExtra(Constants.USER_PROFILE_DTO, mSearchUserList.get(position));
+                mActivity.startActivity(intent);
+            }
+        });
 //        HelperMethod.debugLog(TAG, "tag2 == "+  mActivity.getString(R.string.not_set) + " " +dto.getUserMobilePhone() + " ins "+dto.getUserInstituteName());
 
     }

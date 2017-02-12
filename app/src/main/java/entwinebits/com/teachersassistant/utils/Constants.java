@@ -8,6 +8,8 @@ public class Constants {
     public static final String APP_USER_ID = "APP_USER_ID";
     public static final String ALREADY_LOGGED_IN = "ALREADY_LOGGED_IN";
 
+    public static final String USER_PROFILE_DTO = "user_profile";
+
     public static final String BATCH_ID = "BATCH_ID";
     public static final String BATCH_NAME = "BATCH_NAME";
     public static final String STUDENT_ID = "STUDENT_ID";

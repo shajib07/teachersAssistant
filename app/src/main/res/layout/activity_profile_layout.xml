@@ -109,44 +109,53 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/user_mobile_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/user_mobile_ll"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/margin_10"
-                            android:src="@drawable/ic_action_call"/>
+                            android:src="@drawable/ic_action_call" />
 
                         <TextView
+                            android:id="@+id/profile_mobile_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:paddingBottom="@dimen/margin_2"
+                            android:paddingTop="@dimen/margin_2"
                             android:text="01724 257563"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/user_email_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/user_email_ll"
                         android:layout_marginTop="@dimen/margin_10"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/margin_10"
-                            android:src="@drawable/ic_action_email"/>
+                            android:src="@drawable/ic_action_email" />
 
                         <TextView
+                            android:id="@+id/profile_email_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/margin_2"
+                            android:paddingTop="@dimen/margin_2"
                             android:text="shajib.ruet@gmail.com"
-                            android:textSize="18sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                     </LinearLayout>

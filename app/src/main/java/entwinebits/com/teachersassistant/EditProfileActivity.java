@@ -22,6 +22,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile_layout);
         initToolbar();
+        initLayout();
+    }
+
+    private void initLayout() {
+
     }
 
     private void initToolbar() {
