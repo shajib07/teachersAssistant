@@ -1,7 +1,12 @@
 package entwinebits.com.teachersassistant.server;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import entwinebits.com.teachersassistant.model.PaymentDTO;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
 import entwinebits.com.teachersassistant.utils.UserProfileHelper;
@@ -47,6 +52,29 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject sendAddPaymentListRequest(ArrayList<PaymentHistoryDTO> paymentList) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, 15);
+            jsonObject.put("btchId", 71);
+            JSONArray array = new JSONArray();
+
+            for (PaymentHistoryDTO dto : paymentList) {
+                JSONObject obj = new JSONObject();
+                obj.put(ServerConstants.ID, dto.getStudentId());
+                obj.put(ServerConstants.MONTH, dto.getMonth());
+                obj.put(ServerConstants.YEAR, dto.getYear());
+                obj.put(ServerConstants.AMOUNT, dto.getPaidAmount());
+                obj.put(ServerConstants.STATUS, dto.isPaid());
+                array.put(obj);
+            }
+            jsonObject.put("payList", array);
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
+
     public static JSONObject sendAddPaymentHistoryRequest(int user_id, int batch_id, int month, int year, int amount, boolean status) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -57,7 +85,7 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.YEAR, year);
             jsonObject.put(ServerConstants.AMOUNT, amount);//add batch 4 5 for get all batch
             jsonObject.put(ServerConstants.STATUS, status);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return jsonObject;

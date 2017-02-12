@@ -8,12 +8,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +34,12 @@ import entwinebits.com.teachersassistant.adapter.BatchListAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.server.ServerResponseParser;
+import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by Nargis Rahman on 12/1/2016.
@@ -49,8 +64,61 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_batch);
         initToolbar();
         initLayout();
-        loadBatchList();
+//        loadBatchList();
+        loadUserBatchList();
     }
+
+    private void loadUserBatchList() {
+        long id = UserProfileHelper.getInstance(this).getUserId();
+        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id);
+        HelperMethod.debugLog(TAG, "loadUserBatchList user id == "+id);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            final ArrayList<BatchDTO> batchList = ServerResponseParser.parseUserBatchListResponse(response);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    HelperMethod.debugLog(TAG, "loadBatchList size = "+batchList.size());
+//                                    for (BatchDTO dto : batchList) {
+//
+////                                        ArrayList<ScheduleDTO> scheduleDTOs = dbRequestHelper.getScheduleListByBatch((int)dto.getBatchId());
+//                                        ArrayList<ScheduleDTO> scheduleDTOs = dto.getScheduleDTOList();
+//                                        dto.setScheduleDTOList(scheduleDTOs);
+//                                        HelperMethod.debugLog(TAG, "After db read : batch name : "+dto.getBatchName()+" id "+dto.getBatchId()
+//                                                + "schedule size = "+dto.getScheduleDTOList().size());
+//                                    }
+
+                                    if (batchList != null && batchList.size() > 0) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                batchListAdapter.notifyAdapterData(batchList);
+                                            }
+                                        });
+                                    }
+                                }
+                            }).start();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
 
     private void loadBatchList() {
         if (dbRequestHelper == null) {
@@ -97,7 +165,7 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onResume() {
         super.onResume();
-        loadBatchList();
+//        loadBatchList();
     }
 
     private void initLayout() {

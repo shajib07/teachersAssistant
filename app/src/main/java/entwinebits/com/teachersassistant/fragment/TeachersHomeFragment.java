@@ -78,8 +78,8 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
         String message = "";
 
         long id = UserProfileHelper.getInstance(mActivity).getUserId();
-        //JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id);
-        JSONObject jsonObject = ServerRequestHelper.getBatchStudentList(69);
+        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id);
+//        JSONObject jsonObject = ServerRequestHelper.getBatchStudentList(69);
         HelperMethod.debugLog(TAG, "loadUserBatchList id "+id);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,

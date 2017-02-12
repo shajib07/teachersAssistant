@@ -424,6 +424,9 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onResponse(JSONObject response) {
                         HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR) ) {
+                            Toast.makeText(AddNewBatchActivity.this, "New Batch Added.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {

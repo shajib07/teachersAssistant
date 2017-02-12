@@ -25,6 +25,7 @@ public class ServerConstants {
 
 
     public static final String USERS = "users";
+    public static final String BATCHES = "batches";
     public static final String USER_INFLO_LIST = "usrLst";
     public static final String FULL_NAME = "fName";
     public static final String PASSWORD = "pass";

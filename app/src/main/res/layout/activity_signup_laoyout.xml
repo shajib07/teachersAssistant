@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_search" />
+                android:src="@drawable/ic_action_account_circle" />
 
             <EditText
                 android:id="@+id/etName"
@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_search" />
+                android:src="@drawable/ic_action_call" />
 
             <EditText
                 android:id="@+id/etMobilePhone"
@@ -79,7 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_search" />
+                android:src="@drawable/ic_action_lock" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -196,7 +196,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_search" />
+                android:src="@drawable/ic_action_call" />
 
             <EditText
                 android:id="@+id/etMobilePhoneIn"
@@ -223,7 +223,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@mipmap/ic_action_search" />
+                android:src="@drawable/ic_action_lock" />
 
             <EditText
                 android:id="@+id/etPasswordIn"

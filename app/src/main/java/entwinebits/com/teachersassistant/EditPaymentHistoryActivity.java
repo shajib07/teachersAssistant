@@ -31,6 +31,7 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -227,10 +228,11 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             dto.setMonth(i + 1);
             dto.setYear(mEditYear);
             dto.setStudentName(mStudentName);
-            if (dto.isPaid()) {
-                addPaymentHistoryRequest(dto.getMonth(), dto.getYear(), dto.getPaidAmount(), dto.isPaid());
-            }
             mPaymentHistoryList.add(dto);
+        }
+
+        if (mPaymentHistoryList != null && mPaymentHistoryList.size() > 0) {
+            addPaymentHistoryRequest();
         }
 
         if (mDatabaseRequestHelper == null) {
@@ -255,7 +257,30 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         }).start();
     }
 
-    private void addPaymentHistoryRequest(int month, int year, int amount, boolean status) {
+
+    private void addPaymentHistoryRequest() {
+        JSONObject jsonObject = ServerRequestHelper.sendAddPaymentListRequest(mPaymentHistoryList);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("JSON", response.toString());
+                    }
+                },
+                new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("JSON", "Error: " + error.getMessage());
+            }
+        });
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
+    private void addPaymentHistoryRequestList(int month, int year, int amount, boolean status) {
 
         JSONObject jsonObject = ServerRequestHelper.sendAddPaymentHistoryRequest(mStudentId, mBatchId, month, year, amount, status);
 
