@@ -21,8 +21,8 @@
             android:paddingBottom="@dimen/margin_5"
             android:paddingLeft="@dimen/margin_5"
             android:text="Batch Morning"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textColor="@color/gray44"
+            android:textSize="18sp" />
 
 
         <LinearLayout

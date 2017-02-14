@@ -152,10 +152,13 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         edit_history_ll.setOnClickListener(this);
 
         student_name_tv.setText(mStudentDTO.getUserName());
-        student_mobile_phn_tv.setText(mStudentDTO.getUserMobilePhone().equals("") ? "Not Set" : mStudentDTO.getUserMobilePhone());
-        student_monthly_fee_tv.setText(mStudentDTO.getMonthlyFee() == 0 ? "Not Set" : "" + mStudentDTO.getMonthlyFee());
-        student_institute_tv.setText(mStudentDTO.getUserInstituteName().equals("") ? "Not Set" : mStudentDTO.getUserInstituteName());
-        student_address_tv.setText(mStudentDTO.getUserAddress().equals("") ? "Not Set" : mStudentDTO.getUserAddress());
+        student_mobile_phn_tv.setText((mStudentDTO.getUserMobilePhone() == null ||
+                mStudentDTO.getUserMobilePhone().equals("") )? "Not Set" : mStudentDTO.getUserMobilePhone());
+//        student_monthly_fee_tv.setText(mStudentDTO.getMonthlyFee() == 0 ? "Not Set" : "" + mStudentDTO.getMonthlyFee());
+        student_institute_tv.setText((mStudentDTO.getUserInstituteName() == null ||
+                mStudentDTO.getUserInstituteName().equals("") )? "Not Set" : mStudentDTO.getUserInstituteName());
+        student_address_tv.setText((mStudentDTO.getUserAddress() == null ||
+                mStudentDTO.getUserAddress().equals("") )? "Not Set" : mStudentDTO.getUserAddress());
 
 //        setUpSpinner();
 

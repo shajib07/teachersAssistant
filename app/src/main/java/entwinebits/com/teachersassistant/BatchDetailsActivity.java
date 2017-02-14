@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.adapter.StudentListAdapter;
@@ -21,12 +31,15 @@ import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.server.ServerResponseParser;
 import entwinebits.com.teachersassistant.system.DeviceConfig;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.Days;
 import entwinebits.com.teachersassistant.utils.DialogProvider;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.Months;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
 
 /**
  * Created by shajib on 12/23/2016.
@@ -96,6 +109,92 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void loadStudentList() {
+        JSONObject jsonObject = ServerRequestHelper.sendBatchStudentListRequest(mBatchId);
+        HelperMethod.debugLog(TAG, "loadUserBatchList batch id == "+mBatchId);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            final ArrayList<UserProfileDTO> studentList = ServerResponseParser.parseBatchStudentListResponse(response);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mTotalStudent = studentList.size();
+                                    HelperMethod.debugLog(TAG, "studentList size = "+studentList.size());
+                                    mStudentList.clear();
+                                    mStudentList.addAll(studentList);
+
+                                    if (studentList != null && studentList.size() > 0) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                total_student_tv.setText("" + mTotalStudent);
+
+                                                if (mStudentListAdapter == null) {
+                                                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+                                                    student_list_rv.setAdapter(mStudentListAdapter);
+                                                } else {
+                                                    mStudentListAdapter.notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            }).start();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+
+
+/*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
+//                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
+                mTotalStudent = studentList.size();
+                HelperMethod.debugLog(TAG, "loadBatchList size = " + studentList.size());
+                mStudentList.clear();
+                mStudentList.addAll(studentList);
+
+                if (studentList != null && studentList.size() > 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            total_student_tv.setText("" + mTotalStudent);
+
+                            if (mStudentListAdapter == null) {
+                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+                                student_list_rv.setAdapter(mStudentListAdapter);
+                            } else {
+                                mStudentListAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+
+*/
+    }
+
+
+/*
+    private void loadStudentList() {
         if (dbRequestHelper == null) {
             dbRequestHelper = new DatabaseRequestHelper(this);
         }
@@ -127,6 +226,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         }).start();
 
     }
+*/
 
 
     private void initScheduleLayout() {

@@ -67,15 +67,9 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
         }
         String tempDays = "";
 
-        for (ScheduleDTO dto : scheduleDTOs) {
-            HelperMethod.debugLog(TAG, "loop dto getDaysOfWeek == "+dto.getDaysOfWeek());
-
-        }
-
         for (int dayIndex = 0; dayIndex < scheduleDTOs.size(); dayIndex++) {
 
             final ScheduleDTO dto = scheduleDTOs.get(dayIndex);
-            HelperMethod.debugLog(TAG, " dto getDaysOfWeek == "+dto.getDaysOfWeek());
             holder.batch_schedule_from_tv.setText(dto.getStartTime());
             holder.batch_schedule_to_tv.setText(dto.getEndTime());
 

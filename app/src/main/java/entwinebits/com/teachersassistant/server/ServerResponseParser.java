@@ -19,23 +19,25 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 public class ServerResponseParser {
     private static String TAG = "ServerResponseParser";
 
-    /**
-     *  {
-     "error": false,
-     "batches": [{
-     "id": 72,
-     "ttl": "qer",
-     "rtnList": [{
-     "dayOfWk": "2",
-     "id": "29",
-     "strtTm": "10",
-     "endTm": "11.3"
-     }]
-     }]
-     }
-     * @param response
-     * @return
-     */
+    public static ArrayList<UserProfileDTO> parseBatchStudentListResponse(JSONObject response) {
+        ArrayList<UserProfileDTO> batchUserList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = response.getJSONArray(ServerConstants.USERS);
+            HelperMethod.debugLog(TAG, "parseBatchStudentListResponse size "+jsonArray.length());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                UserProfileDTO dto = new UserProfileDTO();
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                dto.setUserEmail(jsonObject.isNull(ServerConstants.EMAIL) == true ? "" : jsonObject.optString(ServerConstants.EMAIL));
+                dto.setUserFirstName(jsonObject.isNull(ServerConstants.FULL_NAME) == true ? "" : jsonObject.optString(ServerConstants.FULL_NAME));
+                dto.setUserMobilePhone(jsonObject.isNull(ServerConstants.PHONE_NUMBER) == true ? "" : jsonObject.optString(ServerConstants.PHONE_NUMBER));
+                batchUserList.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return batchUserList;
+    }
+
     public static ArrayList<BatchDTO> parseUserBatchListResponse(JSONObject response) {
 
         ArrayList<BatchDTO> userBatchList = new ArrayList<>();

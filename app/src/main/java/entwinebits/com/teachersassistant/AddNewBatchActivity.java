@@ -364,7 +364,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         Toast.makeText(this, mScheduleList.get(0).getStartTime(), Toast.LENGTH_SHORT);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ServerConstants.ACTION, 6);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_ADD_USER_NEW_BATCH);//add batch 4 5 for get all batch
             jsonObject.put(ServerConstants.TITLE, mBatchName);
             jsonObject.put(ServerConstants.ID, userId);
 
@@ -393,6 +393,9 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 jobj.put(ServerConstants.PASSWORD, dto.getUserPwd());
                 jobj.put(ServerConstants.GENDER, 1);
                 jobj.put(ServerConstants.USER_TYPE, 1);
+                jobj.put(ServerConstants.INSTITUTE, dto.getUserMobilePhone());
+                jobj.put(ServerConstants.PHONE_NUMBER, dto.getUserInstituteName());
+
                 jsonStudentArray.put(jobj);
             }
             jsonObject.put("usrLst", jsonStudentArray);
