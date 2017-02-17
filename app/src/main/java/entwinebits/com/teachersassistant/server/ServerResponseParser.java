@@ -28,8 +28,10 @@ public class ServerResponseParser {
                 UserProfileDTO dto = new UserProfileDTO();
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 dto.setUserEmail(jsonObject.isNull(ServerConstants.EMAIL) == true ? "" : jsonObject.optString(ServerConstants.EMAIL));
-                dto.setUserFirstName(jsonObject.isNull(ServerConstants.FULL_NAME) == true ? "" : jsonObject.optString(ServerConstants.FULL_NAME));
+                dto.setUserName(jsonObject.isNull(ServerConstants.FULL_NAME) == true ? "" : jsonObject.optString(ServerConstants.FULL_NAME));
                 dto.setUserMobilePhone(jsonObject.isNull(ServerConstants.PHONE_NUMBER) == true ? "" : jsonObject.optString(ServerConstants.PHONE_NUMBER));
+
+                HelperMethod.debugLog(TAG, "name === "+dto.getUserName() + " phn == "+dto.getUserMobilePhone());
                 batchUserList.add(dto);
             }
         } catch (Exception e) {

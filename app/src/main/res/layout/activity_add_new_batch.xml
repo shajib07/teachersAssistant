@@ -18,7 +18,7 @@
             android:background="?attr/colorPrimary"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:layout_scrollFlags=""
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <RelativeLayout
@@ -36,10 +36,10 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/margin_15"
-                        android:paddingRight="@dimen/margin_10"
                         android:layout_gravity="center"
                         android:background="@null"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_10"
                         android:src="@mipmap/ic_toolbar_back" />
                 </FrameLayout>
 
@@ -94,14 +94,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_5"
+                android:background="@color/white"
+                android:padding="@dimen/margin_10"
                 app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
 
                 <EditText
@@ -115,23 +115,26 @@
                 android:id="@+id/handle_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginTop="@dimen/margin_5"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:paddingTop="@dimen/margin_5"
                     android:text="@string/add_shedule"
-                    android:textSize="@dimen/header_text_size" />
+                    android:textColor="@color/gray44"
+                    android:textSize="18sp" />
 
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray" />
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@android:color/darker_gray" />-->
             </LinearLayout>
 
             <LinearLayout
@@ -165,28 +168,28 @@
                                 android:id="@+id/day_sat"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/margin_3"
                                 android:layout_weight="1"
                                 android:background="@drawable/custom_rectangle_bg"
                                 android:gravity="center"
-                                android:layout_marginRight="@dimen/margin_3"
                                 android:paddingBottom="@dimen/margin_5"
                                 android:paddingTop="@dimen/margin_5"
                                 android:text="SAT"
                                 android:textColor="@android:color/black" />
 
-<!--
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@android:color/darker_gray" />
--->
+                            <!--
+                                                        <View
+                                                            android:layout_width="1dp"
+                                                            android:layout_height="match_parent"
+                                                            android:background="@android:color/darker_gray" />
+                            -->
 
                             <TextView
                                 android:id="@+id/day_sun"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginRight="@dimen/margin_3"
+                                android:layout_weight="1"
                                 android:background="@drawable/custom_rectangle_bg"
                                 android:gravity="center"
                                 android:paddingBottom="@dimen/margin_5"
@@ -194,19 +197,19 @@
                                 android:text="SUN"
                                 android:textColor="@android:color/black" />
 
-<!--
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@android:color/darker_gray" />
--->
+                            <!--
+                                                        <View
+                                                            android:layout_width="1dp"
+                                                            android:layout_height="match_parent"
+                                                            android:background="@android:color/darker_gray" />
+                            -->
 
                             <TextView
                                 android:id="@+id/day_mon"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginRight="@dimen/margin_3"
+                                android:layout_weight="1"
                                 android:background="@drawable/custom_rectangle_bg"
                                 android:gravity="center"
                                 android:paddingBottom="@dimen/margin_5"
@@ -214,19 +217,19 @@
                                 android:text="MON"
                                 android:textColor="@android:color/black" />
 
-<!--
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@android:color/darker_gray" />
--->
+                            <!--
+                                                        <View
+                                                            android:layout_width="1dp"
+                                                            android:layout_height="match_parent"
+                                                            android:background="@android:color/darker_gray" />
+                            -->
 
                             <TextView
                                 android:id="@+id/day_tue"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginRight="@dimen/margin_3"
+                                android:layout_weight="1"
                                 android:background="@drawable/custom_rectangle_bg"
                                 android:gravity="center"
                                 android:paddingBottom="@dimen/margin_5"
@@ -234,19 +237,19 @@
                                 android:text="TUE"
                                 android:textColor="@android:color/black" />
 
-<!--
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@android:color/darker_gray" />
--->
+                            <!--
+                                                        <View
+                                                            android:layout_width="1dp"
+                                                            android:layout_height="match_parent"
+                                                            android:background="@android:color/darker_gray" />
+                            -->
 
                             <TextView
                                 android:id="@+id/day_wed"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginRight="@dimen/margin_3"
+                                android:layout_weight="1"
                                 android:background="@drawable/custom_rectangle_bg"
                                 android:gravity="center"
                                 android:paddingBottom="@dimen/margin_5"
@@ -254,12 +257,12 @@
                                 android:text="WED"
                                 android:textColor="@android:color/black" />
 
-<!--
-                            <View
-                                android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@android:color/darker_gray" />
--->
+                            <!--
+                                                        <View
+                                                            android:layout_width="1dp"
+                                                            android:layout_height="match_parent"
+                                                            android:background="@android:color/darker_gray" />
+                            -->
 
                             <TextView
                                 android:id="@+id/day_thu"
@@ -274,12 +277,12 @@
                                 android:text="THU"
                                 android:textColor="@android:color/black" />
 
-<!--
-                            <View
-                                android:layout_width="2dp"
-                                android:layout_height="match_parent"
-                                android:background="@android:color/white" />
--->
+                            <!--
+                                                        <View
+                                                            android:layout_width="2dp"
+                                                            android:layout_height="match_parent"
+                                                            android:background="@android:color/white" />
+                            -->
 
                             <TextView
                                 android:id="@+id/day_fri"
@@ -295,12 +298,10 @@
 
                         </LinearLayout>
 
-
                         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
                             android:id="@+id/scroll"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone">
+                            android:layout_height="wrap_content">
 
                             <LinearLayout
                                 android:id="@+id/lay"
@@ -338,6 +339,52 @@
                                     android:id="@+id/layout_fri"
                                     layout="@layout/schedule_input_layout" />
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_20"
+                                    android:orientation="horizontal">
+
+                                    <View
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight=".5" />
+
+                                    <Button
+                                        android:id="@+id/add_student_btn"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/button_custom_height"
+                                        android:layout_weight="1"
+                                        android:background="@drawable/navy_btn_bg"
+                                        android:text="@string/add_student"
+                                        android:textColor="@drawable/navy_btn_text"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <View
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight=".5" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_margin="@dimen/margin_10">
+
+                                </LinearLayout>
+
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/added_user_recycler_view"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/margin_15"
+                                    android:background="@color/white">
+
+                                </android.support.v7.widget.RecyclerView>
+
+
                             </LinearLayout>
                         </ScrollView>
                     </LinearLayout>
@@ -345,43 +392,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_20"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5" />
-
-                <Button
-                    android:id="@+id/add_student_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/navy_btn_bg"
-                    android:text="@string/add_student"
-                    android:textColor="@drawable/navy_btn_text"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".5" />
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/added_user_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:background="@color/white">
-
-            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
