@@ -33,8 +33,10 @@ public class ServerRequestHelper {
     public static JSONObject sendUserBatchListRequest(long userId) {
         JSONObject jsonObject = new JSONObject();
         try {
+
             jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER_ALL_BATCHES);
             jsonObject.put(ServerConstants.ID, userId);
+            HelperMethod.debugLog(TAG, "sendUserBatchListRequest : "+jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

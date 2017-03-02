@@ -100,6 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_5"
                 android:background="@color/white"
                 android:padding="@dimen/margin_10"
                 app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
@@ -342,7 +344,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/margin_20"
+                                    android:layout_marginTop="@dimen/margin_30"
                                     android:orientation="horizontal">
 
                                     <View

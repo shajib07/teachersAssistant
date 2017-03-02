@@ -285,7 +285,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 if (data.hasExtra(Constants.EDIT_STUDENT_DTO)) {
 
                     UserProfileDTO editedDto = data.getParcelableExtra(Constants.EDIT_STUDENT_DTO);
-                    HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : "+editedDto.getUserName());
+                    HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : "+editedDto.getUserFirstName());
                     if (dbRequestHelper == null) {
                         dbRequestHelper = new DatabaseRequestHelper(this);
                     }

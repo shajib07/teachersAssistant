@@ -24,10 +24,18 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
     private String TAG = "SearchUserAdapter";
     private ArrayList<UserProfileDTO> mSearchUserList;
     private Activity mActivity;
+    private ItemSelectionListener itemSelectionListener;
+    private boolean isNewStudentSearch;
 
-    public SearchUserAdapter(Activity activity, ArrayList<UserProfileDTO> list) {
+    public SearchUserAdapter(Activity activity, ArrayList<UserProfileDTO> list, ItemSelectionListener listener, boolean isNewStudentSearch) {
         this.mActivity = activity;
         this.mSearchUserList = list;
+        this.itemSelectionListener = listener;
+        this.isNewStudentSearch = isNewStudentSearch;
+    }
+
+    public interface ItemSelectionListener {
+        void onItemSelected(UserProfileDTO dto);
     }
 
     @Override
@@ -50,6 +58,10 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
             @Override
             public void onClick(View view) {
 
+                if (isNewStudentSearch) {
+                    itemSelectionListener.onItemSelected(mSearchUserList.get(position));
+                    return;
+                }
                 Intent intent = new Intent(mActivity, ProfileActivity.class);
                 intent.putExtra(Constants.USER_PROFILE_DTO, mSearchUserList.get(position));
                 mActivity.startActivity(intent);

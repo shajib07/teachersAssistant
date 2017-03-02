@@ -137,7 +137,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                     for (UserProfileDTO dto : studentList) {
                         ArrayList<PaymentHistoryDTO> tempPaymentList = mDbRequestHelper.getPaymentHistoryByStudent(dto.getUserId());
                         mBatchPaymentMap.put(batchDTO.getBatchName(), tempPaymentList);
-                        HelperMethod.debugLog(TAG, "stu  == "+dto.getUserName());
+                        HelperMethod.debugLog(TAG, "stu  == "+dto.getUserFirstName());
                     }
 //
 //                    PaymentDTO paymentDTO = new PaymentDTO();

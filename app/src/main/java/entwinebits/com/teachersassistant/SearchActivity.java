@@ -1,5 +1,6 @@
 package entwinebits.com.teachersassistant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +32,7 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 /**
  * Created by shajib on 1/24/2017.
  */
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchActivity extends AppCompatActivity implements View.OnClickListener, SearchUserAdapter.ItemSelectionListener {
 
     private String TAG = "SearchActivity";
     private FrameLayout search_toolbar_back;
@@ -40,12 +41,17 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private RecyclerView search_user_list_rv;
     private SearchUserAdapter mSearchUserAdapter;
     private ArrayList<UserProfileDTO> mSearchUserList ;
+    private boolean isNewStudentSearch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_layout);
         mSearchUserList = new ArrayList<>();
+
+        if (getIntent().hasExtra(Constants.ADD_STUDENT_FROM_SEARCH)) {
+            isNewStudentSearch = getIntent().getBooleanExtra(Constants.ADD_STUDENT_FROM_SEARCH, false);
+        }
 
         initLayout();
     }
@@ -61,7 +67,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         search_user_list_rv = (RecyclerView)findViewById(R.id.search_user_list_rv);
         search_user_list_rv.setLayoutManager(new LinearLayoutManager(this));
-        mSearchUserAdapter = new SearchUserAdapter(this, mSearchUserList);
+        mSearchUserAdapter = new SearchUserAdapter(this, mSearchUserList, this, isNewStudentSearch);
         search_user_list_rv.setAdapter(mSearchUserAdapter);
 
     }
@@ -142,5 +148,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 SearchActivity.this.finish();
                 break;
         }
+    }
+
+    @Override
+    public void onItemSelected(UserProfileDTO dto) {
+        Intent BackIntent = new Intent();
+//        HelperMethod.debugLog(AddNewBatchActivity.TAG, "mAddedStudentList : " + dto.size());
+        BackIntent.putExtra(Constants.ADDED_STUDENT, dto);
+        setResult(RESULT_OK, BackIntent);
+        finish();
     }
 }

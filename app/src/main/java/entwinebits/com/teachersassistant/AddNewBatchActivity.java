@@ -356,12 +356,16 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private void addNewBatchRequest() {
         mBatchName = batch_title_et.getText().toString();
         long userId = UserProfileHelper.getInstance(this).getUserId();
+
         if (mBatchName.length() < 1) {
             Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Name", Toast.LENGTH_SHORT).show();
             return;
+        } else if (mScheduleList.size() < 1) {
+            Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Schedule", Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        Toast.makeText(this, mScheduleList.get(0).getStartTime(), Toast.LENGTH_SHORT);
+//        Toast.makeText(this, mScheduleList.get(0).getStartTime(), Toast.LENGTH_SHORT);
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_ADD_USER_NEW_BATCH);//add batch 4 5 for get all batch
@@ -386,38 +390,24 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
             HelperMethod.debugLog(TAG, "addNewBatchRequest1 : req == "+jsonObject.toString());
             JSONArray jsonStudentArray = new JSONArray();
+            HelperMethod.debugLog(TAG, "mAddedStudentList : size == "+mAddedStudentList.size());
+
             for (UserProfileDTO dto : mAddedStudentList) {
                 JSONObject jobj = new JSONObject();
-                jobj.put(ServerConstants.FULL_NAME, dto.getUserName());
+                jobj.put(ServerConstants.FULL_NAME, dto.getUserFirstName());
                 jobj.put(ServerConstants.EMAIL, dto.getUserEmail());
                 jobj.put(ServerConstants.PASSWORD, dto.getUserPwd());
                 jobj.put(ServerConstants.GENDER, 1);
                 jobj.put(ServerConstants.USER_TYPE, 1);
                 jobj.put(ServerConstants.INSTITUTE, dto.getUserMobilePhone());
                 jobj.put(ServerConstants.PHONE_NUMBER, dto.getUserInstituteName());
-
                 jsonStudentArray.put(jobj);
             }
-            jsonObject.put("usrLst", jsonStudentArray);
+            jsonObject.put(ServerConstants.NEW_USER_LIST, jsonStudentArray);
 
-            HelperMethod.debugLog(TAG, "addNewBatchRequest2 : req == "+jsonObject.toString());
-//
-//            JSONArray arrayStu = new JSONArray();
-//            JSONObject objStu = new JSONObject();
-//            obj.put(ServerConstants.FULL_NAME, "nnmnnn1");
-//            obj.put(ServerConstants.EMAIL, "bmmmmm3@snnnnhajibnn");
-//            obj.put(ServerConstants.PASSWORD, "pronn123");
-//            obj.put(ServerConstants.GENDER, "male@shajibnn");
-//            obj.put(ServerConstants.USER_TYPE, 1);
-//            JSONObject objStu1 = new JSONObject();
-//            obj1.put(ServerConstants.FULL_NAME, "nn2gf");
-//            obj1.put(ServerConstants.EMAIL, "OK12mmmmm3@s456hajibn2");
-//            obj1.put(ServerConstants.PASSWORD, "pro12");
-//            obj1.put(ServerConstants.GENDER, "male@shajib12");
-//            obj1.put(ServerConstants.USER_TYPE, 1);
-//            arrayStu.put(objStu);
-//            arrayStu.put(objStu1);
-//            jsonObject.put("usrLst", array);
+            JSONArray jsonExistArray = new JSONArray();
+            jsonObject.put(ServerConstants.EXIST_USER_LIST, jsonExistArray);
+
         } catch (Exception e) {
             HelperMethod.errorLog(TAG, "exception: "+e.toString());
         }
@@ -441,7 +431,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
-        HelperMethod.debugLog(TAG, "addNewBatchRequestiu iiugiu : req == "+jsonObject.toString());
+        HelperMethod.debugLog(TAG, "addNewBatchRequest Full : req == "+jsonObject.toString());
     }
 
     private void saveNewBatch() {
@@ -453,6 +443,9 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         String batchName = batch_title_et.getText().toString();
         if (batchName.length() < 1) {
             Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Name", Toast.LENGTH_SHORT).show();
+            return;
+        } else if (mScheduleList.size() < 1) {
+            Toast.makeText(AddNewBatchActivity.this, "Please, Insert Batch Schedule", Toast.LENGTH_SHORT).show();
             return;
         }
 

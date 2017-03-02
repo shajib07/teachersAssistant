@@ -35,7 +35,7 @@ public class AddedUserHorizontalAdapter extends RecyclerView.Adapter<AddedUserHo
     @Override
     public void onBindViewHolder(AddedUserViewHolder holder, final int position) {
         UserProfileDTO dto = mUserProfileDTOs.get(position);
-        holder.user_name_tv.setText(dto.getUserName());
+        holder.user_name_tv.setText(dto.getUserFirstName());
 
         holder.remove_user_iv.setOnClickListener(new View.OnClickListener() {
             @Override

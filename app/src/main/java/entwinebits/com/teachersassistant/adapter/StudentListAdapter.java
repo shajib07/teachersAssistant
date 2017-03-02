@@ -53,7 +53,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     public void onBindViewHolder(StudentViewHolder holder, int position) {
 
         final UserProfileDTO dto = mStudentList.get(position);
-        holder.student_name_tv.setText(dto.getUserName());
+        holder.student_name_tv.setText(dto.getUserFirstName());
         holder.student_contact_tv.setText(dto.getUserMobilePhone() == null ? mActivity.getString(R.string.not_set) : dto.getUserMobilePhone());
         holder.student_monthly_fee.setText(dto.getMonthlyFee() + "");
 //        holder.student_list_settings.setOnClickListener(new View.OnClickListener() {

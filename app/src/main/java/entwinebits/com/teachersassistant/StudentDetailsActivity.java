@@ -128,7 +128,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
     private void initToolbar() {
         student_details_toolbar_title = (TextView) findViewById(R.id.student_details_toolbar_title);
-        student_details_toolbar_title.setText(mStudentDTO.getUserName());
+        student_details_toolbar_title.setText(mStudentDTO.getUserFirstName());
 
         student_details_toolbar_back = (FrameLayout) findViewById(R.id.student_details_toolbar_back);
         student_details_toolbar_back.setOnClickListener(this);
@@ -151,7 +151,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         edit_history_ll = (LinearLayout) findViewById(R.id.edit_history_ll);
         edit_history_ll.setOnClickListener(this);
 
-        student_name_tv.setText(mStudentDTO.getUserName());
+        student_name_tv.setText(mStudentDTO.getUserFirstName());
         student_mobile_phn_tv.setText((mStudentDTO.getUserMobilePhone() == null ||
                 mStudentDTO.getUserMobilePhone().equals("") )? "Not Set" : mStudentDTO.getUserMobilePhone());
 //        student_monthly_fee_tv.setText(mStudentDTO.getMonthlyFee() == 0 ? "Not Set" : "" + mStudentDTO.getMonthlyFee());
@@ -196,7 +196,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
                 Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
                 intent.putExtra(Constants.STUDENT_ID, mStudentDTO.getUserId());
-                intent.putExtra(Constants.STUDENT_NAME, mStudentDTO.getUserName());
+                intent.putExtra(Constants.STUDENT_NAME, mStudentDTO.getUserFirstName());
                 intent.putExtra(Constants.BATCH_ID, mBatchId);
                 startActivity(intent);
                 break;
@@ -262,9 +262,9 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                 if (data.hasExtra(Constants.EDIT_STUDENT_DTO)) {
 
                     mStudentDTO = data.getParcelableExtra(Constants.EDIT_STUDENT_DTO);
-                    HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : "+mStudentDTO.getUserName());
+                    HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : "+mStudentDTO.getUserFirstName());
 
-                    student_name_tv.setText(mStudentDTO.getUserName());
+                    student_name_tv.setText(mStudentDTO.getUserFirstName());
                     student_mobile_phn_tv.setText(mStudentDTO.getUserMobilePhone());
                     student_monthly_fee_tv.setText("" + mStudentDTO.getMonthlyFee());
                     student_institute_tv.setText(mStudentDTO.getUserInstituteName());
@@ -295,13 +295,13 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
     private void sendActivityResult() {
         UserProfileDTO updatedStudentDTO = new UserProfileDTO();
-        updatedStudentDTO.setUserName(student_name_tv.getText().toString());
+        updatedStudentDTO.setUserFirstName(student_name_tv.getText().toString());
         updatedStudentDTO.setUserMobilePhone(student_mobile_phn_tv.getText().toString());
         updatedStudentDTO.setMonthlyFee(Integer.parseInt(student_monthly_fee_tv.getText().toString() ));
         updatedStudentDTO.setUserInstituteName(student_institute_tv.getText().toString());
         updatedStudentDTO.setUserAddress(student_address_tv.getText().toString());
         Intent BackIntent = new Intent();
-        HelperMethod.debugLog(AddNewBatchActivity.TAG, "updatedStudentDTO : " + updatedStudentDTO.getUserName());
+        HelperMethod.debugLog(AddNewBatchActivity.TAG, "updatedStudentDTO : " + updatedStudentDTO.getUserFirstName());
         BackIntent.putExtra(Constants.EDIT_STUDENT_DTO, updatedStudentDTO);
         setResult(RESULT_OK, BackIntent);
     }

@@ -17,9 +17,15 @@ public class Constants {
     public static final String BATCH_WEEK_DAYS = "BATCH_WEEK_DAYS";
     public static final String NUMBER_OF_STUDENT = "NUMBER_OF_STUDENT";
     public static final String ADDED_STUDENT_LIST = "ADDED_STUDENT_LIST";
+    public static final String ADDED_STUDENT = "ADDED_STUDENT";
     public static final String BATCH_SCHEDULE_LIST = "BATCH_SCHEDULE_LIST";
     public static final String ADDED_STUDENT_DTO = "ADDED_STUDENT_DTO";
     public static final String EDIT_STUDENT_DTO = "EDIT_STUDENT_DTO";
+
+    public static final String ADD_STUDENT_FROM_SEARCH = "ADD_STUDENT_FROM_SEARCH";
+
+
+    public static final int REQUEST_CODE_ADD_STUDENT = 151;
 
 
     public static final int MONTH_TYPE = 1;

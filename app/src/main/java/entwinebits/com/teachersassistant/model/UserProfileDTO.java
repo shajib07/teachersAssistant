@@ -9,7 +9,7 @@ import android.os.Parcelable;
 public class UserProfileDTO implements Parcelable{
 
     private int userId;
-    private String userName;
+//    private String userName;
     private String userPwd;
     private String userFirstName;
     private String userLastName;
@@ -42,13 +42,13 @@ public class UserProfileDTO implements Parcelable{
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+//    public String getUserName() {
+//        return userName;
+//    }
+//
+//    public void setUserName(String userName) {
+//        this.userName = userName;
+//    }
 
     public String getUserPwd() {
         return userPwd;
@@ -173,7 +173,6 @@ public class UserProfileDTO implements Parcelable{
 
     private UserProfileDTO(Parcel in) {
         userId = in.readInt();
-        userName = in.readString();
         userPwd = in.readString();
         userFirstName = in.readString();
         userLastName = in.readString();
@@ -194,7 +193,6 @@ public class UserProfileDTO implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(userId);
-        dest.writeString(userName);
         dest.writeString(userPwd);
         dest.writeString(userFirstName);
         dest.writeString(userLastName);

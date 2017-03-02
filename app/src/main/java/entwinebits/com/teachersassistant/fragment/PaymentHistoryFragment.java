@@ -182,7 +182,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
                         for (UserProfileDTO dto : studentList) {
                             PaymentDTO paymentDTO = new PaymentDTO();
                             paymentDTO.setTotalAmount(dto.getMonthlyFee());
-                            paymentDTO.setBatchName(dto.getUserName());
+                            paymentDTO.setBatchName(dto.getUserFirstName());
                             paymentDTOs.add(paymentDTO);
                         }
                         mActivity.runOnUiThread(new Runnable() {

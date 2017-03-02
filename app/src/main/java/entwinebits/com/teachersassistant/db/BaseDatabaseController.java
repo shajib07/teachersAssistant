@@ -33,7 +33,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
                 do {
                     UserProfileDTO dto = new UserProfileDTO();
                     dto.setUserId(cursor.getInt(0));
-                    dto.setUserName(cursor.getString(1));
+                    dto.setUserFirstName(cursor.getString(1));
                     dto.setMonthlyFee(cursor.getInt(2));
                     dto.setUserMobilePhone(cursor.getString(10));
                     dto.setUserInstituteName(cursor.getString(15));
@@ -54,7 +54,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     public void deleteStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "deleteStudent called ++++++ ");
         int id = userProfileDTO.getUserId();
-        HelperMethod.debugLog(TAG, "id = " + id + " name = " + userProfileDTO.getUserName() + " fee = " + userProfileDTO.getMonthlyFee());
+        HelperMethod.debugLog(TAG, "id = " + id + " name = " + userProfileDTO.getUserFirstName() + " fee = " + userProfileDTO.getMonthlyFee());
         try {
             int ret = db.delete(TABLE_USER_PROFILE, KEY_ID + " = ?", new String[]{String.valueOf(id)});
         } catch (Exception e) {
@@ -65,10 +65,10 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
     public void updateStudent(UserProfileDTO userProfileDTO, SQLiteDatabase db) {
         HelperMethod.debugLog(TAG, "updateStudent called ++++++ ");
         int id = (int) userProfileDTO.getUserId();
-        HelperMethod.debugLog(TAG, "id = " + id + " name = " + userProfileDTO.getUserName() + " fee = " + userProfileDTO.getMonthlyFee());
+        HelperMethod.debugLog(TAG, "id = " + id + " name = " + userProfileDTO.getUserFirstName() + " fee = " + userProfileDTO.getMonthlyFee());
 
         ContentValues values = new ContentValues();
-        values.put(KEY_USERNAME, userProfileDTO.getUserName());
+        values.put(KEY_USERNAME, userProfileDTO.getUserFirstName());
         values.put(KEY_MONTHLY_FEE, userProfileDTO.getMonthlyFee());
         values.put(KEY_MOBILE, userProfileDTO.getUserMobilePhone());
         values.put(KEY_INSTITUTE_NAME, userProfileDTO.getUserInstituteName());
@@ -98,7 +98,7 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
         long id = -1;
 
         ContentValues values = new ContentValues();
-        values.put(KEY_USERNAME, userProfileDTO.getUserName());
+        values.put(KEY_USERNAME, userProfileDTO.getUserFirstName());
         values.put(KEY_MONTHLY_FEE, userProfileDTO.getMonthlyFee());
         values.put(KEY_MOBILE, userProfileDTO.getUserMobilePhone());
         values.put(KEY_INSTITUTE_NAME, userProfileDTO.getUserInstituteName());

@@ -18,6 +18,10 @@
     <color name="gray26">#424242</color>
     <color name="gray38">#616161</color>
     <color name="gray44">#707070</color>
+    <color name="gray70">#B3B3B3</color>
+    <color name="gray80">#CCCCCC</color>
+    <color name="gray">#BEBEBE</color>
+    <color name="verylight_grey">#CDCDCD</color>
     <color name="darker_gray">#9C9C9C</color>
 
 
