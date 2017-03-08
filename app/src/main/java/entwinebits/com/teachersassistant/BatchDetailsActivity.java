@@ -47,7 +47,7 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 public class BatchDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private String TAG = "StudentDetailsActivity";
+    private String TAG = "BatchDetailsActivity";
     private FrameLayout batch_details_toolbar_back, add_student_done_btn;
     private TextView batch_details_toolbar_title;
     private ImageView batch_details_edit_iv;
@@ -116,7 +116,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d(TAG, response.toString());
+                        HelperMethod.debugLog(TAG, response.toString());
 
                         if (!response.optBoolean(ServerConstants.ERROR)) {
                             final ArrayList<UserProfileDTO> studentList = ServerResponseParser.parseBatchStudentListResponse(response);

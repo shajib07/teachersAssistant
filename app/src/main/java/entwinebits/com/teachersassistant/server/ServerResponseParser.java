@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -19,6 +20,30 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 public class ServerResponseParser {
     private static String TAG = "ServerResponseParser";
 
+    public static ArrayList<PaymentHistoryDTO> parseGetStudentPaymentListRequest(JSONObject response) {
+        ArrayList<PaymentHistoryDTO> paymentHistoryList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = response.getJSONArray(ServerConstants.PAYMENT_LIST);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                PaymentHistoryDTO dto = new PaymentHistoryDTO();
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+//                dto.setPaidAmount(jsonObject1.optInt(ServerConstants.PAYMENT_ID));
+                dto.setMonth(jsonObject1.optInt(ServerConstants.MONTH));
+                dto.setYear(jsonObject1.optInt(ServerConstants.YEAR));
+                dto.setPaidAmount(jsonObject1.optInt(ServerConstants.AMOUNT));
+                dto.setPaid(jsonObject1.optInt(ServerConstants.STATUS) == 1 ? true : false);
+                paymentHistoryList.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return paymentHistoryList;
+    }
+
+    /**
+     * @param response
+     * @return
+     */
     public static ArrayList<UserProfileDTO> parseBatchStudentListResponse(JSONObject response) {
         ArrayList<UserProfileDTO> batchUserList = new ArrayList<>();
         try {
@@ -27,9 +52,11 @@ public class ServerResponseParser {
             for (int i = 0; i < jsonArray.length(); i++) {
                 UserProfileDTO dto = new UserProfileDTO();
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                dto.setUserEmail(jsonObject.isNull(ServerConstants.EMAIL) == true ? "" : jsonObject.optString(ServerConstants.EMAIL));
+                dto.setUserId(jsonObject.optInt(ServerConstants.ID));
                 dto.setUserFirstName(jsonObject.isNull(ServerConstants.FULL_NAME) == true ? "" : jsonObject.optString(ServerConstants.FULL_NAME));
+                dto.setUserEmail(jsonObject.isNull(ServerConstants.EMAIL) == true ? "" : jsonObject.optString(ServerConstants.EMAIL));
                 dto.setUserMobilePhone(jsonObject.isNull(ServerConstants.PHONE_NUMBER) == true ? "" : jsonObject.optString(ServerConstants.PHONE_NUMBER));
+                dto.setUserInstituteName(jsonObject.isNull(ServerConstants.INSTITUTE) == true ? "" : jsonObject.optString(ServerConstants.INSTITUTE));
 
                 HelperMethod.debugLog(TAG, "name === "+dto.getUserFirstName() + " phn == "+dto.getUserMobilePhone());
                 batchUserList.add(dto);

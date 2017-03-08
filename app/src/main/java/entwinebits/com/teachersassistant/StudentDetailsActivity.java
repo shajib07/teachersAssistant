@@ -20,8 +20,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import entwinebits.com.teachersassistant.adapter.StudentListAdapter;
 import entwinebits.com.teachersassistant.adapter.StudentPaymentHistoryAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.dialogFragment.YearSelectionDialogFragment;
@@ -30,8 +40,12 @@ import entwinebits.com.teachersassistant.listener.PaymentUpdateListener;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.server.ServerRequestManager;
+import entwinebits.com.teachersassistant.server.ServerResponseParser;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
 
 /**
  * Created by shajib on 12/23/2016.
@@ -39,7 +53,7 @@ import entwinebits.com.teachersassistant.utils.HelperMethod;
 public class StudentDetailsActivity extends AppCompatActivity implements View.OnClickListener,
         DialogCloseListener, PaymentUpdateListener {
 
-    private String TAG = "EditPaymentHistoryActivity";
+    private String TAG = "StudentDetailsActivity";
     private RecyclerView student_payment_history_rv;
     private StudentPaymentHistoryAdapter historyAdapter;
     private FrameLayout student_details_toolbar_back;
@@ -153,12 +167,12 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
         student_name_tv.setText(mStudentDTO.getUserFirstName());
         student_mobile_phn_tv.setText((mStudentDTO.getUserMobilePhone() == null ||
-                mStudentDTO.getUserMobilePhone().equals("") )? "Not Set" : mStudentDTO.getUserMobilePhone());
+                mStudentDTO.getUserMobilePhone().equals("")) ? "Not Set" : mStudentDTO.getUserMobilePhone());
 //        student_monthly_fee_tv.setText(mStudentDTO.getMonthlyFee() == 0 ? "Not Set" : "" + mStudentDTO.getMonthlyFee());
         student_institute_tv.setText((mStudentDTO.getUserInstituteName() == null ||
-                mStudentDTO.getUserInstituteName().equals("") )? "Not Set" : mStudentDTO.getUserInstituteName());
+                mStudentDTO.getUserInstituteName().equals("")) ? "Not Set" : mStudentDTO.getUserInstituteName());
         student_address_tv.setText((mStudentDTO.getUserAddress() == null ||
-                mStudentDTO.getUserAddress().equals("") )? "Not Set" : mStudentDTO.getUserAddress());
+                mStudentDTO.getUserAddress().equals("")) ? "Not Set" : mStudentDTO.getUserAddress());
 
 //        setUpSpinner();
 
@@ -196,6 +210,8 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
                 Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
                 intent.putExtra(Constants.STUDENT_ID, mStudentDTO.getUserId());
+
+                HelperMethod.debugLog(TAG, "id == " + mStudentDTO.getUserId() + " bat == " + mStudentDTO.getBatchId());
                 intent.putExtra(Constants.STUDENT_NAME, mStudentDTO.getUserFirstName());
                 intent.putExtra(Constants.BATCH_ID, mBatchId);
                 startActivity(intent);
@@ -262,7 +278,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                 if (data.hasExtra(Constants.EDIT_STUDENT_DTO)) {
 
                     mStudentDTO = data.getParcelableExtra(Constants.EDIT_STUDENT_DTO);
-                    HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : "+mStudentDTO.getUserFirstName());
+                    HelperMethod.debugLog(TAG, "EDIT_STUDENT_DTO : " + mStudentDTO.getUserFirstName());
 
                     student_name_tv.setText(mStudentDTO.getUserFirstName());
                     student_mobile_phn_tv.setText(mStudentDTO.getUserMobilePhone());
@@ -297,7 +313,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         UserProfileDTO updatedStudentDTO = new UserProfileDTO();
         updatedStudentDTO.setUserFirstName(student_name_tv.getText().toString());
         updatedStudentDTO.setUserMobilePhone(student_mobile_phn_tv.getText().toString());
-        updatedStudentDTO.setMonthlyFee(Integer.parseInt(student_monthly_fee_tv.getText().toString() ));
+        updatedStudentDTO.setMonthlyFee(Integer.parseInt(student_monthly_fee_tv.getText().toString()));
         updatedStudentDTO.setUserInstituteName(student_institute_tv.getText().toString());
         updatedStudentDTO.setUserAddress(student_address_tv.getText().toString());
         Intent BackIntent = new Intent();
@@ -378,6 +394,40 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
         HelperMethod.debugLog(TAG, "StudentDetailsActivity : onDestroy ");
     }
 
+    private void sendPaymentListRequest() {
+
+        JSONObject jsonObject = ServerRequestHelper.sendGetStudentPaymentListRequest(mBatchId, mStudentDTO.getUserId(), 1, mShowHistoryYear, 12, mShowHistoryYear);
+        HelperMethod.debugLog(TAG, "sendPaymentListRequest batch id == " + mBatchId + " stud id == " + mStudentDTO.getUserId());
+
+//        HelperMethod.debugLog(TAG, "paymentHistoryList == "+paymentHistoryList.size());
+//        for (PaymentHistoryDTO dto : paymentHistoryList) {
+//            HelperMethod.debugLog(TAG, ""+dto.getPaidAmount()+" "+dto.getMonth());
+//        }
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+
+                            ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetStudentPaymentListRequest(response);
+                            HelperMethod.debugLog(TAG, "paymentHistoryDTOs siz == "+paymentHistoryDTOs.size());
+                            Toast.makeText(StudentDetailsActivity.this, "get Payment list : "+response.optBoolean(ServerConstants.ERROR), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
     @Override
     public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
 
@@ -388,6 +438,8 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                     mShowHistoryYear = Integer.parseInt(year);
                     showProgressDialog();
                     loadHistoryData();
+                    sendPaymentListRequest();
+
                 }
                 break;
             case Constants.DIALOG_STATE_NEGATIVE:

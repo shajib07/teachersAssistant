@@ -80,6 +80,8 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_payment_history);
         mStudentId = getIntent().getIntExtra(Constants.STUDENT_ID, 0);
+        HelperMethod.debugLog(TAG, "after internt == " + mStudentId);
+
         mBatchId = getIntent().getIntExtra(Constants.BATCH_ID, 0);
         mStudentName = getIntent().getStringExtra(Constants.STUDENT_NAME);
 
@@ -123,7 +125,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             public void run() {
                 mPaymentHistoryList.clear();
                 final ArrayList<PaymentHistoryDTO> list = mDatabaseRequestHelper.getPaymentHistoryByStudentYear(mStudentId, mEditYear);
-                HelperMethod.debugLog(TAG, "size inside bind = " + list.size());
+                HelperMethod.debugLog(TAG, "size inside bind = " + list.size() + " mStudentId " + mStudentId);
                 mPaymentHistoryList.addAll(list);
                 runOnUiThread(new Runnable() {
                     @Override
@@ -143,7 +145,6 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     private void initLayout() {
         setupInput();
     }
-
 
 
     private void setupInput() {
@@ -223,6 +224,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
             dto.setPaidAmount(Integer.parseInt(paid_amount_et[i].getText().toString().length() == 0
                     ? "0" : paid_amount_et[i].getText().toString()));
             dto.setPaid(full_paid_cb[i].isChecked());
+            HelperMethod.debugLog(TAG, "savePaymentHistory == " + mStudentId);
             dto.setStudentId(mStudentId);
             dto.setBatchId(mBatchId);
             dto.setMonth(i + 1);
@@ -259,23 +261,25 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
 
 
     private void addPaymentHistoryRequest() {
-        JSONObject jsonObject = ServerRequestHelper.sendAddPaymentListRequest(mPaymentHistoryList);
+        JSONObject jsonObject = ServerRequestHelper.sendAddPaymentListRequest(mBatchId, mPaymentHistoryList);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("JSON", response.toString());
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            Toast.makeText(EditPaymentHistoryActivity.this, "" + response.optString(ServerConstants.MESSAGE), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("JSON", "Error: " + error.getMessage());
-            }
-        });
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d("JSON", "Error: " + error.getMessage());
+                    }
+                });
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
     }
@@ -291,7 +295,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
                         try {
                             Log.d(TAG, response.toString());
                             if (!response.getBoolean(ServerConstants.ERROR)) {
-                                Toast.makeText(EditPaymentHistoryActivity.this, ""+response.optString("msg"), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditPaymentHistoryActivity.this, "" + response.optString("msg"), Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
                             HelperMethod.errorLog(TAG, e.toString());
@@ -302,7 +306,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         VolleyLog.d(TAG, "Error: " + error.getMessage());
-                        Toast.makeText(EditPaymentHistoryActivity.this, ""+error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditPaymentHistoryActivity.this, "" + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -372,7 +376,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
         edit_history_toolbar_back = (FrameLayout) findViewById(R.id.edit_history_toolbar_back);
         edit_history_toolbar_back.setOnClickListener(this);
         edit_history_toolbar_title = (TextView) findViewById(R.id.edit_history_toolbar_title);
-        edit_history_toolbar_title.setText("Edit "+mStudentName+"'s History");
+        edit_history_toolbar_title.setText("Edit " + mStudentName + "'s History");
     }
 
     @Override
