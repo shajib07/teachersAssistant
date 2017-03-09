@@ -35,9 +35,12 @@ import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.server.ServerResponseParser;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by shajib on 1/14/2017.
@@ -72,45 +75,83 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         initToolbar();
         initData();
         initLayout();
-        loadBatchList();
-
+//        loadBatchList();
+        getUserBatchList();
     }
 
-    private void addPaymentHistoryRequest()
-    {
-        String message = "";
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(ServerConstants.ACTION, 8);//add batch 4 5 for get all batch
-            jsonObject.put(ServerConstants.ID, 9);
-            jsonObject.put(ServerConstants.BATCH_ID, 1);
-            jsonObject.put(ServerConstants.MONTH, 1);//add batch 4 5 for get all batch
-            jsonObject.put(ServerConstants.YEAR, 2017);
-            jsonObject.put(ServerConstants.AMOUNT, 300);//add batch 4 5 for get all batch
-            jsonObject.put(ServerConstants.STATUS, 0);
-        }catch (Exception e){}
-
-        final String message1 = jsonObject.toString();
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(
-                Constants.REQUEST_URL, jsonObject,
+    private void getBatchPaymentList() {
+        JSONObject jsonObject = ServerRequestHelper.sendBatchPaymentListRequest((int) mBatchList.get(0).getBatchId(),
+                1, 2016, 0);
+        HelperMethod.debugLog(TAG, "getBatchPaymentList req == " + jsonObject.toString());
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("JSON", response.toString());
+                        Log.d(TAG, response.toString());
 
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            HelperMethod.debugLog(TAG, "getBatchPaymentList = " + response.toString());
+//                            mBatchList = ServerResponseParser.parseUserBatchListResponse(response);
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    HelperMethod.debugLog(TAG, "loadBatchList size = " + mBatchList.size());
+//                                }
+//                            }).start();
+                        }
                     }
-                }, new Response.ErrorListener() {
+                },
+                new Response.ErrorListener() {
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                });
 
-                VolleyLog.d("JSON", "Error: " + error.getMessage());
-            }
-        });
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
 
+    }
+
+    private void getUserBatchList() {
+        long id = UserProfileHelper.getInstance(this).getUserId();
+        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id);
+        HelperMethod.debugLog(TAG, "loadUserBatchList user id == " + id);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, response.toString());
+
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            mBatchList = ServerResponseParser.parseUserBatchListResponse(response);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    HelperMethod.debugLog(TAG, "loadBatchList size = " + mBatchList.size());
+                                    mBatchNameList = new ArrayList<>();
+                                    for (BatchDTO batchDTO : mBatchList) {
+                                        mBatchNameList.add(batchDTO.getBatchName());
+                                        HelperMethod.debugLog(TAG, "load == " + batchDTO.getBatchId() + " name = " + batchDTO.getBatchName());
+                                    }
+
+                                }
+                            }).start();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
     }
 
     private void loadBatchList() {
@@ -127,17 +168,17 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
                 for (BatchDTO batchDTO : mBatchList) {
                     mBatchNameList.add(batchDTO.getBatchName());
-                    HelperMethod.debugLog(TAG, "load == "+batchDTO.getBatchId()+ " name = "+batchDTO.getBatchName());
+                    HelperMethod.debugLog(TAG, "load == " + batchDTO.getBatchId() + " name = " + batchDTO.getBatchName());
 
                     int total_amount = 0;
-                    ArrayList<UserProfileDTO> studentList = mDbRequestHelper.getStudentListByBatch((int)batchDTO.getBatchId());
-                    HelperMethod.debugLog(TAG, "stu size == "+studentList.size());
+                    ArrayList<UserProfileDTO> studentList = mDbRequestHelper.getStudentListByBatch((int) batchDTO.getBatchId());
+                    HelperMethod.debugLog(TAG, "stu size == " + studentList.size());
                     batchDTO.setStudentDtoList(studentList);
 
                     for (UserProfileDTO dto : studentList) {
                         ArrayList<PaymentHistoryDTO> tempPaymentList = mDbRequestHelper.getPaymentHistoryByStudent(dto.getUserId());
                         mBatchPaymentMap.put(batchDTO.getBatchName(), tempPaymentList);
-                        HelperMethod.debugLog(TAG, "stu  == "+dto.getUserFirstName());
+                        HelperMethod.debugLog(TAG, "stu  == " + dto.getUserFirstName());
                     }
 //
 //                    PaymentDTO paymentDTO = new PaymentDTO();
@@ -169,7 +210,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         to_yr_tv = (TextView) findViewById(R.id.to_yr_tv);
         to_month_tv = (TextView) findViewById(R.id.to_month_tv);
 
-        history_batch_tv = (TextView)findViewById(R.id.history_batch_tv);
+        history_batch_tv = (TextView) findViewById(R.id.history_batch_tv);
         history_batch_tv.setOnClickListener(this);
 
         mBatchPaymentAdapter = new BatchPaymentAdapter(this, mPaymentHistoryList);
@@ -191,7 +232,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private ArrayList<String> getMonthList() {
         ArrayList<String> list = new ArrayList<>();
         String[] arr = getResources().getStringArray(R.array.months);
-        for (int i=0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             list.add(arr[i]);
         }
         return list;
@@ -200,7 +241,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private ArrayList<String> getYearList() {
         ArrayList<String> list = new ArrayList<>();
         String[] arr = getResources().getStringArray(R.array.Years);
-        for (int i=0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length; i++) {
             list.add(arr[i]);
         }
         return list;
@@ -229,6 +270,8 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                 break;
 
             case R.id.history_batch_tv:
+
+//                getBatchPaymentList();
 
                 showSingleItemDialog(0);
                 break;
@@ -261,6 +304,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         }).start();
 
     }
+
     @Override
     public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
         switch (dialogState) {
@@ -271,11 +315,12 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                         history_batch_tv.setText(year);
                         for (BatchDTO dto : mBatchList) {
                             if (dto.getBatchName().equals(year)) {
-                                mPaymentHistoryList.clear();
-                                HelperMethod.debugLog(TAG, "selected : " + year + " size : " + mBatchPaymentMap.get(year).size());
-                                mPaymentHistoryList.addAll(mBatchPaymentMap.get(year));
-                                mBatchPaymentAdapter.notifyDataSetChanged();
-                                break;
+                                HelperMethod.debugLog(TAG, "dto.getBatchname "+dto.getBatchName());
+//                                mPaymentHistoryList.clear();
+//                                HelperMethod.debugLog(TAG, "selected : " + year + " size : " + mBatchPaymentMap.get(year).size());
+//                                mPaymentHistoryList.addAll(mBatchPaymentMap.get(year));
+//                                mBatchPaymentAdapter.notifyDataSetChanged();
+//                                break;
                             }
                         }
                         break;
@@ -298,6 +343,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                 break;
         }
     }
+
     private void showProgressDialog() {
         if (mProgressDialog == null || !mProgressDialog.isShowing()) {
             mProgressDialog = ProgressDialog.show(PaymentHistoryActivity.this, getString(R.string.loading_data),

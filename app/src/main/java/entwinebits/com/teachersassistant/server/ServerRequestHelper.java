@@ -18,6 +18,20 @@ public class ServerRequestHelper {
 
     public static String TAG = "ServerRequestHelper";
 
+    public static JSONObject sendBatchPaymentListRequest(int batchId, int month, int year, int userType) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_PAYMENT_LIST);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+            jsonObject.put(ServerConstants.MONTH, month);
+            jsonObject.put(ServerConstants.YEAR, year);
+            jsonObject.put(ServerConstants.USER_TYPE, userType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendUserSearchRequest(String query) {
         JSONObject jsonObject = new JSONObject();
         try {

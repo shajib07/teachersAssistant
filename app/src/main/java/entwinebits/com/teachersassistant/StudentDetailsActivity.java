@@ -99,7 +99,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     protected void onResume() {
         super.onResume();
         HelperMethod.debugLog(TAG, "StudentDetailsActivity : onResume ");
-        loadHistoryData();
+//        loadHistoryData();
     }
 
     private void loadHistoryData() {
@@ -396,6 +396,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
     private void sendPaymentListRequest() {
 
+        showProgressDialog();
         JSONObject jsonObject = ServerRequestHelper.sendGetStudentPaymentListRequest(mBatchId, mStudentDTO.getUserId(), 1, mShowHistoryYear, 12, mShowHistoryYear);
         HelperMethod.debugLog(TAG, "sendPaymentListRequest batch id == " + mBatchId + " stud id == " + mStudentDTO.getUserId());
 
@@ -412,7 +413,22 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
 
                             ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetStudentPaymentListRequest(response);
                             HelperMethod.debugLog(TAG, "paymentHistoryDTOs siz == "+paymentHistoryDTOs.size());
-                            Toast.makeText(StudentDetailsActivity.this, "get Payment list : "+response.optBoolean(ServerConstants.ERROR), Toast.LENGTH_SHORT).show();
+
+                            mPaymentHistoryList.clear();
+                            mPaymentHistoryList.addAll(paymentHistoryDTOs);
+                            HelperMethod.debugLog(TAG, "StudentDetailsActivity : before " + mPaymentHistoryList.size() + " -- " + paymentHistoryDTOs.size());
+
+                            if (historyAdapter == null) {
+                                historyAdapter = new StudentPaymentHistoryAdapter(StudentDetailsActivity.this, mPaymentHistoryList);
+                                student_payment_history_rv.setAdapter(historyAdapter);
+                                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti NULL ++ ");
+
+                            } else {
+                                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti ELSEE ++ ");
+                                historyAdapter.notifyDataSetChanged();
+                            }
+
+                            hideProgressDialog();
                         }
                     }
                 },
@@ -437,7 +453,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                     history_showing_yr_tv.setText(year);
                     mShowHistoryYear = Integer.parseInt(year);
                     showProgressDialog();
-                    loadHistoryData();
+//                    loadHistoryData();
                     sendPaymentListRequest();
 
                 }
