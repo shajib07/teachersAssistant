@@ -208,12 +208,13 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.edit_history_ll:
 
-                Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
+//                Intent intent = new Intent(StudentDetailsActivity.this, EditPaymentHistoryActivity.class);
+                Intent intent = new Intent(StudentDetailsActivity.this, AddPaymentHistoryActivity.class);
                 intent.putExtra(Constants.STUDENT_ID, mStudentDTO.getUserId());
-
-                HelperMethod.debugLog(TAG, "id == " + mStudentDTO.getUserId() + " bat == " + mStudentDTO.getBatchId());
                 intent.putExtra(Constants.STUDENT_NAME, mStudentDTO.getUserFirstName());
                 intent.putExtra(Constants.BATCH_ID, mBatchId);
+
+                HelperMethod.debugLog(TAG, "id == " + mStudentDTO.getUserId() + " bat == " + mBatchId);
                 startActivity(intent);
                 break;
 

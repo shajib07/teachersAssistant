@@ -34,6 +34,7 @@ import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.server.ServerRequestHelper;
 import entwinebits.com.teachersassistant.server.ServerResponseParser;
 import entwinebits.com.teachersassistant.system.DeviceConfig;
+import entwinebits.com.teachersassistant.utils.ConstantFunctions;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.Days;
 import entwinebits.com.teachersassistant.utils.DialogProvider;
@@ -241,8 +242,11 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
             batch_schedule_to_tv = (TextView) inflatedView.findViewById(R.id.batch_schedule_to_tv);
 
             week_day_tv.setText(Days.get(dto.getDaysOfWeek() + 1) + "");
-            batch_schedule_from_tv.setText(dto.getStartTime());
-            batch_schedule_to_tv.setText(dto.getEndTime());
+            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+            batch_schedule_from_tv.setText(startTime);
+            batch_schedule_to_tv.setText(endTime);
 
             batch_details_schedule_ll.addView(inflatedView);
         }

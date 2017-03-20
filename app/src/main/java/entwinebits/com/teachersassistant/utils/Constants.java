@@ -23,9 +23,11 @@ public class Constants {
     public static final String EDIT_STUDENT_DTO = "EDIT_STUDENT_DTO";
 
     public static final String ADD_STUDENT_FROM_SEARCH = "ADD_STUDENT_FROM_SEARCH";
+    public static final String TIME_12_HOUR_FORMAT = "hh:mm a";
 
 
     public static final int REQUEST_CODE_ADD_STUDENT = 151;
+
 
 
     public static final int MONTH_TYPE = 1;

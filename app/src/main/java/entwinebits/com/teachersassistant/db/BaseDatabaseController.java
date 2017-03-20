@@ -162,8 +162,8 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
                     dto.setScheduleId(cursor.getLong(0));
                     dto.setBatchId(cursor.getInt(1));
                     dto.setDaysOfWeek(cursor.getInt(2));
-                    dto.setStartTime(cursor.getString(3));
-                    dto.setEndTime(cursor.getString(4));
+                    dto.setStartTime(cursor.getLong(3));
+                    dto.setEndTime(cursor.getLong(4));
                     scheduleDTOs.add(dto);
                 } while (cursor.moveToNext());
             }
@@ -511,8 +511,8 @@ public class BaseDatabaseController extends SQLiteOpenHelper {
             + " (" + KEY_SCHEDULE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT ,"
             + KEY_BATCH_ID + " LONG ,"
             + KEY_DAYS_OF_WEEK + " INTEGER ,"
-            + KEY_START_TIME + " TEXT ,"
-            + KEY_END_TIME + " TEXT,"
+            + KEY_START_TIME + " LONG ,"
+            + KEY_END_TIME + " LONG,"
             + KEY_SCHEDULE_STATUS + " TEXT )";
 
 

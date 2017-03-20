@@ -86,8 +86,8 @@ public class ServerResponseParser {
                     JSONObject routineObj = (JSONObject) routineArray.get(j);
                     scheduleDTO.setDaysOfWeek(routineObj.optInt(ServerConstants.DAY_OF_WEEK) );
                     scheduleDTO.setScheduleId(routineObj.optInt(ServerConstants.ID));
-                    scheduleDTO.setStartTime(routineObj.optString(ServerConstants.START_TIME));
-                    scheduleDTO.setEndTime(routineObj.optString(ServerConstants.END_TIME));
+                    scheduleDTO.setStartTime(routineObj.optLong(ServerConstants.START_TIME));
+                    scheduleDTO.setEndTime(routineObj.optLong(ServerConstants.END_TIME));
                     routineList.add(scheduleDTO);
                 }
                 batchDTO.setScheduleDTOList(routineList);

@@ -120,6 +120,7 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.YEAR, year);
             jsonObject.put(ServerConstants.AMOUNT, amount);//add batch 4 5 for get all batch
             jsonObject.put(ServerConstants.STATUS, status);
+            HelperMethod.debugLog(TAG, "sendAddPaymentHistoryRequest = "+jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
         }

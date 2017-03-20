@@ -43,6 +43,7 @@ import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.utils.ConstantFunctions;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.DateTimeFormatHelper;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -139,8 +140,13 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                     editTextTimeFrom.get(day).setText(DateTimeFormatHelper.convertTimeFormatTo12Hour(hour, min));
                     c.set(Calendar.HOUR_OF_DAY, hour);
                     c.set(Calendar.MINUTE, min);
-                    SimpleDateFormat format = new SimpleDateFormat("h:mm a");
-                    scheduleDTO.setStartTime(format.format(c.getTime()));
+
+                    long startLong = c.getTime().getTime();
+                    HelperMethod.debugLog(TAG, "start long = "+startLong);
+                    scheduleDTO.setStartTime(startLong);
+
+//                    String startDate = ConstantFunctions.getDate(startLong, "hh:mm a");
+//                    HelperMethod.debugLog(TAG, " start Date = "+startDate);
 
 //                    scheduleDTO.setStartTime(DateFormat.getTimeInstance().format(c.getTime()));
 
@@ -148,8 +154,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                     editTextTimeTo.get(day).setText(DateTimeFormatHelper.convertTimeFormatTo12Hour(hour, min));
                     c.set(Calendar.HOUR_OF_DAY, hour);
                     c.set(Calendar.MINUTE, min);
-                    SimpleDateFormat format = new SimpleDateFormat("h:mm a");
-                    scheduleDTO.setEndTime(format.format(c.getTime()));
+
+                    long endLong = c.getTime().getTime();
+                    HelperMethod.debugLog(TAG, " end long = "+endLong);
+                    scheduleDTO.setEndTime(endLong);
 
 //                    scheduleDTO.setEndTime(DateFormat.getTimeInstance().format(c.getTime()));
                 }
@@ -182,8 +190,10 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
             findViewById(R.id.scroll).setVisibility(View.VISIBLE);
             findViewById(dayViewLayout.get(day).getId()).setVisibility(View.VISIBLE);
 
-            editTextTimeFrom.get(day).setText(dto.getStartTime());
-            editTextTimeTo.get(day).setText(dto.getEndTime());
+            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+            editTextTimeFrom.get(day).setText(startTime);
+            editTextTimeTo.get(day).setText(endTime);
 
         }
 
@@ -368,7 +378,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
 //        Toast.makeText(this, mScheduleList.get(0).getStartTime(), Toast.LENGTH_SHORT);
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_ADD_USER_NEW_BATCH);//add batch 4 5 for get all batch
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_ADD_USER_NEW_BATCH);
             jsonObject.put(ServerConstants.TITLE, mBatchName);
             jsonObject.put(ServerConstants.ID, userId);
 
@@ -380,8 +390,8 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
                 HelperMethod.debugLog(TAG, "mScheduleList == "+dto.getDaysOfWeek()+ " "+dto.getStartTime());
                 JSONObject jsonobj = new JSONObject();
                 jsonobj.put(ServerConstants.DAY_OF_WEEK, dto.getDaysOfWeek());
-                jsonobj.put(ServerConstants.START_TIME, 10f);//Integer.parseInt(dto.getStartTime())
-                jsonobj.put(ServerConstants.END_TIME, 11.30f);//Integer.parseInt(dto.getEndTime())
+                jsonobj.put(ServerConstants.START_TIME, dto.getStartTime());//Integer.parseInt(dto.getStartTime())
+                jsonobj.put(ServerConstants.END_TIME, dto.getEndTime());//Integer.parseInt(dto.getEndTime())
                 jsonArray.put(jsonobj);
             }
 

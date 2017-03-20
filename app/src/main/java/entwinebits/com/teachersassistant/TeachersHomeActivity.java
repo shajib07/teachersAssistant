@@ -1,9 +1,11 @@
 package entwinebits.com.teachersassistant;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -24,6 +26,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import entwinebits.com.teachersassistant.adapter.ViewPagerAdapter;
@@ -60,6 +63,15 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
         onMenuItemSelected();
     }
 
+    private void launchMarket() {
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(myAppLinkToMarket);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, " unable to find market app", Toast.LENGTH_LONG).show();
+        }
+    }
 
 
     private void initLayout() {
@@ -170,7 +182,7 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.overflow_ll:
-
+                launchMarket();
                 break;
         }
     }

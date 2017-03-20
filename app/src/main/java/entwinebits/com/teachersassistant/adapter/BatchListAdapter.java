@@ -22,6 +22,7 @@ import entwinebits.com.teachersassistant.BatchDetailsActivity;
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
+import entwinebits.com.teachersassistant.utils.ConstantFunctions;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.DialogProvider;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -62,16 +63,23 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
         ArrayList<ScheduleDTO> scheduleDTOs = batchDTO.getScheduleDTOList();
         HelperMethod.debugLog(TAG, "scheduleDTOs size == "+scheduleDTOs.size());
         if (scheduleDTOs != null && scheduleDTOs.size() > 0) {
-            holder.batch_schedule_from_tv.setText(scheduleDTOs.get(0).getStartTime());
-            holder.batch_schedule_to_tv.setText(scheduleDTOs.get(0).getEndTime());
+
+            String startTime = ConstantFunctions.getDate(scheduleDTOs.get(0).getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+            String endTime = ConstantFunctions.getDate(scheduleDTOs.get(0).getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+            holder.batch_schedule_from_tv.setText(startTime);
+            holder.batch_schedule_to_tv.setText(endTime);
         }
         String tempDays = "";
 
         for (int dayIndex = 0; dayIndex < scheduleDTOs.size(); dayIndex++) {
 
             final ScheduleDTO dto = scheduleDTOs.get(dayIndex);
-            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+            holder.batch_schedule_from_tv.setText(startTime);
+            holder.batch_schedule_to_tv.setText(endTime);
 
             switch (dto.getDaysOfWeek()) {
                 case 0:
@@ -81,8 +89,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     holder.day_week_ll_1.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+                            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+                            holder.batch_schedule_from_tv.setText(startTime);
+                            holder.batch_schedule_to_tv.setText(endTime);
 
 //                            holder.dayWeekIndi[0].setVisibility(View.VISIBLE);
 //                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
@@ -102,8 +113,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     holder.day_week_ll_2.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+                            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+                            holder.batch_schedule_from_tv.setText(startTime);
+                            holder.batch_schedule_to_tv.setText(endTime);
 
 //                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[1].setVisibility(View.VISIBLE);
@@ -123,8 +137,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     holder.day_week_ll_3.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+                            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+                            holder.batch_schedule_from_tv.setText(startTime);
+                            holder.batch_schedule_to_tv.setText(endTime);
 
 //                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
@@ -144,8 +161,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     holder.day_week_ll_4.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+                            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+                            holder.batch_schedule_from_tv.setText(startTime);
+                            holder.batch_schedule_to_tv.setText(endTime);
 
 //                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
@@ -165,8 +185,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     holder.day_week_ll_5.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+                            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+                            holder.batch_schedule_from_tv.setText(startTime);
+                            holder.batch_schedule_to_tv.setText(endTime);
 
 //                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
@@ -187,8 +210,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     holder.day_week_ll_6.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+                            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+                            holder.batch_schedule_from_tv.setText(startTime);
+                            holder.batch_schedule_to_tv.setText(endTime);
 //                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[2].setVisibility(View.INVISIBLE);
@@ -206,8 +232,11 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                     holder.day_week_ll_7.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            holder.batch_schedule_from_tv.setText(dto.getStartTime());
-                            holder.batch_schedule_to_tv.setText(dto.getEndTime());
+                            String startTime = ConstantFunctions.getDate(dto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+                            String endTime = ConstantFunctions.getDate(dto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+
+                            holder.batch_schedule_from_tv.setText(startTime);
+                            holder.batch_schedule_to_tv.setText(endTime);
 
 //                            holder.dayWeekIndi[0].setVisibility(View.INVISIBLE);
 //                            holder.dayWeekIndi[1].setVisibility(View.INVISIBLE);

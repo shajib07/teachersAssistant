@@ -16,8 +16,8 @@ public class ScheduleDTO implements Parcelable {
     private long scheduleId;
     private long routineId;
     private int daysOfWeek;
-    private String startTime;
-    private String endTime;
+    private long startTime;
+    private long endTime;
     private long startDate;
     private long endDate;
     private boolean scheduleStatus;
@@ -70,19 +70,19 @@ public class ScheduleDTO implements Parcelable {
         this.endDate = endDate;
     }
 
-    public String getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(long startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(long endTime) {
         this.endTime = endTime;
     }
 
@@ -104,8 +104,8 @@ public class ScheduleDTO implements Parcelable {
         scheduleId = in.readLong();
         routineId = in.readLong();
         daysOfWeek = in.readInt();
-        startTime = in.readString();
-        endTime = in.readString();
+        startTime = in.readLong();
+        endTime = in.readLong();
         startDate = in.readLong();
         endDate = in.readLong();
         scheduleStatus = (in.readInt() == 0 ? false : true);
@@ -117,8 +117,8 @@ public class ScheduleDTO implements Parcelable {
         dest.writeLong(scheduleId);
         dest.writeLong(routineId);
         dest.writeInt(daysOfWeek);
-        dest.writeString(startTime);
-        dest.writeString(endTime);
+        dest.writeLong(startTime);
+        dest.writeLong(endTime);
         dest.writeLong(startDate);
         dest.writeLong(endDate);
         dest.writeInt(scheduleStatus ? 1 : 0);
