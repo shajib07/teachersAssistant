@@ -22,7 +22,11 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import entwinebits.com.teachersassistant.adapter.BatchPaymentAdapter;
@@ -37,6 +41,7 @@ import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.server.ServerRequestHelper;
 import entwinebits.com.teachersassistant.server.ServerResponseParser;
+import entwinebits.com.teachersassistant.utils.ConstantFunctions;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
@@ -65,6 +70,9 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private DatabaseRequestHelper mDbRequestHelper;
 
     private TextView history_batch_tv;
+
+
+    private int mMonthFrom, mMonthTo, mYearFrom, mYearTo;
 
 
     @Override
@@ -328,11 +336,19 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                     case 1:
                         from_month_tv.setText(month);
                         from_yr_tv.setText(year);
+                        mMonthFrom = ConstantFunctions.getMonthIntType(month);
+                        mYearFrom = Integer.parseInt(year);
+                        HelperMethod.debugLog(TAG, "mMonthFrom "+mMonthFrom+" mYearFrom "+mYearFrom);
                         break;
 
                     case 2:
                         to_month_tv.setText(month);
                         to_yr_tv.setText(year);
+
+                        mMonthTo = ConstantFunctions.getMonthIntType(month);
+                        mYearTo = Integer.parseInt(year);
+                        HelperMethod.debugLog(TAG, "mMonthTo "+mMonthTo+" mYearTo "+mYearTo);
+
                         break;
                 }
                 break;

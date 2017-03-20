@@ -3,8 +3,10 @@ package entwinebits.com.teachersassistant.utils;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by shajib on 2/6/2017.
@@ -24,6 +26,19 @@ public class ConstantFunctions {
         return formatter.format(calendar.getTime());
     }
 
+    public static int getMonthIntType(String month) {
+        int val = -1;
+        try {
+            Date date = new SimpleDateFormat("MMM").parse(month);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            val = cal.get(Calendar.MONTH) + 1;
+            HelperMethod.debugLog(TAG, " val = " +val);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return val;
+    }
 
     public static void getUserId() {
 
