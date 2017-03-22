@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,6 +37,7 @@ import entwinebits.com.teachersassistant.listener.DialogCloseListener;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.server.ServerRequestHelper;
 import entwinebits.com.teachersassistant.server.ServerResponseParser;
+import entwinebits.com.teachersassistant.utils.ConstantFunctions;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.Months;
@@ -45,18 +47,18 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
  * Created by shajib on 3/11/2017.
  */
 public class AddPaymentHistoryActivity extends AppCompatActivity implements View.OnClickListener, DialogCloseListener {
+
     private String TAG = "AddPaymentHistoryActivity";
-    private FrameLayout add_payment_toolbar_back, add_student_done_btn;
+    private FrameLayout add_payment_toolbar_back;
     private TextView add_payment_toolbar_title;
-    private ImageView batch_details_edit_iv;
-
     private TextView selected_year_tv, selected_month_tv;
-    private LinearLayout selected_year_ll, selected_month_ll;
+    private LinearLayout selected_year_ll;
     private EditText payment_amount;
-
-    private int mSelectedYear, mSelectedMonth, mAmount;
     private Button add_payment_btn;
+
     private int mStudentId, mBatchId;
+    private int mSelectedYear, mSelectedMonth, mAmount;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,6 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
 
         mStudentId = getIntent().getIntExtra(Constants.STUDENT_ID, 0);
         mBatchId = getIntent().getIntExtra(Constants.BATCH_ID, 0);
-
 
         initToolbar();
         initLayout();
@@ -76,17 +77,11 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
 
         add_payment_toolbar_back = (FrameLayout) findViewById(R.id.add_payment_toolbar_back);
         add_payment_toolbar_back.setOnClickListener(this);
-//        add_student_done_btn = (FrameLayout) findViewById(R.id.add_student_done_btn);
-//        add_student_done_btn.setOnClickListener(this);
-
     }
 
     private void initLayout() {
         selected_year_ll = (LinearLayout) findViewById(R.id.selected_year_ll);
-        selected_month_ll = (LinearLayout) findViewById(R.id.selected_month_ll);
-
         selected_year_ll.setOnClickListener(this);
-        selected_month_ll.setOnClickListener(this);
 
         payment_amount = (EditText) findViewById(R.id.payment_amount);
         selected_year_tv = (TextView) findViewById(R.id.selected_year_tv);
@@ -113,26 +108,16 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
         return list;
     }
 
-    private void showYearSelectionDialog() {
-        FragmentManager fm = getSupportFragmentManager();
-        YearSelectionDialogFragment yearSelectionDialogFragment = YearSelectionDialogFragment.newInstance(0);
-        yearSelectionDialogFragment.show(fm, "");
-    }
-
     private void showDateSelectionDialog(int dialogId) {
         FragmentManager fm = getSupportFragmentManager();
         DoubleItemDialogFragment doubleItemDialogFragment = DoubleItemDialogFragment.newInstance(dialogId, getYearList(), getMonthList());
         doubleItemDialogFragment.show(fm, "");
     }
 
-
-
-
     @Override
     public void onClick(View v) {
 
         switch (v.getId()) {
-
             case R.id.add_payment_btn:
                 mAmount = Integer.parseInt(payment_amount.getText().toString());
                 sendAddPaymentReq();
@@ -140,13 +125,10 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
             case R.id.selected_year_ll:
                 showDateSelectionDialog(0);
                 break;
-
-            case R.id.selected_month_ll:
-
-                break;
-
             case R.id.add_payment_toolbar_back:
                 AddPaymentHistoryActivity.this.finish();
+                break;
+            default:
                 break;
         }
     }
@@ -162,30 +144,16 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
                     public void onResponse(JSONObject response) {
                         HelperMethod.debugLog(TAG, response.toString());
                         if (!response.optBoolean(ServerConstants.ERROR)) {
-
-//                            ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetStudentPaymentListRequest(response);
-//                            HelperMethod.debugLog(TAG, "paymentHistoryDTOs siz == "+paymentHistoryDTOs.size());
-//
-//                            mPaymentHistoryList.clear();
-//                            mPaymentHistoryList.addAll(paymentHistoryDTOs);
-//                            HelperMethod.debugLog(TAG, "StudentDetailsActivity : before " + mPaymentHistoryList.size() + " -- " + paymentHistoryDTOs.size());
-//
-//                            if (historyAdapter == null) {
-//                                historyAdapter = new StudentPaymentHistoryAdapter(StudentDetailsActivity.this, mPaymentHistoryList);
-//                                student_payment_history_rv.setAdapter(historyAdapter);
-//                                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti NULL ++ ");
-//
-//                            } else {
-//                                HelperMethod.debugLog(TAG, "StudentDetailsActivity : before noti ELSEE ++ ");
-//                                historyAdapter.notifyDataSetChanged();
-//                            }
-//
-//                            hideProgressDialog();
+                            Toast.makeText(AddPaymentHistoryActivity.this, "Payment Added Successfully.", Toast.LENGTH_LONG).show();
+                            AddPaymentHistoryActivity.this.finish();
+                        } else {
+                            if (response.optInt(ServerConstants.REASON_CODE) == 1) {
+                                Toast.makeText(AddPaymentHistoryActivity.this, "Payment Already Exist.", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 },
                 new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
@@ -194,7 +162,6 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
-
     }
 
 
@@ -206,29 +173,9 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
                     selected_year_tv.setText(year);
                     selected_month_tv.setText(month);
                     mSelectedYear = Integer.parseInt(year);
-
-                    Date date = null;
-                    try {
-                        date = new SimpleDateFormat("MMM", Locale.ENGLISH).parse("Feb");
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(date);
-                    mSelectedMonth = cal.get(Calendar.MONTH);
+                    mSelectedMonth = ConstantFunctions.getMonthIntType(month);
 
                     HelperMethod.debugLog(TAG, "mSelectedMonth == "+mSelectedMonth);
-
-//                    System.out.println(month == Calendar.FEBRUARY);
-
-//                    mSelectedMonth = Integer.parseInt(month);
-/*
-                    mShowHistoryYear = Integer.parseInt(year);
-                    showProgressDialog();
-//                    loadHistoryData();
-                    sendPaymentListRequest();
-*/
-
                 }
                 break;
             case Constants.DIALOG_STATE_NEGATIVE:

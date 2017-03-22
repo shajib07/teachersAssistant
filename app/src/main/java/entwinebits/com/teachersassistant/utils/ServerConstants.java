@@ -27,6 +27,7 @@ public class ServerConstants {
     public  static final String MESSAGE = "message";
 
 
+    public static final String REASON_CODE = "rc";
     public static final String USERS = "users";
     public static final String BATCHES = "batches";
     public static final String USER_INFLO_LIST = "usrLst";

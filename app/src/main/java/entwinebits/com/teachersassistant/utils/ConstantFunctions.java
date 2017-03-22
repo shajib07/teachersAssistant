@@ -14,9 +14,9 @@ import java.util.Date;
 public class ConstantFunctions {
 
     private static String TAG = "ConstantFunctions";
-    public static String getDate(long milliSeconds, String dateFormat)
-    {
-        HelperMethod.debugLog(TAG, "getDAte : "+milliSeconds);
+
+    public static String getDate(long milliSeconds, String dateFormat) {
+        HelperMethod.debugLog(TAG, "getDate : "+milliSeconds);
         // Create a DateFormatter object for displaying date in specified format.
         SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
 
