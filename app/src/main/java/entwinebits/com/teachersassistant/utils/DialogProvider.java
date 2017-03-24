@@ -58,4 +58,44 @@ public class DialogProvider {
         } catch (Exception e) {
         }
     }
+
+//    public static void showPaymentExistDialog(Context context, ) {
+//        try {
+//            final Dialog dialog = new Dialog(context);
+//            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//            dialog.setContentView(R.layout.student_menu_dialog_layout);
+//            dialog.setCancelable(true);
+//
+//            final TextView dialog_title = (TextView) dialog.findViewById(R.id.dialog_title);
+//            dialog_title.setText("Please Choose");
+//
+//            final Button dialog_upper_btn = (Button) dialog.findViewById(R.id.dialog_upper_btn);
+//            dialog_upper_btn.setText(upperText);
+//            dialog_upper_btn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (upperListener != null) {
+//                        upperListener.onClick(v);
+//                    }
+//                    dialog.dismiss();
+//                }
+//            });
+//
+//            final Button dialog_lower_btn = (Button) dialog.findViewById(R.id.dialog_lower_btn);
+//            dialog_lower_btn.setText(lowerText);
+//            dialog_lower_btn.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (lowerListener != null) {
+//                        lowerListener.onClick(v);
+//                    }
+//                    dialog.dismiss();
+//                }
+//            });
+//            dialog.show();
+//
+//        } catch (Exception e) {
+//        }
+//    }
 }

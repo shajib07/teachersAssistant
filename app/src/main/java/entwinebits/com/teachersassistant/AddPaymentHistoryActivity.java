@@ -1,10 +1,14 @@
 package entwinebits.com.teachersassistant;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -42,6 +46,7 @@ import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.Months;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by shajib on 3/11/2017.
@@ -56,7 +61,7 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
     private EditText payment_amount;
     private Button add_payment_btn;
 
-    private int mStudentId, mBatchId;
+    private int mStudentId, mBatchId, mPaymentId;
     private int mSelectedYear, mSelectedMonth, mAmount;
 
     @Override
@@ -149,6 +154,9 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
                         } else {
                             if (response.optInt(ServerConstants.REASON_CODE) == 1) {
                                 Toast.makeText(AddPaymentHistoryActivity.this, "Payment Already Exist.", Toast.LENGTH_LONG).show();
+                                int preAmount = response.optInt(ServerConstants.AMOUNT);
+                                mPaymentId = response.optInt(ServerConstants.PAYMENT_ID);
+                                showPaymentExistDialog(preAmount, mAmount);
                             }
                         }
                     }
@@ -164,9 +172,73 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
         requestQueue.add(jsonObjReq);
     }
 
+    private void sendPaymentUpdateRequest(int curAmount) {
+        int id = (int)UserProfileHelper.getInstance(this).getUserId();
+        JSONObject jsonObject = ServerRequestHelper.sendPaymentUpdateRequest(id, mPaymentId,
+                mSelectedMonth, mSelectedYear, curAmount, 1);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            HelperMethod.debugLog(TAG, "sendUpdateRequest sucsss");
+                            Toast.makeText(AddPaymentHistoryActivity.this, "Payment Updated Successfully", Toast.LENGTH_SHORT).show();
+                            AddPaymentHistoryActivity.this.finish();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
+    public void showPaymentExistDialog(int preAmount, final int curAmount) {
+        HelperMethod.debugLog(TAG, "preAmount = "+preAmount+" curAmount = "+curAmount);
+        try {
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.payment_exist_dialog_layout);
+            dialog.setCancelable(true);
+
+            String msg = String.format(getResources().getString(R.string.payment_exist_alert), preAmount, curAmount);
+
+            final TextView dialog_title = (TextView) dialog.findViewById(R.id.dialog_title);
+            dialog_title.setText(msg);
+
+            final Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
+            cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            final Button ok_btn = (Button) dialog.findViewById(R.id.ok_btn);
+            ok_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendPaymentUpdateRequest(curAmount);
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+
+        } catch (Exception e) {
+        }
+    }
+
 
     @Override
-    public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
+    public void onDialogClosed(int dialogId, int dialogState, String year, String month, int id) {
         switch (dialogState) {
             case Constants.DIALOG_STATE_POSITIVE:
                 if (dialogId == 0) {

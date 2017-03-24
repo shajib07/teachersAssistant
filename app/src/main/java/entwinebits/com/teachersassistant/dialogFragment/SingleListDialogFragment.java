@@ -1,6 +1,6 @@
 package entwinebits.com.teachersassistant.dialogFragment;
 
-import android.content.DialogInterface;
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,37 +14,40 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import entwinebits.com.teachersassistant.PaymentHistoryActivity;
 import entwinebits.com.teachersassistant.R;
-import entwinebits.com.teachersassistant.adapter.DateChooserAdapter;
 import entwinebits.com.teachersassistant.adapter.SingleItemDialogAdapter;
+import entwinebits.com.teachersassistant.adapter.SingleListDialogAdapter;
 import entwinebits.com.teachersassistant.listener.DateSelectionListener;
 import entwinebits.com.teachersassistant.listener.DialogCloseListener;
+import entwinebits.com.teachersassistant.model.ItemDTO;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 
 /**
- * Created by shajib on 1/13/2017.
+ * Created by shajib on 3/23/2017.
  */
-public class SingleItemDialogFragment extends DialogFragment implements View.OnClickListener, DateSelectionListener {
+public class SingleListDialogFragment extends DialogFragment implements View.OnClickListener, DateSelectionListener {
 
     private String TAG = "SingleItemDialogFragment";
     private RecyclerView single_item_rv;
     private TextView first_item_tv;
     private Button dialog_cancel_btn, dialog_ok_btn;
     private DialogCloseListener dialogCloseListener;
-    private ArrayList<String> mItemList;
+    private ArrayList<ItemDTO> mItemList;
     private int dialogId;
+    private int mSelectedItemId;
+    private String mSelectedItemName;
 
-    public SingleItemDialogFragment() {
+    public SingleListDialogFragment() {
 
     }
 
-    public static SingleItemDialogFragment newInstance(int dialogId, ArrayList<String> list) {
-        SingleItemDialogFragment frag = new SingleItemDialogFragment();
+    public static SingleListDialogFragment newInstance(int dialogId, ArrayList<ItemDTO> list) {
+        SingleListDialogFragment frag = new SingleListDialogFragment();
         Bundle args = new Bundle();
-        args.putStringArrayList("ItemList", list);
+        args.putParcelableArrayList("ItemList", list);
         args.putInt("dialogId", dialogId);
         frag.setArguments(args);
         return frag;
@@ -60,15 +63,15 @@ public class SingleItemDialogFragment extends DialogFragment implements View.OnC
         super.onViewCreated(view, savedInstanceState);
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
         Bundle bundle = getArguments();
-        mItemList = bundle.getStringArrayList("ItemList");
+        mItemList = bundle.getParcelableArrayList("ItemList");
         dialogId = bundle.getInt("dialogId");
         HelperMethod.debugLog(TAG, "mItemList size : "+mItemList.size());
 
         dialogCloseListener = (DialogCloseListener)getActivity();
-        SingleItemDialogAdapter singleItemDialogAdapter = new SingleItemDialogAdapter(getActivity(), mItemList, this);
+        SingleListDialogAdapter singleListDialogAdapter = new SingleListDialogAdapter(mItemList, this);
         single_item_rv = (RecyclerView) view.findViewById(R.id.single_item_rv);
         single_item_rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        single_item_rv.setAdapter(singleItemDialogAdapter);
+        single_item_rv.setAdapter(singleListDialogAdapter);
 
         dialog_cancel_btn = (Button) view.findViewById(R.id.dialog_cancel_btn);
         dialog_ok_btn = (Button) view.findViewById(R.id.dialog_ok_btn);
@@ -82,6 +85,8 @@ public class SingleItemDialogFragment extends DialogFragment implements View.OnC
     public void onDateSelected(boolean type, String month, int id) {
         Toast.makeText(getActivity(), "month : "+month, Toast.LENGTH_SHORT).show();
         if (type) {
+            mSelectedItemId = id;
+            mSelectedItemName = month;
             first_item_tv.setText(month);
         } else {
 //            month_dialog_tv.setText(month);
@@ -94,8 +99,9 @@ public class SingleItemDialogFragment extends DialogFragment implements View.OnC
         switch (v.getId()) {
             case R.id.dialog_ok_btn:
                 String selectedYear = first_item_tv.getText().toString();
+
 //                Toast.makeText(getActivity(), "Selected " + selectedYear, Toast.LENGTH_SHORT).show();
-                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, "", 0);
+                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, mSelectedItemName, "", mSelectedItemId);
                 dismiss();
                 break;
 

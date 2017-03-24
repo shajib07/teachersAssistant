@@ -15,13 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.adapter.AddedUserHorizontalAdapter;
-import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
 
 /**
  * Created by shajib on 12/18/2016.
@@ -155,6 +164,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         added_student_institution.setText(mEditStudentDTO.getUserInstituteName() == null ? "" : mEditStudentDTO.getUserInstituteName());
         added_student_address.setText(mEditStudentDTO.getUserAddress() == null ? "" : mEditStudentDTO.getUserAddress());
 
+
     }
 
     private void initToolbar() {
@@ -214,6 +224,33 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         finish();
     }
 
+    private void sendUpdateUserInfoReq() {
+
+        JSONObject jsonObject = ServerRequestHelper.sendUpdateUserInfoRequest(mEditStudentDTO);
+        HelperMethod.debugLog(TAG, "sendUpdateUserInfoReq id == " + mEditStudentDTO.getUserId());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+
+                            Toast.makeText(AddNewStudentActivity.this, "User Info Updated", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
     private void saveEditInfo() {
 
         mEditStudentDTO.setUserFirstName(added_student_name.getText().toString());
@@ -223,6 +260,8 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
         mEditStudentDTO.setUserAddress(added_student_address.getText().toString());
 //        DatabaseRequestHelper dbRequestHelper = new DatabaseRequestHelper(this);
 //        dbRequestHelper.updateStudent(mEditStudentDTO);
+
+        sendUpdateUserInfoReq();
 
         Intent BackIntent = new Intent();
         HelperMethod.debugLog(AddNewBatchActivity.TAG, "mAddedStudentList : " + mEditStudentDTO.getUserFirstName());
@@ -251,7 +290,7 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
 
             case R.id.search_user_btn:
 
-                Intent searchUserIntent = new Intent(AddNewStudentActivity.this, SearchActivity.class);
+                Intent searchUserIntent = new Intent(AddNewStudentActivity.this, UserSearchActivity.class);
                 searchUserIntent.putExtra(Constants.ADD_STUDENT_FROM_SEARCH, true);
                 startActivityForResult(searchUserIntent, Constants.REQUEST_CODE_ADD_STUDENT);
                 break;

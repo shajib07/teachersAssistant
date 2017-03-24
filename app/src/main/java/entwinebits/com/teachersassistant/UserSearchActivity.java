@@ -32,9 +32,9 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 /**
  * Created by shajib on 1/24/2017.
  */
-public class SearchActivity extends AppCompatActivity implements View.OnClickListener, SearchUserAdapter.ItemSelectionListener {
+public class UserSearchActivity extends AppCompatActivity implements View.OnClickListener, SearchUserAdapter.ItemSelectionListener {
 
-    private String TAG = "SearchActivity";
+    private String TAG = "UserSearchActivity";
     private FrameLayout search_toolbar_back;
     private SearchView searchView;
 
@@ -145,7 +145,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         switch (v.getId()) {
 
             case R.id.search_toolbar_back:
-                SearchActivity.this.finish();
+                UserSearchActivity.this.finish();
                 break;
         }
     }

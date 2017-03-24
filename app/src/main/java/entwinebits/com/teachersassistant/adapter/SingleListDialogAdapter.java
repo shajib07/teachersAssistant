@@ -1,6 +1,5 @@
 package entwinebits.com.teachersassistant.adapter;
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,43 +7,42 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.listener.DateSelectionListener;
-import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.model.ItemDTO;
 
 /**
- * Created by shajib on 1/14/2017.
+ * Created by shajib on 3/23/2017.
  */
-public class SingleItemDialogAdapter extends RecyclerView.Adapter<SingleItemDialogAdapter.SingleItemHolder> {
-    private String TAG = "SingleItemDialogAdapter";
-    private ArrayList<String> mItemList;
+public class SingleListDialogAdapter extends RecyclerView.Adapter<SingleListDialogAdapter.SingleListHolder> {
+
+    private String TAG = "SingleListDialogAdapter";
+    private ArrayList<ItemDTO> mItemList;
     private DateSelectionListener mDateSelectionListener;
 
-    public SingleItemDialogAdapter(Activity activity, ArrayList<String> list, DateSelectionListener listener) {
+    public SingleListDialogAdapter(ArrayList<ItemDTO> list, DateSelectionListener listener) {
         this.mItemList = list;
         this.mDateSelectionListener = listener;
     }
 
-    public void setAdapterData(ArrayList<String> list) {
-        mItemList.clear();
-        mItemList.addAll(list);
-        notifyDataSetChanged();
-    }
-
     @Override
-    public SingleItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SingleListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.date_chooser_single_item, parent, false);
-        return new SingleItemHolder(view);
+        return new SingleListHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final SingleItemHolder holder, int position) {
-        holder.item_tv.setText(mItemList.get(position));
+    public void onBindViewHolder(SingleListHolder holder, int position) {
+        final String itemName = mItemList.get(position).getItemName();
+        final int itemId = mItemList.get(position).getItemId();
+        holder.item_tv.setText(itemName);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDateSelectionListener.onDateSelected(true, holder.item_tv.getText().toString(), 0);
+                mDateSelectionListener.onDateSelected(true, itemName, itemId);
             }
         });
     }
@@ -54,12 +52,12 @@ public class SingleItemDialogAdapter extends RecyclerView.Adapter<SingleItemDial
         return mItemList == null ? 0 : mItemList.size();
     }
 
-    public class SingleItemHolder extends RecyclerView.ViewHolder {
+    public class SingleListHolder extends RecyclerView.ViewHolder {
         private TextView item_tv;
-        public SingleItemHolder(View itemView) {
+
+        public SingleListHolder(View itemView) {
             super(itemView);
             item_tv = (TextView) itemView.findViewById(R.id.date_tv);
-
         }
     }
 }

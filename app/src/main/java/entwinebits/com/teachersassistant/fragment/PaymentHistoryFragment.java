@@ -331,7 +331,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onDateSelected(boolean type, String month) {
+    public void onDateSelected(boolean type, String month, int id) {
         if (type) {
             year_dialog_tv.setText(month);
         } else {

@@ -28,14 +28,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import entwinebits.com.teachersassistant.adapter.BatchPaymentAdapter;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.dialogFragment.DoubleItemDialogFragment;
 import entwinebits.com.teachersassistant.dialogFragment.SingleItemDialogFragment;
+import entwinebits.com.teachersassistant.dialogFragment.SingleListDialogFragment;
 import entwinebits.com.teachersassistant.dialogFragment.YearSelectionDialogFragment;
 import entwinebits.com.teachersassistant.listener.DialogCloseListener;
 import entwinebits.com.teachersassistant.model.BatchDTO;
+import entwinebits.com.teachersassistant.model.ItemDTO;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
@@ -66,14 +69,15 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
     private ArrayList<BatchDTO> mBatchList;
     private ArrayList<String> mBatchNameList;
+    private ArrayList<ItemDTO> mBatchItemList;
 
     private DatabaseRequestHelper mDbRequestHelper;
 
-    private TextView history_batch_tv;
-
-
+    private TextView history_batch_tv, history_student_tv;
     private int mMonthFrom, mMonthTo, mYearFrom, mYearTo;
+    private Map<Integer, ArrayList<UserProfileDTO>> mBatchStudentMap;
 
+    private int mSelectedBatchId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,62 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         initLayout();
 //        loadBatchList();
         getUserBatchList();
+    }
+
+    private void loadStudentList() {
+        JSONObject jsonObject = ServerRequestHelper.sendBatchStudentListRequest(mSelectedBatchId);
+        HelperMethod.debugLog(TAG, "loadUserBatchList batch id == "+mSelectedBatchId);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            final ArrayList<UserProfileDTO> studentList = ServerResponseParser.parseBatchStudentListResponse(response);
+
+                            if (!mBatchStudentMap.containsKey(mSelectedBatchId)) {
+                                mBatchStudentMap.put(mSelectedBatchId, studentList);
+                            }
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    mTotalStudent = studentList.size();
+//                                    HelperMethod.debugLog(TAG, "studentList size = "+studentList.size());
+//                                    mStudentList.clear();
+//                                    mStudentList.addAll(studentList);
+//
+//                                    if (studentList != null && studentList.size() > 0) {
+//                                        runOnUiThread(new Runnable() {
+//                                            @Override
+//                                            public void run() {
+//                                                total_student_tv.setText("" + mTotalStudent);
+//
+//                                                if (mStudentListAdapter == null) {
+//                                                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+//                                                    student_list_rv.setAdapter(mStudentListAdapter);
+//                                                } else {
+//                                                    mStudentListAdapter.notifyDataSetChanged();
+//                                                }
+//                                            }
+//                                        });
+//                                    }
+//                                }
+//                            }).start();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
     }
 
     private void getBatchPaymentList() {
@@ -140,7 +200,12 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                                 public void run() {
                                     HelperMethod.debugLog(TAG, "loadBatchList size = " + mBatchList.size());
                                     mBatchNameList = new ArrayList<>();
+                                    mBatchItemList = new ArrayList<>();
                                     for (BatchDTO batchDTO : mBatchList) {
+                                        ItemDTO dto = new ItemDTO();
+                                        dto.setItemId((int)batchDTO.getBatchId());
+                                        dto.setItemName(batchDTO.getBatchName());
+                                        mBatchItemList.add(dto);
                                         mBatchNameList.add(batchDTO.getBatchName());
                                         HelperMethod.debugLog(TAG, "load == " + batchDTO.getBatchId() + " name = " + batchDTO.getBatchName());
                                     }
@@ -221,6 +286,9 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         history_batch_tv = (TextView) findViewById(R.id.history_batch_tv);
         history_batch_tv.setOnClickListener(this);
 
+        history_student_tv = (TextView) findViewById(R.id.history_student_tv);
+        history_student_tv.setOnClickListener(this);
+
         mBatchPaymentAdapter = new BatchPaymentAdapter(this, mPaymentHistoryList);
         student_payment_history_rv = (RecyclerView) findViewById(R.id.student_payment_history_rv);
         student_payment_history_rv.setLayoutManager(new LinearLayoutManager(this));
@@ -234,7 +302,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
         payment_history_toolbar_back = (FrameLayout) findViewById(R.id.payment_history_toolbar_back);
         payment_history_toolbar_back.setOnClickListener(this);
-
     }
 
     private ArrayList<String> getMonthList() {
@@ -260,6 +327,15 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         singleItemDialogFragment.show(getSupportFragmentManager(), "");
     }
 
+    private void showSingleListDialog(int dialogId) {
+        if (mBatchItemList == null) {
+            HelperMethod.debugLog(TAG, "showSingleItemDialog mBatchItemList NUll");
+            mBatchItemList = new ArrayList<>();
+        }
+        SingleListDialogFragment singleListDialogFragment = SingleListDialogFragment.newInstance(dialogId, mBatchItemList);
+        singleListDialogFragment.show(getSupportFragmentManager(), "");
+    }
+
     private void showDateSelectionDialog(int dialogId) {
         FragmentManager fm = getSupportFragmentManager();
         DoubleItemDialogFragment doubleItemDialogFragment = DoubleItemDialogFragment.newInstance(dialogId, getYearList(), getMonthList());
@@ -277,11 +353,18 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                 showDateSelectionDialog(2);
                 break;
 
+            case R.id.history_student_tv:
+                if (mSelectedBatchId > 0) {
+                    loadStudentList();
+                }
+                break;
+
             case R.id.history_batch_tv:
 
 //                getBatchPaymentList();
 
-                showSingleItemDialog(0);
+//                showSingleItemDialog(0);
+                showSingleListDialog(0);
                 break;
 
             case R.id.payment_history_toolbar_back:
@@ -292,6 +375,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
 
     private void initData() {
+        mBatchPaymentMap = new HashMap<>();
         mPaymentHistoryList = new ArrayList<>();
         mBatchPaymentMap = new HashMap<>();
     }
@@ -314,23 +398,27 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
+    public void onDialogClosed(int dialogId, int dialogState, String year, String month, int id) {
         switch (dialogState) {
             case Constants.DIALOG_STATE_POSITIVE:
 
                 switch (dialogId) {
                     case 0:
                         history_batch_tv.setText(year);
+                        HelperMethod.debugLog(TAG, "year "+year+" month = "+month+" id "+id);
+                        mSelectedBatchId = id;
+/*
                         for (BatchDTO dto : mBatchList) {
                             if (dto.getBatchName().equals(year)) {
-                                HelperMethod.debugLog(TAG, "dto.getBatchname "+dto.getBatchName());
+                                HelperMethod.debugLog(TAG, "dto.getBatchname "+dto.getBatchName()+ " "+dto.getBatchId());
 //                                mPaymentHistoryList.clear();
 //                                HelperMethod.debugLog(TAG, "selected : " + year + " size : " + mBatchPaymentMap.get(year).size());
 //                                mPaymentHistoryList.addAll(mBatchPaymentMap.get(year));
 //                                mBatchPaymentAdapter.notifyDataSetChanged();
 //                                break;
                             }
-                        }
+*/
+//                        }
                         break;
 
                     case 1:

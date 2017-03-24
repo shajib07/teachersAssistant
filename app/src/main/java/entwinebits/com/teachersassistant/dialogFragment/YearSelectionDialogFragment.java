@@ -74,7 +74,7 @@ public class YearSelectionDialogFragment extends DialogFragment implements Dialo
     }
 
     @Override
-    public void onDateSelected(boolean type, String month) {
+    public void onDateSelected(boolean type, String month, int id) {
         if (type) {
             year_dialog_tv.setText(month);
         } else {
@@ -89,7 +89,7 @@ public class YearSelectionDialogFragment extends DialogFragment implements Dialo
             case R.id.dialog_ok_btn:
                 String selectedYear = year_dialog_tv.getText().toString();
 //                Toast.makeText(getActivity(), "Selected " + selectedYear, Toast.LENGTH_SHORT).show();
-                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, "");
+                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, "", 0);
                 dismiss();
                 break;
 

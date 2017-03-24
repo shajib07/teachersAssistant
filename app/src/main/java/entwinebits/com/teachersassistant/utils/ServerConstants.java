@@ -21,6 +21,8 @@ public class ServerConstants {
     public static final int ACTION_GET_PAYMENT_LIST = 13;
     public static final int ACTION_GET_STUDENT_PAYMENT_LIST = 14;
     public static final int ACTION_ADD_STUDENT_PAYMENT_LIST = 15;
+    public static final int ACTION_UPDATE_STUDENT_PAYMENT = 17;
+    public static final int ACTION_UPDATE_STUDENT_PAYMENT_HISTORY = 18;
 
     public  static final String ACTION = "actn";
     public  static final String ERROR = "error";

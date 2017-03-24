@@ -380,7 +380,7 @@ public class EditPaymentHistoryActivity extends AppCompatActivity implements Vie
     }
 
     @Override
-    public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
+    public void onDialogClosed(int dialogId, int dialogState, String year, String month, int id) {
         switch (dialogState) {
             case Constants.DIALOG_STATE_POSITIVE:
                 if (dialogId == 0) {

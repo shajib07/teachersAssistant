@@ -446,7 +446,7 @@ public class StudentDetailsActivity extends AppCompatActivity implements View.On
     }
 
     @Override
-    public void onDialogClosed(int dialogId, int dialogState, String year, String month) {
+    public void onDialogClosed(int dialogId, int dialogState, String year, String month, int id) {
 
         switch (dialogState) {
             case Constants.DIALOG_STATE_POSITIVE:

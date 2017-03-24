@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
+import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
 import entwinebits.com.teachersassistant.utils.UserProfileHelper;
@@ -26,6 +27,23 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.MONTH, month);
             jsonObject.put(ServerConstants.YEAR, year);
             jsonObject.put(ServerConstants.USER_TYPE, userType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject sendPaymentUpdateRequest(int id, int payId, int month, int year, int amount, int status) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_STUDENT_PAYMENT_HISTORY);
+            jsonObject.put(ServerConstants.ID, id);
+            jsonObject.put(ServerConstants.PAYMENT_ID, payId);
+            jsonObject.put(ServerConstants.MONTH, month);
+            jsonObject.put(ServerConstants.YEAR, year);
+            jsonObject.put(ServerConstants.AMOUNT, amount);
+            jsonObject.put(ServerConstants.STATUS, status);
+            HelperMethod.debugLog(TAG, "sendPaymentUpdateRequest "+jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,6 +99,23 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.YEAREND, yearTo);
 
             HelperMethod.debugLog(TAG, "sendGetStudentPaymentListRequest : "+jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject sendUpdateUserInfoRequest(UserProfileDTO dto) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_USER_INFO);
+            jsonObject.put(ServerConstants.ID, dto.getUserId());
+            jsonObject.put(ServerConstants.FULL_NAME, dto.getUserFirstName());
+//            jsonObject.put(ServerConstants.MONTH, monthFrom);
+//            jsonObject.put(ServerConstants.YEAR, yearFrom);
+//            jsonObject.put(ServerConstants.MONTHEND, monthTo);
+//            jsonObject.put(ServerConstants.YEAREND, yearTo);
+
+            HelperMethod.debugLog(TAG, "sendUpdateUserInfoRequest : "+jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;

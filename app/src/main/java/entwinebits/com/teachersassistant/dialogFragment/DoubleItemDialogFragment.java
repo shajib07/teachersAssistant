@@ -103,7 +103,7 @@ public class DoubleItemDialogFragment extends DialogFragment implements View.OnC
     }
 
     @Override
-    public void onDateSelected(boolean type, String item) {
+    public void onDateSelected(boolean type, String item, int id) {
         Toast.makeText(getActivity(), "item : "+item, Toast.LENGTH_SHORT).show();
         if (isFirstItem) {
             first_item_tv.setText(item);
@@ -120,7 +120,7 @@ public class DoubleItemDialogFragment extends DialogFragment implements View.OnC
                 String selectedYear = first_item_tv.getText().toString();
                 String selectedMonth = second_item_tv.getText().toString();
 //                Toast.makeText(getActivity(), "Selected " + selectedYear, Toast.LENGTH_SHORT).show();
-                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, selectedMonth);
+                dialogCloseListener.onDialogClosed(dialogId, Constants.DIALOG_STATE_POSITIVE, selectedYear, selectedMonth, 0);
                 dismiss();
                 break;
 

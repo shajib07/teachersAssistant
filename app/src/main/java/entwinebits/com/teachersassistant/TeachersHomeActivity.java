@@ -3,16 +3,11 @@ package entwinebits.com.teachersassistant;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -23,7 +18,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +26,6 @@ import android.widget.Toast;
 import entwinebits.com.teachersassistant.adapter.ViewPagerAdapter;
 import entwinebits.com.teachersassistant.fragment.PaymentHistoryFragment;
 import entwinebits.com.teachersassistant.fragment.TeachersHomeFragment;
-import entwinebits.com.teachersassistant.utils.Constants;
 
 /**
  * Created by Nargis Rahman on 12/1/2016.
@@ -137,7 +130,7 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
                         mDrawerToggle.runWhenIdle(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(TeachersHomeActivity.this, SearchActivity.class);
+                                Intent intent = new Intent(TeachersHomeActivity.this, BatchActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                             }

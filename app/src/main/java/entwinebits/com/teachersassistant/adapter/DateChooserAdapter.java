@@ -71,7 +71,7 @@ public class DateChooserAdapter extends RecyclerView.Adapter<DateChooserAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dateSelectionListener.onDateSelected(mYear, holder.date_tv.getText().toString());
+                dateSelectionListener.onDateSelected(mYear, holder.date_tv.getText().toString(), 0);
             }
         });
     }
