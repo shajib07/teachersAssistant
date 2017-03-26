@@ -121,6 +121,17 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject sendGetUserInfoRequest(int userId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER);
+            jsonObject.put(ServerConstants.ID, userId);
+            HelperMethod.debugLog(TAG, "sendGetUserInfoRequest : "+jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendAddPaymentListRequest(int batch_id, ArrayList<PaymentHistoryDTO> paymentList) {
         JSONObject jsonObject = new JSONObject();
         try {

@@ -27,7 +27,7 @@ public class ServerResponseParser {
             for (int i = 0; i < jsonArray.length(); i++) {
                 PaymentHistoryDTO dto = new PaymentHistoryDTO();
                 JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
-//                dto.setPaidAmount(jsonObject1.optInt(ServerConstants.PAYMENT_ID));
+                dto.setPaymentId(jsonObject1.optInt(ServerConstants.PAYMENT_ID));
                 dto.setMonth(jsonObject1.optInt(ServerConstants.MONTH));
                 dto.setYear(jsonObject1.optInt(ServerConstants.YEAR));
                 dto.setPaidAmount(jsonObject1.optInt(ServerConstants.AMOUNT));

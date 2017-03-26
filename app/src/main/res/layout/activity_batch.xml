@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="entwinebits.com.teachersassistant.MainActivity">
+    tools:context="entwinebits.com.teachersassistant.BatchActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_batch_activity"

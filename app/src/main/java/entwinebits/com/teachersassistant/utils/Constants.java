@@ -21,6 +21,7 @@ public class Constants {
     public static final String BATCH_SCHEDULE_LIST = "BATCH_SCHEDULE_LIST";
     public static final String ADDED_STUDENT_DTO = "ADDED_STUDENT_DTO";
     public static final String EDIT_STUDENT_DTO = "EDIT_STUDENT_DTO";
+    public static final String PAYMENT_HISTORY_LIST = "PAYMENT_HISTORY_LIST";
 
     public static final String ADD_STUDENT_FROM_SEARCH = "ADD_STUDENT_FROM_SEARCH";
     public static final String TIME_12_HOUR_FORMAT = "hh:mm a";

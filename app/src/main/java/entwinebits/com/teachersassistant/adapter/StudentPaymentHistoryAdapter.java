@@ -22,7 +22,6 @@ public class StudentPaymentHistoryAdapter extends RecyclerView.Adapter<StudentPa
     private String TAG = "StudentPaymentHistoryAdapter";
     private Activity mActivity;
     private ArrayList<String> mMonthList;
-    private DatabaseRequestHelper db;
     private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
 
     public StudentPaymentHistoryAdapter(Activity activity, ArrayList<PaymentHistoryDTO> list) {
@@ -59,7 +58,6 @@ public class StudentPaymentHistoryAdapter extends RecyclerView.Adapter<StudentPa
 
     @Override
     public int getItemCount() {
-//        return 12;
         return mPaymentHistoryList == null ? 0 : mPaymentHistoryList.size();
     }
 

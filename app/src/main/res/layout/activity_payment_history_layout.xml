@@ -217,6 +217,7 @@
                     android:text="Select Batch" />
 
                 <FrameLayout
+                    android:id="@+id/payment_history_search"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"

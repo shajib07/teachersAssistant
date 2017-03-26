@@ -1,9 +1,14 @@
 package entwinebits.com.teachersassistant.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by shajib on 1/4/2017.
  */
-public class PaymentHistoryDTO {
+public class PaymentHistoryDTO implements Parcelable {
+
+    private int paymentId;
     private int year;
     private int month;
     private boolean paid;
@@ -11,6 +16,23 @@ public class PaymentHistoryDTO {
     private int studentId;
     private int batchId;
     private String studentName;
+    private boolean isFirstItem;
+
+    public boolean isFirstItem() {
+        return isFirstItem;
+    }
+
+    public void setFirstItem(boolean firstItem) {
+        isFirstItem = firstItem;
+    }
+
+    public int getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(int paymentId) {
+        this.paymentId = paymentId;
+    }
 
     public int getYear() {
         return year;
@@ -67,4 +89,56 @@ public class PaymentHistoryDTO {
     public void setBatchId(int batchId) {
         this.batchId = batchId;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public PaymentHistoryDTO(int year, int month) {
+        this.year = year;
+        this.month = month;
+        this.paymentId = -1;
+        this.paidAmount = 0;
+        this.paid = false;
+    }
+
+    public PaymentHistoryDTO() {
+
+    }
+
+    private PaymentHistoryDTO(Parcel in) {
+        paymentId = in.readInt();
+        year = in.readInt();
+        month = in.readInt();
+        paidAmount = in.readInt();
+        studentId = in.readInt();
+        batchId = in.readInt();
+        studentName = in.readString();
+        paid = in.readInt() == 0 ? false : true ;
+        isFirstItem = in.readInt() == 0 ? false : true;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(paymentId);
+        dest.writeInt(year);
+        dest.writeInt(month);
+        dest.writeInt(paidAmount);
+        dest.writeInt(studentId);
+        dest.writeInt(batchId);
+        dest.writeString(studentName);
+        dest.writeInt(paid ? 1 : 0);
+        dest.writeInt(isFirstItem ? 1 : 0);
+    }
+
+    public static final Parcelable.Creator<PaymentHistoryDTO> CREATOR = new Parcelable.Creator<PaymentHistoryDTO>() {
+        public PaymentHistoryDTO createFromParcel(Parcel in) {
+            return new PaymentHistoryDTO(in);
+        }
+
+        public PaymentHistoryDTO[] newArray(int size) {
+            return new PaymentHistoryDTO[size];
+        }
+    };
 }
