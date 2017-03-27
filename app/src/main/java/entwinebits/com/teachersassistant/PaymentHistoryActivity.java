@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -61,6 +62,8 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private TextView payment_history_toolbar_title;
     private ProgressDialog mProgressDialog;
 
+    private CardView student_search_cardview, batch_search_cardview;
+    private TextView search_student_history_tv, search_batch_history_tv;
     private LinearLayout from_ll, to_ll;
     private TextView to_month_tv, to_yr_tv, from_month_tv, from_yr_tv;
 
@@ -396,6 +399,14 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     }
 
     private void initLayout() {
+        student_search_cardview = (CardView)findViewById(R.id.student_search_cardview);
+        batch_search_cardview = (CardView)findViewById(R.id.batch_search_cardview);
+        search_student_history_tv = (TextView) findViewById(R.id.search_student_history_tv);
+        search_batch_history_tv = (TextView) findViewById(R.id.search_batch_history_tv);
+
+        search_student_history_tv.setOnClickListener(this);
+        search_batch_history_tv.setOnClickListener(this);
+
         to_ll = (LinearLayout) findViewById(R.id.to_ll);
         to_ll.setOnClickListener(this);
         from_ll = (LinearLayout) findViewById(R.id.from_ll);
@@ -463,6 +474,13 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.search_student_history_tv:
+
+                break;
+            case R.id.search_batch_history_tv:
+
+                break;
             case R.id.from_ll:
 
                 showDateSelectionDialog(1);
