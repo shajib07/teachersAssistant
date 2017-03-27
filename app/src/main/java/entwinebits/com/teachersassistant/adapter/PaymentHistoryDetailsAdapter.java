@@ -36,7 +36,6 @@ public class PaymentHistoryDetailsAdapter extends RecyclerView.Adapter<PaymentHi
     private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
     private ArrayList<PaymentHistoryDTO> mReceivedDataList;
 
-//    private ArrayList<Integer> mHeaderList;
     private PaymentEditSelectionListener paymentEditSelectionListener;
 
     public interface PaymentEditSelectionListener {
@@ -47,8 +46,8 @@ public class PaymentHistoryDetailsAdapter extends RecyclerView.Adapter<PaymentHi
         this.mActivity = activity;
         getMonthList();
         this.mReceivedDataList = list;
-        this.mPaymentHistoryList = getProcessedList(list);
-//        mHeaderList = new ArrayList<>();
+        this.mPaymentHistoryList = new ArrayList<>();
+        this.mPaymentHistoryList.addAll(getProcessedList(list));
     }
 
     public void setPaymentEditSelectionListener(PaymentEditSelectionListener listener) {
@@ -77,6 +76,7 @@ public class PaymentHistoryDetailsAdapter extends RecyclerView.Adapter<PaymentHi
                 for (PaymentHistoryDTO dto : mReceivedDataList) {
                     if (dto.getYear() == year && dto.getMonth() == month) {
                         dto.setPaidAmount(amount);
+                        dto.setPaid(true);
                         break;
                     }
                 }
@@ -90,7 +90,6 @@ public class PaymentHistoryDetailsAdapter extends RecyclerView.Adapter<PaymentHi
                         notifyDataSetChanged();
                     }
                 });
-
             }
         }).start();
     }
@@ -136,11 +135,6 @@ public class PaymentHistoryDetailsAdapter extends RecyclerView.Adapter<PaymentHi
 
                 HelperMethod.debugLog(TAG, ""+dto.getPaidAmount()+" "+dto.getPaymentId());
                 paymentEditSelectionListener.onPaymentEdited(dto);
-//                showDoubleOptionDialog(mActivity, dto);
-//                holder.payment_item_paid_et.setVisibility(View.VISIBLE);
-//                holder.payment_item_due_et.setVisibility(View.VISIBLE);
-//                holder.payment_item_paid.setVisibility(View.GONE);
-//                holder.payment_item_due.setVisibility(View.GONE);
                 return false;
             }
         });
@@ -155,7 +149,6 @@ public class PaymentHistoryDetailsAdapter extends RecyclerView.Adapter<PaymentHi
         private TextView payment_item_month, payment_item_paid, payment_item_due, payment_header_tv;
         private LinearLayout payment_row_ll;
         private View payment_header_line;
-        private EditText payment_item_due_et, payment_item_paid_et;
         public PaymentDetailsHolder(View itemView) {
             super(itemView);
             payment_row_ll = (LinearLayout) itemView.findViewById(R.id.payment_row_ll);
@@ -163,8 +156,6 @@ public class PaymentHistoryDetailsAdapter extends RecyclerView.Adapter<PaymentHi
             payment_item_month = (TextView) itemView.findViewById(R.id.payment_item_month);
             payment_item_paid = (TextView) itemView.findViewById(R.id.payment_item_paid);
             payment_item_due = (TextView) itemView.findViewById(R.id.payment_item_due);
-            payment_item_paid_et = (EditText) itemView.findViewById(R.id.payment_item_paid_et);
-            payment_item_due_et = (EditText) itemView.findViewById(R.id.payment_item_due_et);
             payment_header_line = itemView.findViewById(R.id.payment_header_line);
 
         }

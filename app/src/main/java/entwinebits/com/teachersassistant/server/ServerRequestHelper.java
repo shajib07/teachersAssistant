@@ -19,33 +19,30 @@ public class ServerRequestHelper {
 
     public static String TAG = "ServerRequestHelper";
 
-    public static JSONObject sendBatchPaymentListRequest(int batchId, int month, int year, int userType) {
+    public static JSONObject sendUpdateUserInfoRequest(UserProfileDTO dto) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_PAYMENT_LIST);
-            jsonObject.put(ServerConstants.BATCH_ID, batchId);
-            jsonObject.put(ServerConstants.MONTH, month);
-            jsonObject.put(ServerConstants.YEAR, year);
-            jsonObject.put(ServerConstants.USER_TYPE, userType);
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_USER_INFO);
+            jsonObject.put(ServerConstants.ID, dto.getUserId());
+            jsonObject.put(ServerConstants.FULL_NAME, dto.getUserFirstName());
+//            jsonObject.put(ServerConstants.MONTH, monthFrom);
+//            jsonObject.put(ServerConstants.YEAR, yearFrom);
+//            jsonObject.put(ServerConstants.MONTHEND, monthTo);
+//            jsonObject.put(ServerConstants.YEAREND, yearTo);
+
+            HelperMethod.debugLog(TAG, "sendUpdateUserInfoRequest : "+jsonObject.toString());
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return jsonObject;
     }
 
-    public static JSONObject sendPaymentUpdateRequest(int id, int payId, int month, int year, int amount, int status) {
+    public static JSONObject sendGetUserInfoRequest(int userId) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_STUDENT_PAYMENT_HISTORY);
-            jsonObject.put(ServerConstants.ID, id);
-            jsonObject.put(ServerConstants.PAYMENT_ID, payId);
-            jsonObject.put(ServerConstants.MONTH, month);
-            jsonObject.put(ServerConstants.YEAR, year);
-            jsonObject.put(ServerConstants.AMOUNT, amount);
-            jsonObject.put(ServerConstants.STATUS, status);
-            HelperMethod.debugLog(TAG, "sendPaymentUpdateRequest "+jsonObject.toString());
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER);
+            jsonObject.put(ServerConstants.ID, userId);
+            HelperMethod.debugLog(TAG, "sendGetUserInfoRequest : "+jsonObject.toString());
         } catch (Exception e) {
-            e.printStackTrace();
         }
         return jsonObject;
     }
@@ -86,6 +83,37 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject sendBatchPaymentListRequest(int batchId, int month, int year, int userType) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_PAYMENT_LIST);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+            jsonObject.put(ServerConstants.MONTH, month);
+            jsonObject.put(ServerConstants.YEAR, year);
+            jsonObject.put(ServerConstants.USER_TYPE, userType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject sendPaymentUpdateRequest(int id, int payId, int month, int year, int amount, int status) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_STUDENT_PAYMENT_HISTORY);
+            jsonObject.put(ServerConstants.ID, id);
+            jsonObject.put(ServerConstants.PAYMENT_ID, payId);
+            jsonObject.put(ServerConstants.MONTH, month);
+            jsonObject.put(ServerConstants.YEAR, year);
+            jsonObject.put(ServerConstants.AMOUNT, amount);
+            jsonObject.put(ServerConstants.STATUS, status);
+            HelperMethod.debugLog(TAG, "sendPaymentUpdateRequest "+jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendGetStudentPaymentListRequest(int batch_id, int student_id, int monthFrom, int yearFrom,
                                                               int monthTo, int yearTo) {
         JSONObject jsonObject = new JSONObject();
@@ -99,34 +127,6 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.YEAREND, yearTo);
 
             HelperMethod.debugLog(TAG, "sendGetStudentPaymentListRequest : "+jsonObject.toString());
-        } catch (Exception e) {
-        }
-        return jsonObject;
-    }
-
-    public static JSONObject sendUpdateUserInfoRequest(UserProfileDTO dto) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_USER_INFO);
-            jsonObject.put(ServerConstants.ID, dto.getUserId());
-            jsonObject.put(ServerConstants.FULL_NAME, dto.getUserFirstName());
-//            jsonObject.put(ServerConstants.MONTH, monthFrom);
-//            jsonObject.put(ServerConstants.YEAR, yearFrom);
-//            jsonObject.put(ServerConstants.MONTHEND, monthTo);
-//            jsonObject.put(ServerConstants.YEAREND, yearTo);
-
-            HelperMethod.debugLog(TAG, "sendUpdateUserInfoRequest : "+jsonObject.toString());
-        } catch (Exception e) {
-        }
-        return jsonObject;
-    }
-
-    public static JSONObject sendGetUserInfoRequest(int userId) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER);
-            jsonObject.put(ServerConstants.ID, userId);
-            HelperMethod.debugLog(TAG, "sendGetUserInfoRequest : "+jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;

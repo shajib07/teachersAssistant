@@ -35,6 +35,7 @@ import entwinebits.com.teachersassistant.server.ServerRequestHelper;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by shajib on 3/25/2017.
@@ -91,7 +92,7 @@ public class PaymentHistoryDetailsActivity extends AppCompatActivity implements 
         showPaymentEditDialog(dto);
     }
 
-    private void sendAddPaymentReq(final int mSelectedMonth, final int mSelectedYear, final int mAmount) {
+    private void sendPaymentAddRequest(final int mSelectedMonth, final int mSelectedYear, final int mAmount) {
         JSONObject jsonObject = ServerRequestHelper.sendAddPaymentHistoryRequest(mSelectedStudentId, mSelectedBatchId, mSelectedMonth, mSelectedYear, mAmount, true);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
@@ -101,7 +102,7 @@ public class PaymentHistoryDetailsActivity extends AppCompatActivity implements 
                         HelperMethod.debugLog(TAG, response.toString());
                         if (!response.optBoolean(ServerConstants.ERROR)) {
                             Toast.makeText(PaymentHistoryDetailsActivity.this, "Payment Added Successfully.", Toast.LENGTH_LONG).show();
-                            mStudentHistoryAdapter.notifyDataAdapter(mSelectedMonth, mSelectedYear, mAmount);
+                            mStudentHistoryAdapter.notifyDataAdapter(mSelectedYear, mSelectedMonth, mAmount);
                         } else {
                             if (response.optInt(ServerConstants.REASON_CODE) == 1) {
                                 Toast.makeText(PaymentHistoryDetailsActivity.this, "Payment Already Exist.", Toast.LENGTH_LONG).show();
@@ -109,6 +110,34 @@ public class PaymentHistoryDetailsActivity extends AppCompatActivity implements 
 //                                mPaymentId = response.optInt(ServerConstants.PAYMENT_ID);
 //                                showPaymentExistDialog(preAmount, mAmount);
                             }
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
+    private void sendPaymentUpdateRequest(final PaymentHistoryDTO dto, final int curAmount) {
+//        int id = (int) UserProfileHelper.getInstance(this).getUserId();
+        JSONObject jsonObject = ServerRequestHelper.sendPaymentUpdateRequest(mSelectedStudentId, dto.getPaymentId(),
+                dto.getMonth(), dto.getYear(), curAmount, 1);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+                            HelperMethod.debugLog(TAG, "sendUpdateRequest sucsss");
+                            Toast.makeText(PaymentHistoryDetailsActivity.this, "Payment Updated Successfully", Toast.LENGTH_SHORT).show();
+                            mStudentHistoryAdapter.notifyDataAdapter(dto.getYear(), dto.getMonth(), curAmount);
                         }
                     }
                 },
@@ -150,11 +179,10 @@ public class PaymentHistoryDetailsActivity extends AppCompatActivity implements 
                     }
                     int paidAmount = Integer.parseInt(paidAmountStr);
                     int payId = dto.getPaymentId();
-                    if (payId == -1) {
-                        sendAddPaymentReq(dto.getMonth(), dto.getYear(), paidAmount);
-
+                    if (payId < 0) {
+                        sendPaymentAddRequest(dto.getMonth(), dto.getYear(), paidAmount);
                     } else {
-
+                        sendPaymentUpdateRequest(dto, paidAmount);
                     }
                     dialog.dismiss();
                 }
