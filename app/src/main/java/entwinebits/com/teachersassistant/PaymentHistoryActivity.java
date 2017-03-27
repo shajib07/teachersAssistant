@@ -64,9 +64,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private LinearLayout from_ll, to_ll;
     private TextView to_month_tv, to_yr_tv, from_month_tv, from_yr_tv;
 
-    private RecyclerView student_payment_history_rv;
-    private BatchPaymentAdapter mBatchPaymentAdapter;
-    private ArrayList<PaymentHistoryDTO> mPaymentHistoryList;
+//    private RecyclerView student_payment_history_rv;
     private HashMap<String, ArrayList<PaymentHistoryDTO>> mBatchPaymentMap;
 
     private ArrayList<BatchDTO> mBatchList;
@@ -176,7 +174,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
-
     }
 
     private void getUserBatchList() {
@@ -253,7 +250,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
 
     private void addPaymentDetails(ArrayList<PaymentHistoryDTO> paymentList, ArrayList<PaymentHistoryDTO> list, int yrInx, int monInx) {
-        HelperMethod.debugLog(TAG, "yrInx "+yrInx+ " monInx " + monInx );
         boolean isFound = false;
         PaymentHistoryDTO tempDto = new PaymentHistoryDTO();
 
@@ -270,9 +266,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
             tempDto = new PaymentHistoryDTO(yrInx, monInx);
         }
         paymentList.add(tempDto);
-        HelperMethod.debugLog(TAG, "before "+tempDto.getYear());
-
-
     }
 
     private void sendStudentPaymentListRequest() {
@@ -300,6 +293,8 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                                         public void run() {
                                             HelperMethod.debugLog(TAG, "processedList == "+processedList.size());
                                             Intent paymentDetailsIntent = new Intent(PaymentHistoryActivity.this, PaymentHistoryDetailsActivity.class);
+                                            paymentDetailsIntent.putExtra(Constants.BATCH_ID, mSelectedBatchId);
+                                            paymentDetailsIntent.putExtra(Constants.STUDENT_ID, mSelectedStudentId);
                                             paymentDetailsIntent.putParcelableArrayListExtra(Constants.PAYMENT_HISTORY_LIST, processedList);
                                             startActivity(paymentDetailsIntent);
                                         }
@@ -416,11 +411,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         history_student_tv.setOnClickListener(this);
         payment_history_search = (FrameLayout) findViewById(R.id.payment_history_search);
         payment_history_search.setOnClickListener(this);
-
-        mBatchPaymentAdapter = new BatchPaymentAdapter(this, mPaymentHistoryList);
-        student_payment_history_rv = (RecyclerView) findViewById(R.id.student_payment_history_rv);
-        student_payment_history_rv.setLayoutManager(new LinearLayoutManager(this));
-        student_payment_history_rv.setAdapter(mBatchPaymentAdapter);
     }
 
 
@@ -511,7 +501,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private void initData() {
         mBatchStudentItemMap = new HashMap<>();
         mBatchStudentMap = new HashMap<>();
-        mPaymentHistoryList = new ArrayList<>();
         mBatchPaymentMap = new HashMap<>();
     }
 
@@ -542,18 +531,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                         history_batch_tv.setText(year);
                         HelperMethod.debugLog(TAG, "year "+year+" month = "+month+" id "+id);
                         mSelectedBatchId = id;
-/*
-                        for (BatchDTO dto : mBatchList) {
-                            if (dto.getBatchName().equals(year)) {
-                                HelperMethod.debugLog(TAG, "dto.getBatchname "+dto.getBatchName()+ " "+dto.getBatchId());
-//                                mPaymentHistoryList.clear();
-//                                HelperMethod.debugLog(TAG, "selected : " + year + " size : " + mBatchPaymentMap.get(year).size());
-//                                mPaymentHistoryList.addAll(mBatchPaymentMap.get(year));
-//                                mBatchPaymentAdapter.notifyDataSetChanged();
-//                                break;
-                            }
-*/
-//                        }
                         break;
 
                     case 1:
