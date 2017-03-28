@@ -64,10 +64,12 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
     private CardView student_search_cardview, batch_search_cardview;
     private TextView search_student_history_tv, search_batch_history_tv;
-    private LinearLayout from_ll, to_ll;
-    private TextView to_month_tv, to_yr_tv, from_month_tv, from_yr_tv;
+    private LinearLayout from_ll, to_ll, batch_history_ll;
+    private TextView to_month_tv, to_yr_tv, from_month_tv, from_yr_tv, batch_history_month_tv, batch_history_year_tv;
+    private TextView history_batch_tv, history_student_tv, batch_history_batch_tv;
+    private FrameLayout payment_history_search, batch_history_search;
 
-//    private RecyclerView student_payment_history_rv;
+    //    private RecyclerView student_payment_history_rv;
     private HashMap<String, ArrayList<PaymentHistoryDTO>> mBatchPaymentMap;
 
     private ArrayList<BatchDTO> mBatchList;
@@ -76,12 +78,10 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
     private DatabaseRequestHelper mDbRequestHelper;
 
-    private TextView history_batch_tv, history_student_tv;
     private int mMonthFrom, mMonthTo, mYearFrom, mYearTo;
     private Map<Integer, ArrayList<UserProfileDTO>> mBatchStudentMap;
     private Map<Integer, ArrayList<ItemDTO>> mBatchStudentItemMap;
 
-    private FrameLayout payment_history_search;
     private int mSelectedBatchId = -1, mSelectedStudentId = -1;
 
     @Override
@@ -319,6 +319,56 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
     }
+
+    private void sendBatchPaymentListRequest() {
+
+        showProgressDialog();
+        JSONObject jsonObject = ServerRequestHelper.sendBatchPaymentListRequest(mSelectedBatchId, mMonthFrom, mYearFrom, 1);
+        HelperMethod.debugLog(TAG, "sendStudentPaymentListRequest batch id == " + mSelectedBatchId + " stud id == " + mSelectedStudentId);
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(final JSONObject response) {
+                        hideProgressDialog();
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR)) {
+
+//                            new Thread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetStudentPaymentListRequest(response);
+//
+//                                    final ArrayList<PaymentHistoryDTO> processedList = generatePaymentDetailsList(paymentHistoryDTOs, mMonthFrom, mYearFrom, mMonthTo, mYearTo);
+//                                    runOnUiThread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            HelperMethod.debugLog(TAG, "processedList == "+processedList.size());
+//                                            Intent paymentDetailsIntent = new Intent(PaymentHistoryActivity.this, PaymentHistoryDetailsActivity.class);
+//                                            paymentDetailsIntent.putExtra(Constants.BATCH_ID, mSelectedBatchId);
+//                                            paymentDetailsIntent.putExtra(Constants.STUDENT_ID, mSelectedStudentId);
+//                                            paymentDetailsIntent.putParcelableArrayListExtra(Constants.PAYMENT_HISTORY_LIST, processedList);
+//                                            startActivity(paymentDetailsIntent);
+//                                        }
+//                                    });
+//                                }
+//                            }).start();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        hideProgressDialog();
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+    }
+
     private void sendGetUserInfoRequest() {
 
         JSONObject jsonObject = ServerRequestHelper.sendGetUserInfoRequest(mSelectedStudentId);
@@ -411,10 +461,18 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         to_ll.setOnClickListener(this);
         from_ll = (LinearLayout) findViewById(R.id.from_ll);
         from_ll.setOnClickListener(this);
+        batch_history_ll = (LinearLayout) findViewById(R.id.batch_history_ll);
+        batch_history_ll.setOnClickListener(this);
+
         from_yr_tv = (TextView) findViewById(R.id.from_yr_tv);
         from_month_tv = (TextView) findViewById(R.id.from_month_tv);
         to_yr_tv = (TextView) findViewById(R.id.to_yr_tv);
         to_month_tv = (TextView) findViewById(R.id.to_month_tv);
+
+        batch_history_month_tv = (TextView) findViewById(R.id.batch_history_month_tv);
+        batch_history_year_tv = (TextView) findViewById(R.id.batch_history_year_tv);
+        batch_history_batch_tv = (TextView) findViewById(R.id.batch_history_batch_tv);
+        batch_history_batch_tv.setOnClickListener(this);
 
         history_batch_tv = (TextView) findViewById(R.id.history_batch_tv);
         history_batch_tv.setOnClickListener(this);
@@ -422,6 +480,8 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         history_student_tv.setOnClickListener(this);
         payment_history_search = (FrameLayout) findViewById(R.id.payment_history_search);
         payment_history_search.setOnClickListener(this);
+        batch_history_search = (FrameLayout) findViewById(R.id.batch_history_search);
+        batch_history_search.setOnClickListener(this);
     }
 
 
@@ -476,13 +536,19 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         switch (v.getId()) {
 
             case R.id.search_student_history_tv:
-
+                batch_search_cardview.setVisibility(View.GONE);
+                student_search_cardview.setVisibility(View.VISIBLE);
                 break;
-            case R.id.search_batch_history_tv:
 
+            case R.id.search_batch_history_tv:
+                batch_search_cardview.setVisibility(View.VISIBLE);
+                student_search_cardview.setVisibility(View.GONE);
+                break;
+
+            case R.id.batch_history_ll:
+                showDateSelectionDialog(4);
                 break;
             case R.id.from_ll:
-
                 showDateSelectionDialog(1);
                 break;
 
@@ -505,8 +571,16 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                 showSingleListDialog(0, mBatchItemList);
                 break;
 
+            case R.id.batch_history_batch_tv:
+                showSingleListDialog(5, mBatchItemList);
+                break;
+
             case R.id.payment_history_search:
                 sendStudentPaymentListRequest();
+                break;
+
+            case R.id.batch_history_search:
+                sendBatchPaymentListRequest();
                 break;
 
             case R.id.payment_history_toolbar_back:
@@ -562,7 +636,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                     case 2:
                         to_month_tv.setText(month);
                         to_yr_tv.setText(year);
-
                         mMonthTo = ConstantFunctions.getMonthIntType(month);
                         mYearTo = Integer.parseInt(year);
                         HelperMethod.debugLog(TAG, "mMonthTo "+mMonthTo+" mYearTo "+mYearTo);
@@ -572,8 +645,23 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                         history_student_tv.setText(year);
                         mSelectedStudentId = id;
                         HelperMethod.debugLog(TAG, "year "+year+" month = "+month+" id "+id);
-
                         break;
+
+                    case 4:
+                        batch_history_month_tv.setText(month);
+                        batch_history_year_tv.setText(year);
+                        mMonthFrom = ConstantFunctions.getMonthIntType(month);
+                        mYearFrom = Integer.parseInt(year);
+                        HelperMethod.debugLog(TAG, "mMonthFrom "+mMonthFrom+" mYearFrom "+mYearFrom);
+                        break;
+
+                    case 5:
+                        batch_history_batch_tv.setText(year);
+                        HelperMethod.debugLog(TAG, "year "+year+" month = "+month+" id "+id);
+                        mSelectedBatchId = id;
+                        break;
+
+
                 }
                 break;
             case Constants.DIALOG_STATE_NEGATIVE:
