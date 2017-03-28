@@ -334,25 +334,25 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                         HelperMethod.debugLog(TAG, response.toString());
                         if (!response.optBoolean(ServerConstants.ERROR)) {
 
-//                            new Thread(new Runnable() {
-//                                @Override
-//                                public void run() {
-//                                    ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetStudentPaymentListRequest(response);
-//
-//                                    final ArrayList<PaymentHistoryDTO> processedList = generatePaymentDetailsList(paymentHistoryDTOs, mMonthFrom, mYearFrom, mMonthTo, mYearTo);
-//                                    runOnUiThread(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-//                                            HelperMethod.debugLog(TAG, "processedList == "+processedList.size());
-//                                            Intent paymentDetailsIntent = new Intent(PaymentHistoryActivity.this, PaymentHistoryDetailsActivity.class);
-//                                            paymentDetailsIntent.putExtra(Constants.BATCH_ID, mSelectedBatchId);
-//                                            paymentDetailsIntent.putExtra(Constants.STUDENT_ID, mSelectedStudentId);
-//                                            paymentDetailsIntent.putParcelableArrayListExtra(Constants.PAYMENT_HISTORY_LIST, processedList);
-//                                            startActivity(paymentDetailsIntent);
-//                                        }
-//                                    });
-//                                }
-//                            }).start();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetBatchPaymentListRequest(response);
+
+                                    final ArrayList<PaymentHistoryDTO> processedList = generatePaymentDetailsList(paymentHistoryDTOs, mMonthFrom, mYearFrom, mMonthTo, mYearTo);
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            HelperMethod.debugLog(TAG, "processedList == "+processedList.size());
+                                            Intent paymentDetailsIntent = new Intent(PaymentHistoryActivity.this, PaymentHistoryDetailsActivity.class);
+                                            paymentDetailsIntent.putExtra(Constants.BATCH_ID, mSelectedBatchId);
+                                            paymentDetailsIntent.putExtra(Constants.STUDENT_ID, mSelectedStudentId);
+                                            paymentDetailsIntent.putParcelableArrayListExtra(Constants.PAYMENT_HISTORY_LIST, processedList);
+                                            startActivity(paymentDetailsIntent);
+                                        }
+                                    });
+                                }
+                            }).start();
                         }
                     }
                 },

@@ -40,6 +40,28 @@ public class ServerResponseParser {
         return paymentHistoryList;
     }
 
+    public static ArrayList<PaymentHistoryDTO> parseGetBatchPaymentListRequest(JSONObject response) {
+        ArrayList<PaymentHistoryDTO> paymentHistoryList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = response.getJSONArray(ServerConstants.PAYMENT_LIST);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                PaymentHistoryDTO dto = new PaymentHistoryDTO();
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                dto.setPaymentId(jsonObject1.optInt(ServerConstants.PAYMENT_ID));
+                dto.setMonth(jsonObject1.optInt(ServerConstants.MONTH));
+                dto.setYear(jsonObject1.optInt(ServerConstants.YEAR));
+                dto.setPaidAmount(jsonObject1.optInt(ServerConstants.AMOUNT));
+                dto.setUserId(jsonObject1.optInt(ServerConstants.ID));
+                dto.setUserName(jsonObject1.optString("NAME"));
+                dto.setPaid(jsonObject1.optInt(ServerConstants.STATUS) == 1 ? true : false);
+                paymentHistoryList.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return paymentHistoryList;
+    }
+
     /**
      * @param response
      * @return

@@ -111,20 +111,22 @@
                     android:id="@+id/search_student_history_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle_background"
+                    android:background="@drawable/rect_btn_bg"
                     android:gravity="center"
                     android:padding="@dimen/margin_8"
-                    android:text="Search By Student" />
+                    android:text="Search By Student"
+                    android:textColor="@drawable/rect_btn_text"/>
 
                 <TextView
                     android:id="@+id/search_batch_history_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_15"
-                    android:background="@drawable/rectangle_background"
+                    android:background="@drawable/rect_btn_bg"
                     android:gravity="center"
                     android:padding="@dimen/margin_8"
-                    android:text="Search By Batch" />
+                    android:text="Search By Batch"
+                    android:textColor="@drawable/rect_btn_text"/>
 
 
             </LinearLayout>
@@ -183,7 +185,7 @@
                             android:id="@+id/from_ll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rectangle_background"
+                            android:background="@drawable/rect_btn_bg"
                             android:orientation="horizontal"
                             android:paddingBottom="@dimen/margin_5"
                             android:paddingLeft="@dimen/margin_15"
@@ -224,7 +226,7 @@
                             android:id="@+id/to_ll"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rectangle_background"
+                            android:background="@drawable/rect_btn_bg"
                             android:orientation="horizontal"
                             android:paddingBottom="@dimen/margin_5"
                             android:paddingLeft="@dimen/margin_15"
@@ -274,20 +276,22 @@
                             android:id="@+id/history_batch_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rectangle_background"
+                            android:background="@drawable/rect_btn_bg"
                             android:gravity="center"
                             android:padding="@dimen/margin_8"
-                            android:text="Select Batch" />
+                            android:text="Select Batch"
+                            android:textColor="@drawable/rect_btn_text" />
 
                         <TextView
                             android:id="@+id/history_student_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_15"
-                            android:background="@drawable/rectangle_background"
+                            android:background="@drawable/rect_btn_bg"
                             android:gravity="center"
                             android:padding="@dimen/margin_8"
-                            android:text="Select Student" />
+                            android:text="Select Student"
+                            android:textColor="@drawable/rect_btn_text" />
 
 
                         <FrameLayout
@@ -295,7 +299,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_15"
-                            android:background="@drawable/rectangle_background">
+                            android:background="@drawable/rect_btn_bg" >
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -354,7 +358,7 @@
                             android:id="@+id/batch_history_ll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/rectangle_background"
+                            android:background="@drawable/rect_btn_bg"
                             android:gravity="center_horizontal"
                             android:orientation="horizontal"
                             android:padding="@dimen/margin_8">
@@ -380,17 +384,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_15"
-                            android:background="@drawable/rectangle_background"
+                            android:background="@drawable/rect_btn_bg"
                             android:gravity="center"
                             android:padding="@dimen/margin_8"
-                            android:text="Select Batch" />
+                            android:text="Select Batch"
+                            android:textColor="@drawable/rect_btn_text"/>
 
                         <FrameLayout
                             android:id="@+id/batch_history_search"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_15"
-                            android:background="@drawable/rectangle_background">
+                            android:background="@drawable/rect_btn_bg">
 
                             <ImageView
                                 android:layout_width="wrap_content"

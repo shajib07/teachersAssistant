@@ -17,6 +17,8 @@ public class PaymentHistoryDTO implements Parcelable {
     private int batchId;
     private String studentName;
     private boolean isFirstItem;
+    private int userId;
+    private String userName;
 
     public boolean isFirstItem() {
         return isFirstItem;
@@ -90,6 +92,22 @@ public class PaymentHistoryDTO implements Parcelable {
         this.batchId = batchId;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -117,6 +135,8 @@ public class PaymentHistoryDTO implements Parcelable {
         studentName = in.readString();
         paid = in.readInt() == 0 ? false : true ;
         isFirstItem = in.readInt() == 0 ? false : true;
+        userId= in.readInt();
+        userName = in.readString();
     }
 
     @Override
@@ -130,6 +150,8 @@ public class PaymentHistoryDTO implements Parcelable {
         dest.writeString(studentName);
         dest.writeInt(paid ? 1 : 0);
         dest.writeInt(isFirstItem ? 1 : 0);
+        dest.writeInt(userId);
+        dest.writeString(userName);
     }
 
     public static final Parcelable.Creator<PaymentHistoryDTO> CREATOR = new Parcelable.Creator<PaymentHistoryDTO>() {
