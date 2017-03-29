@@ -36,11 +36,17 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     private ArrayList<UserProfileDTO> mStudentList;
     private long mBatchId;
     private DatabaseRequestHelper mDbRequestHelper;
+    private StudentSelectionListener mStudentSelectionListener;
 
-    public StudentListAdapter(Activity activity, ArrayList<UserProfileDTO> list, long batchId) {
+    public interface StudentSelectionListener {
+        void onStudentSelected(UserProfileDTO dto);
+    }
+
+    public StudentListAdapter(Activity activity, ArrayList<UserProfileDTO> list, long batchId, StudentSelectionListener listener) {
         this.mActivity = activity;
         this.mStudentList = list;
         this.mBatchId = batchId;
+        this.mStudentSelectionListener = listener;
     }
 
     @Override
@@ -72,6 +78,14 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
                 intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
                 intent.putExtra(Constants.BATCH_ID, (int)mBatchId);
                 mActivity.startActivityForResult(intent, 120);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mStudentSelectionListener.onStudentSelected(dto);
+                return false;
             }
         });
     }

@@ -19,6 +19,49 @@ public class ServerRequestHelper {
 
     public static String TAG = "ServerRequestHelper";
 
+    public static JSONObject sendAddNewStudentRequest(int batchId, ArrayList<UserProfileDTO> addedStudentList, ArrayList<UserProfileDTO> existStudentList) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_ADD_NEW_STUDENT);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+
+            JSONArray addedStudentJson = new JSONArray();
+            for (UserProfileDTO dto : addedStudentList) {
+                JSONObject jobj = new JSONObject();
+                jobj.put(ServerConstants.FULL_NAME, dto.getUserFirstName());
+                jobj.put(ServerConstants.EMAIL, dto.getUserEmail());
+                jobj.put(ServerConstants.PASSWORD, dto.getUserPwd());
+                jobj.put(ServerConstants.GENDER, 1);
+                jobj.put(ServerConstants.USER_TYPE, 1);
+                jobj.put(ServerConstants.INSTITUTE, dto.getUserMobilePhone());
+                jobj.put(ServerConstants.PHONE_NUMBER, dto.getUserInstituteName());
+                addedStudentJson.put(jobj);
+            }
+            jsonObject.put(ServerConstants.NEW_USER_LIST, addedStudentJson);
+
+            JSONArray jsonExistArray = new JSONArray();
+            jsonObject.put(ServerConstants.EXIST_USER_LIST, jsonExistArray);
+
+            HelperMethod.debugLog(TAG, "sendAddNewStudentRequest : "+jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject sendStudentRemoveRequest(int batchId, int studentId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_REMOVE_STUDENT_FROM_BATCH);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+            jsonObject.put(ServerConstants.ID, studentId);
+
+            HelperMethod.debugLog(TAG, "sendStudentRemoveRequest : "+jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendUpdateUserInfoRequest(UserProfileDTO dto) {
         JSONObject jsonObject = new JSONObject();
         try {

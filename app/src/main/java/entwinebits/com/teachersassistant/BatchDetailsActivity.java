@@ -45,7 +45,7 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 /**
  * Created by shajib on 12/23/2016.
  */
-public class BatchDetailsActivity extends AppCompatActivity implements View.OnClickListener {
+public class BatchDetailsActivity extends AppCompatActivity implements View.OnClickListener, StudentListAdapter.StudentSelectionListener {
 
 
     private String TAG = "BatchDetailsActivity";
@@ -136,7 +136,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                                                 total_student_tv.setText("" + mTotalStudent);
 
                                                 if (mStudentListAdapter == null) {
-                                                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+                                                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId, BatchDetailsActivity.this);
                                                     student_list_rv.setAdapter(mStudentListAdapter);
                                                 } else {
                                                     mStudentListAdapter.notifyDataSetChanged();
@@ -260,14 +260,6 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         batch_details_schedule_ll = (LinearLayout)findViewById(R.id.batch_details_schedule_ll);
         initScheduleLayout();
 
-
-//        String[] weekDays = mWeekDays.split(",");
-//        StringBuilder builder = new StringBuilder();
-//        for (String s: weekDays) {
-//            builder.append(s);
-//            builder.append("  ");
-//        }
-
         student_list_rv = (RecyclerView) findViewById(R.id.student_list_rv);
         student_list_rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -280,6 +272,58 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void initData() {
         mStudentList = new ArrayList<>();
+    }
+
+    private void sendAddNewStudentRequest(ArrayList<UserProfileDTO> addedStudentList) {
+
+        JSONObject jsonObject = ServerRequestHelper.sendAddNewStudentRequest((int)mBatchId, addedStudentList, new ArrayList<UserProfileDTO>());
+
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR) ) {
+                            Toast.makeText(BatchDetailsActivity.this, "New Students Added.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "sendAddNewStudentRequest : " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+        HelperMethod.debugLog(TAG, "sendAddNewStudentRequest Full : req == "+jsonObject.toString());
+
+    }
+
+    private void sendStudentRemoveRequest(int studentId) {
+
+        JSONObject jsonObject = ServerRequestHelper.sendStudentRemoveRequest((int)mBatchId, studentId);
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR) ) {
+                            Toast.makeText(BatchDetailsActivity.this, "student Removed.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "sendStudentRemoveRequest : " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+        HelperMethod.debugLog(TAG, "sendStudentRemoveRequest Full : req == "+jsonObject.toString());
     }
 
     @Override
@@ -307,7 +351,11 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                     return;
                 }
 
+
                 ArrayList<UserProfileDTO> addedStuList = data.getParcelableArrayListExtra(Constants.ADDED_STUDENT_LIST);
+
+                sendAddNewStudentRequest(addedStuList);
+
                 if (dbRequestHelper == null) {
                     dbRequestHelper = new DatabaseRequestHelper(this);
                 }
@@ -322,7 +370,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 HelperMethod.debugLog(TAG, "onActivityResult : after added, size = " + mStudentList.size());
 
                 if (mStudentListAdapter == null) {
-                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId, this);
                     student_list_rv.setAdapter(mStudentListAdapter);
                 } else {
                     mStudentListAdapter.notifyDataSetChanged();
@@ -330,15 +378,6 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
                 mTotalStudent += addedStuList.size();
                 total_student_tv.setText("" + mTotalStudent);
-
-//                if (dbRequestHelper == null) {
-//                    dbRequestHelper = new DatabaseRequestHelper(this);
-//                }
-//                for (UserProfileDTO dto : addedStuList) {
-//                    dto.setBatchId(mBatchId);
-//                    dto.setTeacher(false);
-//                    dbRequestHelper.addStudent(dto);
-//                }
 
             }
         } else if (requestCode == 130) {
@@ -406,5 +445,10 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     protected void onDestroy() {
         super.onDestroy();
         HelperMethod.debugLog(TAG, "BatchDetailsActivity : onDestroy ");
+    }
+
+    @Override
+    public void onStudentSelected(UserProfileDTO dto) {
+        sendStudentRemoveRequest(dto.getUserId());
     }
 }
