@@ -71,6 +71,7 @@ public class AddPaymentHistoryActivity extends AppCompatActivity implements View
 
         mStudentId = getIntent().getIntExtra(Constants.STUDENT_ID, 0);
         mBatchId = getIntent().getIntExtra(Constants.BATCH_ID, 0);
+        HelperMethod.debugLog(TAG, "mStudentId : "+mStudentId+" mBatchId : "+mBatchId);
 
         initToolbar();
         initLayout();
