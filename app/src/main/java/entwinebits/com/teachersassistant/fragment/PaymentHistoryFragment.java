@@ -27,7 +27,7 @@ import java.util.Map;
 import entwinebits.com.teachersassistant.db.DatabaseRequestHelper;
 import entwinebits.com.teachersassistant.listener.DateSelectionListener;
 import entwinebits.com.teachersassistant.R;
-import entwinebits.com.teachersassistant.adapter.BatchPaymentHistoryAdapter;
+import entwinebits.com.teachersassistant.adapter.BatchHistoryAdapter;
 import entwinebits.com.teachersassistant.adapter.DateChooserAdapter;
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.PaymentDTO;
@@ -47,7 +47,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
     private ArrayList<PaymentDTO> mAllBatchHistoryList;
 
     private ArrayList<BatchDTO> mBatchList;
-    private BatchPaymentHistoryAdapter mPaymentHistoryAdapter;
+    private BatchHistoryAdapter mPaymentHistoryAdapter;
 
     private LinearLayout from_ll, to_ll;
     private TextView from_month_tv, to_month_tv, from_year_tv, to_year_tv;
@@ -132,7 +132,7 @@ public class PaymentHistoryFragment extends Fragment implements View.OnClickList
     }
 
     private void initLayout() {
-        mPaymentHistoryAdapter = new BatchPaymentHistoryAdapter(mActivity, mPaymentHistoryList);
+        mPaymentHistoryAdapter = new BatchHistoryAdapter(mActivity, mPaymentHistoryList);
         payment_history_rv = (RecyclerView)mView.findViewById(R.id.payment_history_rv);
         payment_history_rv.setLayoutManager(new LinearLayoutManager(mActivity));
         payment_history_rv.setAdapter(mPaymentHistoryAdapter);

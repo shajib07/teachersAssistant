@@ -337,17 +337,15 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetBatchPaymentListRequest(response);
+                                    final ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetBatchPaymentListRequest(response);
 
-                                    final ArrayList<PaymentHistoryDTO> processedList = generatePaymentDetailsList(paymentHistoryDTOs, mMonthFrom, mYearFrom, mMonthTo, mYearTo);
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            HelperMethod.debugLog(TAG, "processedList == "+processedList.size());
-                                            Intent paymentDetailsIntent = new Intent(PaymentHistoryActivity.this, PaymentHistoryDetailsActivity.class);
+                                            HelperMethod.debugLog(TAG, "paymentHistoryDTOs == "+paymentHistoryDTOs.size());
+                                            Intent paymentDetailsIntent = new Intent(PaymentHistoryActivity.this, BatchPaymentHistoryActivity.class);
                                             paymentDetailsIntent.putExtra(Constants.BATCH_ID, mSelectedBatchId);
-                                            paymentDetailsIntent.putExtra(Constants.STUDENT_ID, mSelectedStudentId);
-                                            paymentDetailsIntent.putParcelableArrayListExtra(Constants.PAYMENT_HISTORY_LIST, processedList);
+                                            paymentDetailsIntent.putParcelableArrayListExtra(Constants.BATCH_PAYMENT_HISTORY_LIST, paymentHistoryDTOs);
                                             startActivity(paymentDetailsIntent);
                                         }
                                     });

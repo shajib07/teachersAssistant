@@ -10,73 +10,62 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.R;
-import entwinebits.com.teachersassistant.model.BatchDTO;
-import entwinebits.com.teachersassistant.model.PaymentDTO;
+import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
 
 /**
- * Created by shajib on 12/10/2016.
+ * Created by shajib on 3/29/2017.
  */
-public class BatchPaymentHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BatchPaymentHistoryAdapter extends RecyclerView.Adapter<BatchPaymentHistoryAdapter.BatchPaymentHolder> {
 
+    private String TAG ="PaymentHistoryDetailsAdapter";
     private Activity mActivity;
-    private ArrayList<BatchDTO> mBatchList;
-    private ArrayList<PaymentDTO> mPaymentList;
+    private ArrayList<PaymentHistoryDTO> mBatchPaymentList;
+    private PaymentHistoryDetailsAdapter.PaymentEditSelectionListener mPaymentEditSelectionListener;
 
-    public BatchPaymentHistoryAdapter(Activity activity, ArrayList<PaymentDTO> list) {
+    public BatchPaymentHistoryAdapter(Activity activity, ArrayList<PaymentHistoryDTO> batchPaymentList) {
         this.mActivity = activity;
-        this.mPaymentList = list;
-//        getPaymentList();
+        this.mBatchPaymentList = batchPaymentList;
     }
 
-    private void getPaymentList() {
-        if (mPaymentList == null) {
-            mPaymentList = new ArrayList<>();
-        } else {
-            mPaymentList.clear();
-        }
-        PaymentDTO dto;
-        int base = 100;
-        for (int i =0; i < 20; i++) {
-
-            dto = new PaymentDTO();
-            dto.setBatchName("English");
-            dto.setTotalAmount(1000+base);
-            dto.setTotalPaid(700+base);
-            dto.setTotalDue(300);
-            base += 500;
-            mPaymentList.add(dto);
-        }
+    public void setPaymentEditSelectionListener(PaymentHistoryDetailsAdapter.PaymentEditSelectionListener listener) {
+        this.mPaymentEditSelectionListener = listener;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.batch_history_single_item, null);
-        return new BatchHistoryHolder(view);
+    public BatchPaymentHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.batch_pmnt_history_single_item, parent, false);
+        return new BatchPaymentHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        PaymentDTO dto = mPaymentList.get(position);
-        BatchHistoryHolder batchHistoryHolder = (BatchHistoryHolder)holder;
-        batchHistoryHolder.history_item_batch_name.setText(dto.getBatchName());
-        batchHistoryHolder.history_item_total_amount.setText("" + dto.getTotalAmount());
-        batchHistoryHolder.history_item_total_paid.setText("" + dto.getTotalPaid());
-        batchHistoryHolder.history_item_total_due.setText("" + dto.getTotalDue());
+    public void onBindViewHolder(BatchPaymentHolder holder, int position) {
+        final PaymentHistoryDTO dto = mBatchPaymentList.get(position);
+        holder.batch_pmnt_student_name.setText(dto.getUserName());
+        holder.batch_pmnt_paid_amount.setText("" + dto.getPaidAmount());
+        holder.batch_pmnt_due_amount.setText("0");
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mPaymentEditSelectionListener.onPaymentEdited(dto);
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return mPaymentList == null ? 0 : mPaymentList.size();
+        return mBatchPaymentList == null ? 0 : mBatchPaymentList.size();
     }
 
-    private static class BatchHistoryHolder extends RecyclerView.ViewHolder {
-        public TextView history_item_batch_name, history_item_total_amount, history_item_total_paid, history_item_total_due;
-        public BatchHistoryHolder(View itemView) {
+    public class BatchPaymentHolder extends RecyclerView.ViewHolder {
+
+        private TextView batch_pmnt_student_name, batch_pmnt_paid_amount, batch_pmnt_due_amount;
+        public BatchPaymentHolder(View itemView) {
             super(itemView);
-            history_item_batch_name = (TextView)itemView.findViewById(R.id.history_item_batch_name);
-            history_item_total_amount = (TextView)itemView.findViewById(R.id.history_item_total_amount);
-            history_item_total_paid = (TextView)itemView.findViewById(R.id.history_item_total_paid);
-            history_item_total_due = (TextView)itemView.findViewById(R.id.history_item_total_due);
+            batch_pmnt_student_name = (TextView)itemView.findViewById(R.id.batch_pmnt_student_name);
+            batch_pmnt_paid_amount = (TextView)itemView.findViewById(R.id.batch_pmnt_paid_amount);
+            batch_pmnt_due_amount = (TextView)itemView.findViewById(R.id.batch_pmnt_due_amount);
         }
     }
 }
