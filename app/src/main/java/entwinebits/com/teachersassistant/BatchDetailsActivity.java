@@ -81,7 +81,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 //        mWeekDays = getIntent().getStringExtra(Constants.BATCH_WEEK_DAYS);
         mScheduleList = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
         for (ScheduleDTO dto : mScheduleList) {
-            HelperMethod.debugLog(TAG, "here "+dto.getDaysOfWeek()+" time "+dto.getStartTime());
+            HelperMethod.debugLog(TAG, "here "+dto.getDaysOfWeek()+" time "+dto.getStartTime()+ " id "+dto.getRoutineId()+ " sc id "+dto.getScheduleId());
         }
         if (mBatchId == -1) {
             Toast.makeText(this, "Error Occured : " + getClass().getName(), Toast.LENGTH_SHORT).show();
@@ -395,7 +395,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         upperListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BatchDetailsActivity.this, AddNewBatchActivity.class);
+                Intent intent = new Intent(BatchDetailsActivity.this, EditBatchActivity.class);
                 intent.putExtra(Constants.BATCH_ID, mBatchId);
                 intent.putExtra(Constants.BATCH_NAME, mBatchName);
                 intent.putExtra(Constants.BATCH_SCHEDULE_LIST, mScheduleList);
@@ -407,7 +407,6 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
             public void onClick(View v) {}
         };
         DialogProvider.showDoubleOptionDialog(this, upperText, lowerText, upperListener, lowerListener);
-
     }
 
     @Override

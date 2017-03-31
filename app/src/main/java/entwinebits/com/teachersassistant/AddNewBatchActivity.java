@@ -83,7 +83,7 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<ScheduleDTO> mEditScheduleList;
     private DatabaseRequestHelper dbRequestHelper;
 
-    private String mEditBatchName;
+
     private long mEditBatchId;
 
     @Override
@@ -94,7 +94,6 @@ public class AddNewBatchActivity extends AppCompatActivity implements View.OnCli
         if (getIntent().hasExtra(Constants.BATCH_ID)) {
             mIsEditMode = true;
             mEditBatchId = getIntent().getLongExtra(Constants.BATCH_ID, -1);
-            mEditBatchName = getIntent().getStringExtra(Constants.BATCH_NAME);
         }
 
         initToolbar();

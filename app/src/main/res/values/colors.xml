@@ -4,9 +4,13 @@
     <!--<color name="colorPrimaryDark">#303F9F</color>-->
     <!--<color name="colorAccent">#FF4081</color>-->
 
-    <color name="colorPrimary">@color/aquamarine</color>
-    <color name="colorPrimaryDark">@color/green_line</color>
-    <color name="colorAccent">@color/aquamarine</color>
+    <!--<color name="colorPrimary">@color/aquamarine</color>-->
+    <!--<color name="colorPrimaryDark">@color/green_line</color>-->
+    <!--<color name="colorAccent">@color/aquamarine</color>-->
+
+    <color name="colorPrimary">@color/final_primary</color>
+    <color name="colorPrimaryDark">@color/final_primary_dark</color>
+    <color name="colorAccent">@color/final_primary</color>
 
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -56,7 +60,23 @@
     <color name="light_green">#90EE90</color>
     <color name="lightgoldenrodyellow">#FAFAD2</color>
 
-    <color name="packer_gold">#FCB514</color>
+    <color name="packer_gold">#fc8f14</color>
+    <color name="packer_gold_dark">#fc7c14</color>
+
+
+    <color name="final_primary_dark">@color/dark_golden_rod</color>
+    <color name="final_primary">@color/golden_rod</color>
+    <color name="final_accent">@color/golden_rod</color>
+
+    <color name="dark_orchid">#9932cc</color>
+    <color name="orchid_norm">#da70d6</color>
+    <color name="medium_orchid">#ba55d3</color>
+
+    <color name="dark_golden_rod">#b8860b</color>
+    <color name="golden_rod">#daa520</color>
+
+    <!--<color name="packer_gold">#FCB514</color>-->
+    <!--<color name="packer_gold_dark">#FCA214</color>-->
     <color name="bubble_gum">#FF92BB</color>
     <color name="cadetblue1">#98F5FF</color>
 

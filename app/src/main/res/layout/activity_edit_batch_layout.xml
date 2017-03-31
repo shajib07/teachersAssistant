@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray93"
+    tools:context="entwinebits.com.teachersassistant.AddNewBatchActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            app:layout_scrollFlags=""
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/edit_batch_toolbar_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:background="?attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@null"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_10"
+                        android:src="@mipmap/ic_toolbar_back" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/edit_batch_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_toLeftOf="@+id/add_batch_save_btn"
+                    android:layout_toRightOf="@+id/add_batch_toolbar_back"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="Accounting Advance Course1"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+                <FrameLayout
+                    android:id="@+id/edit_batch_save_btn"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:text="Save"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/white" />
+
+                </FrameLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_10"
+                android:clipToPadding="false">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_toLeftOf="@+id/title_save_ll"
+                        android:orientation="vertical"
+                        android:paddingBottom="@dimen/margin_10"
+                        android:paddingTop="@dimen/margin_10">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Batch Title" />
+
+                        <TextView
+                            android:id="@+id/batch_title_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:text="Accountring"
+                            android:textColor="@color/default_text_color"
+                            android:textSize="18sp"
+                            android:visibility="visible" />
+
+                        <EditText
+                            android:id="@+id/batch_title_et"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:hint="Batch Title"
+                            android:maxLength="50"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColorHint="@color/gray80"
+                            android:textSize="18sp"
+                            android:visibility="gone" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/title_save_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:orientation="horizontal">
+
+                        <FrameLayout
+                            android:id="@+id/batch_title_save_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingBottom="@dimen/margin_10"
+                                android:paddingLeft="@dimen/margin_5"
+                                android:paddingRight="@dimen/margin_5"
+                                android:paddingTop="@dimen/margin_10"
+                                android:src="@drawable/ic_action_check_theme" />
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/batch_title_cancel_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingBottom="@dimen/margin_10"
+                                android:paddingLeft="@dimen/margin_5"
+                                android:paddingRight="@dimen/margin_5"
+                                android:paddingTop="@dimen/margin_10"
+                                android:src="@drawable/ic_action_cancel_theme" />
+
+                        </FrameLayout>
+
+                        <FrameLayout
+                            android:id="@+id/batch_title_edit_btn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingBottom="@dimen/margin_10"
+                                android:paddingLeft="@dimen/margin_5"
+                                android:paddingRight="@dimen/margin_5"
+                                android:paddingTop="@dimen/margin_10"
+                                android:src="@drawable/ic_action_edit_theme" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+            <LinearLayout
+                android:id="@+id/handle_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/margin_10"
+                    android:text="@string/add_shedule"
+                    android:textColor="@color/gray44"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_marginTop="@dimen/margin_10"
+                android:clipToPadding="false">
+
+
+                <LinearLayout
+                    android:id="@+id/add_shedule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="@dimen/margin_20">
+
+                        <TextView
+                            android:id="@+id/text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:text="@string/edit_shedule"
+                            android:textColor="@color/default_text_color"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:id="@+id/schedule_save_ll"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerInParent="true"
+                            android:orientation="horizontal">
+
+                            <FrameLayout
+                                android:id="@+id/schedule_save_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/margin_10"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingBottom="@dimen/margin_10"
+                                    android:paddingLeft="@dimen/margin_5"
+                                    android:paddingRight="@dimen/margin_5"
+                                    android:paddingTop="@dimen/margin_10"
+                                    android:src="@drawable/ic_action_check_theme" />
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/schedule_cancel_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/margin_10"
+                                android:background="?android:attr/selectableItemBackground"
+                                android:visibility="gone">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingBottom="@dimen/margin_10"
+                                    android:paddingLeft="@dimen/margin_5"
+                                    android:paddingRight="@dimen/margin_5"
+                                    android:paddingTop="@dimen/margin_10"
+                                    android:src="@drawable/ic_action_cancel_theme" />
+
+                            </FrameLayout>
+
+                            <FrameLayout
+                                android:id="@+id/schedule_edit_btn"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
+                                android:layout_marginRight="@dimen/margin_10"
+                                android:background="?android:attr/selectableItemBackground">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:paddingBottom="@dimen/margin_10"
+                                    android:paddingLeft="@dimen/margin_5"
+                                    android:paddingRight="@dimen/margin_5"
+                                    android:paddingTop="@dimen/margin_10"
+                                    android:src="@drawable/ic_action_edit_theme" />
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/day"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:layout_weight="7"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/day_sat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_3"
+                            android:layout_weight="1"
+                            android:background="@drawable/custom_rectangle_bg"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text="SAT"
+                            android:textColor="@android:color/black" />
+
+                        <!--
+                                                    <View
+                                                        android:layout_width="1dp"
+                                                        android:layout_height="match_parent"
+                                                        android:background="@android:color/darker_gray" />
+                        -->
+
+                        <TextView
+                            android:id="@+id/day_sun"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_3"
+                            android:layout_weight="1"
+                            android:background="@drawable/custom_rectangle_bg"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text="SUN"
+                            android:textColor="@android:color/black" />
+
+                        <!--
+                                                    <View
+                                                        android:layout_width="1dp"
+                                                        android:layout_height="match_parent"
+                                                        android:background="@android:color/darker_gray" />
+                        -->
+
+                        <TextView
+                            android:id="@+id/day_mon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_3"
+                            android:layout_weight="1"
+                            android:background="@drawable/custom_rectangle_bg"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text="MON"
+                            android:textColor="@android:color/black" />
+
+                        <!--
+                                                    <View
+                                                        android:layout_width="1dp"
+                                                        android:layout_height="match_parent"
+                                                        android:background="@android:color/darker_gray" />
+                        -->
+
+                        <TextView
+                            android:id="@+id/day_tue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_3"
+                            android:layout_weight="1"
+                            android:background="@drawable/custom_rectangle_bg"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text="TUE"
+                            android:textColor="@android:color/black" />
+
+                        <!--
+                                                    <View
+                                                        android:layout_width="1dp"
+                                                        android:layout_height="match_parent"
+                                                        android:background="@android:color/darker_gray" />
+                        -->
+
+                        <TextView
+                            android:id="@+id/day_wed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_3"
+                            android:layout_weight="1"
+                            android:background="@drawable/custom_rectangle_bg"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text="WED"
+                            android:textColor="@android:color/black" />
+
+                        <!--
+                                                    <View
+                                                        android:layout_width="1dp"
+                                                        android:layout_height="match_parent"
+                                                        android:background="@android:color/darker_gray" />
+                        -->
+
+                        <TextView
+                            android:id="@+id/day_thu"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_3"
+                            android:layout_weight="1"
+                            android:background="@drawable/custom_rectangle_bg"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text="THU"
+                            android:textColor="@android:color/black" />
+
+                        <!--
+                                                    <View
+                                                        android:layout_width="2dp"
+                                                        android:layout_height="match_parent"
+                                                        android:background="@android:color/white" />
+                        -->
+
+                        <TextView
+                            android:id="@+id/day_fri"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/custom_rectangle_bg"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text="FRI"
+                            android:textColor="@android:color/black" />
+
+                    </LinearLayout>
+
+                    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/lay"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:animateLayoutChanges="true"
+                            android:orientation="vertical">
+
+                            <include
+                                android:id="@+id/layout_sat"
+                                layout="@layout/edit_schedule_input_layout" />
+
+                            <include
+                                android:id="@+id/layout_sun"
+                                layout="@layout/edit_schedule_input_layout" />
+
+                            <include
+                                android:id="@+id/layout_mon"
+                                layout="@layout/edit_schedule_input_layout" />
+
+                            <include
+                                android:id="@+id/layout_tue"
+                                layout="@layout/edit_schedule_input_layout" />
+
+                            <include
+                                android:id="@+id/layout_wed"
+                                layout="@layout/edit_schedule_input_layout" />
+
+                            <include
+                                android:id="@+id/layout_thu"
+                                layout="@layout/edit_schedule_input_layout" />
+
+                            <include
+                                android:id="@+id/layout_fri"
+                                layout="@layout/edit_schedule_input_layout" />
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="@dimen/margin_10">
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+                    </ScrollView>
+
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

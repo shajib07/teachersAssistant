@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.model.PaymentDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
+import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
@@ -18,6 +19,19 @@ import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 public class ServerRequestHelper {
 
     public static String TAG = "ServerRequestHelper";
+
+    public static JSONObject sendBatchTitleUpdateRequest(String updateTitle, long batchId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_BATCH_TITLE);
+            jsonObject.put(ServerConstants.TITLE, updateTitle);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+
+            HelperMethod.debugLog(TAG, "sendBatchTitleUpdateRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
 
     public static JSONObject sendAddNewStudentRequest(int batchId, ArrayList<UserProfileDTO> addedStudentList, ArrayList<UserProfileDTO> existStudentList) {
         JSONObject jsonObject = new JSONObject();
@@ -43,7 +57,7 @@ public class ServerRequestHelper {
             JSONArray jsonExistArray = new JSONArray();
             jsonObject.put(ServerConstants.EXIST_USER_LIST, jsonExistArray);
 
-            HelperMethod.debugLog(TAG, "sendAddNewStudentRequest : "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendAddNewStudentRequest : " + jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;
@@ -56,7 +70,7 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.BATCH_ID, batchId);
             jsonObject.put(ServerConstants.ID, studentId);
 
-            HelperMethod.debugLog(TAG, "sendStudentRemoveRequest : "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendStudentRemoveRequest : " + jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;
@@ -73,7 +87,7 @@ public class ServerRequestHelper {
 //            jsonObject.put(ServerConstants.MONTHEND, monthTo);
 //            jsonObject.put(ServerConstants.YEAREND, yearTo);
 
-            HelperMethod.debugLog(TAG, "sendUpdateUserInfoRequest : "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendUpdateUserInfoRequest : " + jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;
@@ -84,7 +98,7 @@ public class ServerRequestHelper {
         try {
             jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER);
             jsonObject.put(ServerConstants.ID, userId);
-            HelperMethod.debugLog(TAG, "sendGetUserInfoRequest : "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendGetUserInfoRequest : " + jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;
@@ -107,7 +121,60 @@ public class ServerRequestHelper {
         try {
             jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER_ALL_BATCHES);
             jsonObject.put(ServerConstants.ID, userId);
-            HelperMethod.debugLog(TAG, "sendUserBatchListRequest : "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendUserBatchListRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject sendBatchScheduleUpdateRequest(long batchId, ScheduleDTO dto) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            HelperMethod.debugLog(TAG, "mScheduleList == " + dto.getDaysOfWeek() + " " + dto.getStartTime());
+
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_BATCH_ROUTINE);
+            jsonObject.put(ServerConstants.ROUTINE_ID, dto.getScheduleId());
+            jsonObject.put(ServerConstants.DAY_OF_WEEK, dto.getDaysOfWeek());
+            jsonObject.put(ServerConstants.START_TIME, dto.getStartTime());//Integer.parseInt(dto.getStartTime())
+            jsonObject.put(ServerConstants.END_TIME, dto.getEndTime());//Integer.parseInt(dto.getEndTime())
+            HelperMethod.debugLog(TAG, "sendBatchScheduleUpdateRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject sendBatchScheduleAddRequest(long batchId, ScheduleDTO dto) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            HelperMethod.debugLog(TAG, "mScheduleList == " + dto.getDaysOfWeek() + " " + dto.getStartTime());
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_ADD_BATCH_ROUTINE);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put(ServerConstants.DAY_OF_WEEK, dto.getDaysOfWeek());
+            jsonObject1.put(ServerConstants.START_TIME, dto.getStartTime());//Integer.parseInt(dto.getStartTime())
+            jsonObject1.put(ServerConstants.END_TIME, dto.getEndTime());//Integer.parseInt(dto.getEndTime())
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonObject1);
+
+            jsonObject.put(ServerConstants.ROUTINE_INFLO_LIST, jsonArray);
+
+            HelperMethod.debugLog(TAG, "sendBatchScheduleAddRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static JSONObject sendBatchScheduleDeleteRequest(ScheduleDTO dto) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            HelperMethod.debugLog(TAG, "mScheduleList == " + dto.getDaysOfWeek() + " " + dto.getScheduleId());
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_DELETE_BATCH_ROUTINE);
+            jsonObject.put(ServerConstants.ROUTINE_ID, dto.getScheduleId());
+            HelperMethod.debugLog(TAG, "sendBatchScheduleDeleteRequest : " + jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -150,7 +217,7 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.YEAR, year);
             jsonObject.put(ServerConstants.AMOUNT, amount);
             jsonObject.put(ServerConstants.STATUS, status);
-            HelperMethod.debugLog(TAG, "sendPaymentUpdateRequest "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendPaymentUpdateRequest " + jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -169,7 +236,7 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.MONTHEND, monthTo);
             jsonObject.put(ServerConstants.YEAREND, yearTo);
 
-            HelperMethod.debugLog(TAG, "sendGetStudentPaymentListRequest : "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendGetStudentPaymentListRequest : " + jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;
@@ -192,7 +259,7 @@ public class ServerRequestHelper {
                 array.put(obj);
             }
             jsonObject.put("payList", array);
-            HelperMethod.debugLog(TAG, "sendAddPaymentListRequest : "+jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendAddPaymentListRequest : " + jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;
@@ -208,8 +275,9 @@ public class ServerRequestHelper {
             jsonObject.put(ServerConstants.MONTH, month);//add batch 4 5 for get all batch
             jsonObject.put(ServerConstants.YEAR, year);
             jsonObject.put(ServerConstants.AMOUNT, amount);//add batch 4 5 for get all batch
-            jsonObject.put(ServerConstants.STATUS, status);
-            HelperMethod.debugLog(TAG, "sendAddPaymentHistoryRequest = "+jsonObject);
+            jsonObject.put(ServerConstants.STATUS, status == true ? 1 : 0);
+            jsonObject.put(ServerConstants.PAYMENT_DUE, 0);
+            HelperMethod.debugLog(TAG, "sendAddPaymentHistoryRequest = " + jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
         }

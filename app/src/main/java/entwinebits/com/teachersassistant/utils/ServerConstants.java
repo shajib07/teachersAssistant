@@ -26,6 +26,12 @@ public class ServerConstants {
     public static final int ACTION_GET_USER = 19;
     public static final int ACTION_REMOVE_STUDENT_FROM_BATCH = 20;
     public static final int ACTION_ADD_NEW_STUDENT = 21;
+    public static final int ACTION_UPDATE_BATCH_TITLE = 23;
+    public static final int ACTION_ADD_BATCH_ROUTINE = 24;
+    public static final int ACTION_UPDATE_BATCH_ROUTINE = 25;
+    public static final int ACTION_DELETE_BATCH_ROUTINE = 26;
+
+
 
     public  static final String ACTION = "actn";
     public  static final String ERROR = "error";
@@ -66,4 +72,6 @@ public class ServerConstants {
     public static final String SEARCH_PARAM = "srchParam";
     public static final String PAYMENT_LIST = "PAYMENT_LIST";
     public static final String PAYMENT_ID = "payid";
+    public static final String PAYMENT_DUE = "pmntDue";
+    public static final String ROUTINE_ID = "rtnID";
 }
