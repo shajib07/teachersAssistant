@@ -210,6 +210,7 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
                         HelperMethod.debugLog(TAG, response.toString());
                         if (!response.optBoolean(ServerConstants.ERROR) ) {
                             Toast.makeText(EditBatchActivity.this, "New Schedule Added.", Toast.LENGTH_SHORT).show();
+                            mAddedScheduleList.add(dto);
                             int day = dto.getDaysOfWeek();
                             editTextTimeFrom.get(day).setEnabled(false);
                             editTextTimeTo.get(day).setEnabled(false);
@@ -418,6 +419,12 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
             mScheduleDeleteList.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    HelperMethod.debugLog(TAG, "deleteSchedule == "+finalI+" mScheduleList size "+mScheduleList.size());
+                    if (mScheduleList.size() < 2) {
+                        Toast.makeText(EditBatchActivity.this, "You cannot delete last routine", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    showDeleteConfirmationDialog(finalI);
                     deleteSchedule(finalI);
                 }
             });
@@ -451,13 +458,28 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private void showDeleteConfirmationDialog(int i) {
+        boolean found = false;
+        ScheduleDTO tempDto = new ScheduleDTO();
+        for (ScheduleDTO dto : mScheduleList) {
+            HelperMethod.debugLog(TAG, "dto == "+dto.getDaysOfWeek()+ " i = "+i);
+            if (dto.getDaysOfWeek() == i) {
+                found = true;
+                tempDto = dto;
+                break;
+            }
+        }
+        if (found) {
+            deleteScheduleRequest(tempDto);
+        } else {
+            Toast.makeText(this, "No Routine found", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
 
     private void deleteSchedule(int i) {
-        HelperMethod.debugLog(TAG, "deleteSchedule == "+i+" mScheduleList size "+mScheduleList.size());
-        if (mScheduleList.size() < 2) {
-            Toast.makeText(this, "You cannot delete last routine", Toast.LENGTH_SHORT).show();
-            return;
-        }
+
         boolean found = false;
         ScheduleDTO tempDto = new ScheduleDTO();
         for (ScheduleDTO dto : mScheduleList) {
@@ -484,7 +506,6 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
                 break;
             }
         }
-
         if (found) {
             updateScheduleRequest(mCurrentSchedule);
         } else {
