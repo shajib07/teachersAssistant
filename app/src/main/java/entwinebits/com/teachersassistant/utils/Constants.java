@@ -14,7 +14,6 @@ public class Constants {
     public static final String BATCH_NAME = "BATCH_NAME";
     public static final String STUDENT_ID = "STUDENT_ID";
     public static final String STUDENT_NAME = "STUDENT_NAME";
-    public static final String BATCH_WEEK_DAYS = "BATCH_WEEK_DAYS";
     public static final String NUMBER_OF_STUDENT = "NUMBER_OF_STUDENT";
     public static final String ADDED_STUDENT_LIST = "ADDED_STUDENT_LIST";
     public static final String ADDED_STUDENT = "ADDED_STUDENT";
