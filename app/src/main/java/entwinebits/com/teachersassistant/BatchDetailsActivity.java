@@ -326,6 +326,32 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         HelperMethod.debugLog(TAG, "sendStudentRemoveRequest Full : req == "+jsonObject.toString());
     }
 
+    private void deleteBatchRequest() {
+
+        JSONObject jsonObject = ServerRequestHelper.sendDeleteBatchRequest((int)mBatchId);
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        HelperMethod.debugLog(TAG, response.toString());
+                        if (!response.optBoolean(ServerConstants.ERROR) ) {
+                            Toast.makeText(BatchDetailsActivity.this, "Batch Deleted.", Toast.LENGTH_SHORT).show();
+                            BatchDetailsActivity.this.finish();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "deleteBatchRequest : " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
+        HelperMethod.debugLog(TAG, "sendStudentRemoveRequest Full : req == "+jsonObject.toString());
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 120) {
@@ -389,6 +415,27 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    private void showDeleteBatchConfirmation() {
+
+        String upperText = "OK", lowerText = "Cancel";
+        View.OnClickListener upperListener, lowerListener;
+        upperListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteBatchRequest();
+            }
+        };
+        lowerListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        };
+        DialogProvider.showDoubleOptionDialog(this, upperText, lowerText, upperListener, lowerListener);
+
+
+    }
+
     private void editBatchInfo() {
         String upperText = "Edit", lowerText = "Delete";
         View.OnClickListener upperListener, lowerListener;
@@ -404,7 +451,9 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         };
         lowerListener = new View.OnClickListener() {
             @Override
-            public void onClick(View v) {}
+            public void onClick(View v) {
+                showDeleteBatchConfirmation();
+            }
         };
         DialogProvider.showDoubleOptionDialog(this, upperText, lowerText, upperListener, lowerListener);
     }

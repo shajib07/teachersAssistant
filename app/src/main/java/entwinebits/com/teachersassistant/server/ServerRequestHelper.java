@@ -63,6 +63,18 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject sendDeleteBatchRequest(int batchId) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_DELETE_BATCH);
+            jsonObject.put(ServerConstants.BATCH_ID, batchId);
+
+            HelperMethod.debugLog(TAG, "sendDeleteBatchRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendStudentRemoveRequest(int batchId, int studentId) {
         JSONObject jsonObject = new JSONObject();
         try {

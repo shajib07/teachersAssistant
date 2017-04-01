@@ -1,11 +1,16 @@
 package entwinebits.com.teachersassistant;
 
+import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -424,7 +429,6 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
                         Toast.makeText(EditBatchActivity.this, "You cannot delete last routine", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    showDeleteConfirmationDialog(finalI);
                     deleteSchedule(finalI);
                 }
             });
@@ -438,15 +442,7 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
                 @Override
                 public void onClick(View v) {
 
-                    mCurrentSchedule = null;
-                    editTextTimeTo.get(finalI).setText("TO");
-                    editTextTimeFrom.get(finalI).setText("FROM");
-                    editTextTimeTo.get(finalI).setEnabled(false);
-                    editTextTimeFrom.get(finalI).setEnabled(false);
-                    mScheduleEditList.get(finalI).setVisibility(View.VISIBLE);
-                    mScheduleDeleteList.get(finalI).setVisibility(View.VISIBLE);
-                    mScheduleCancelIvList.get(finalI).setVisibility(View.GONE);
-                    mScheduleSubmitIvList.get(finalI).setVisibility(View.GONE);
+                    cancelSchedule(finalI);
                 }
             });
             mScheduleSubmitIvList.get(i).setOnClickListener(new View.OnClickListener() {
@@ -458,31 +454,48 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    private void showDeleteConfirmationDialog(int i) {
-        boolean found = false;
-        ScheduleDTO tempDto = new ScheduleDTO();
-        for (ScheduleDTO dto : mScheduleList) {
-            HelperMethod.debugLog(TAG, "dto == "+dto.getDaysOfWeek()+ " i = "+i);
-            if (dto.getDaysOfWeek() == i) {
-                found = true;
-                tempDto = dto;
-                break;
-            }
-        }
-        if (found) {
-            deleteScheduleRequest(tempDto);
-        } else {
-            Toast.makeText(this, "No Routine found", Toast.LENGTH_SHORT).show();
-        }
+    private void showDeleteConfirmationDialog(final ScheduleDTO dto) {
+        HelperMethod.debugLog(TAG, "showDeleteConfirmationDialog = ");
 
+        try {
+            final Dialog dialog = new Dialog(this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.payment_exist_dialog_layout);
+            dialog.setCancelable(true);
 
+            String msg = "Do you want to delete this schedule?";
+
+            final TextView dialog_title = (TextView) dialog.findViewById(R.id.dialog_title);
+            dialog_title.setText(msg);
+
+            final Button cancel_btn = (Button) dialog.findViewById(R.id.cancel_btn);
+            cancel_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            final Button ok_btn = (Button) dialog.findViewById(R.id.ok_btn);
+            ok_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteScheduleRequest(dto);
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+
+        } catch (Exception e) {
+        }
     }
 
     private void deleteSchedule(int i) {
 
         boolean found = false;
         ScheduleDTO tempDto = new ScheduleDTO();
-        for (ScheduleDTO dto : mScheduleList) {
+        for (ScheduleDTO dto : mAddedScheduleList) {
             HelperMethod.debugLog(TAG, "dto == "+dto.getDaysOfWeek()+ " i = "+i);
             if (dto.getDaysOfWeek() == i) {
                 found = true;
@@ -491,8 +504,41 @@ public class EditBatchActivity extends AppCompatActivity implements View.OnClick
             }
         }
         if (found) {
-            deleteScheduleRequest(tempDto);
+            showDeleteConfirmationDialog(tempDto);
         } else {
+            dayViewLayout.get(i).setVisibility(View.GONE);
+            Toast.makeText(this, "No Routine found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void cancelSchedule(int i) {
+        boolean found = false;
+        ScheduleDTO tempDto = new ScheduleDTO();
+        for (ScheduleDTO dto : mAddedScheduleList) {
+            HelperMethod.debugLog(TAG, "dto == "+dto.getDaysOfWeek()+ " i = "+i);
+            if (dto.getDaysOfWeek() == i) {
+                found = true;
+                tempDto = dto;
+                break;
+            }
+        }
+        mScheduleEditList.get(i).setVisibility(View.VISIBLE);
+        mScheduleDeleteList.get(i).setVisibility(View.VISIBLE);
+        mScheduleCancelIvList.get(i).setVisibility(View.GONE);
+        mScheduleSubmitIvList.get(i).setVisibility(View.GONE);
+        mCurrentSchedule = null;
+
+        if (found) {
+            String startTime = ConstantFunctions.getDate(tempDto.getStartTime(), Constants.TIME_12_HOUR_FORMAT);
+            String endTime = ConstantFunctions.getDate(tempDto.getEndTime(), Constants.TIME_12_HOUR_FORMAT);
+            editTextTimeTo.get(i).setText(startTime);
+            editTextTimeFrom.get(i).setText(endTime);
+            editTextTimeTo.get(i).setEnabled(false);
+            editTextTimeFrom.get(i).setEnabled(false);
+        } else {
+            dayViewLayout.get(i).setVisibility(View.GONE);
+            editTextTimeTo.get(i).setText("TO");
+            editTextTimeFrom.get(i).setText("FROM");
             Toast.makeText(this, "No Routine found", Toast.LENGTH_SHORT).show();
         }
     }
