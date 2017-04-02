@@ -1,6 +1,9 @@
 package entwinebits.com.teachersassistant.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 
 import java.text.ParseException;
@@ -38,6 +41,15 @@ public class ConstantFunctions {
             e.printStackTrace();
         }
         return val;
+    }
+
+
+    public static boolean isInternetConnected(Context context) {
+
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public static void getUserId() {

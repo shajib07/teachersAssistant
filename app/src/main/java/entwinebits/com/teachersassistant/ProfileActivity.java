@@ -47,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         initToolbar();
         initLayout();
 
+        getUser
     }
 
     private void initLayout() {

@@ -367,38 +367,6 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
         requestQueue.add(jsonObjReq);
     }
 
-    private void sendGetUserInfoRequest() {
-
-        JSONObject jsonObject = ServerRequestHelper.sendGetUserInfoRequest(mSelectedStudentId);
-        HelperMethod.debugLog(TAG, "sendStudentPaymentListRequest batch id == " + mSelectedBatchId + " stud id == " + mSelectedStudentId);
-
-        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        hideProgressDialog();
-                        HelperMethod.debugLog(TAG, response.toString());
-                        if (!response.optBoolean(ServerConstants.ERROR)) {
-//                            ArrayList<PaymentHistoryDTO> paymentHistoryDTOs = ServerResponseParser.parseGetStudentPaymentListRequest(response);
-//
-//                            HelperMethod.debugLog(TAG, "PaymentHistoryDetailsActivity == "+paymentHistoryDTOs.size());
-//                            Intent paymentDetailsIntent = new Intent(PaymentHistoryActivity.this, PaymentHistoryDetailsActivity.class);
-//                            paymentDetailsIntent.putParcelableArrayListExtra(Constants.PAYMENT_HISTORY_LIST, paymentHistoryDTOs);
-//                            startActivity(paymentDetailsIntent);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
-                    }
-                });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonObjReq);
-    }
 
     private void loadBatchList() {
         showProgressDialog();

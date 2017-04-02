@@ -35,7 +35,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         edit_profile_toolbar_title = (TextView) findViewById(R.id.user_profile_toolbar_title);
         edit_profile_save_fl = (FrameLayout) findViewById(R.id.edit_profile_save_fl);
         edit_profile_save_fl.setOnClickListener(this);
-
     }
 
     @Override
