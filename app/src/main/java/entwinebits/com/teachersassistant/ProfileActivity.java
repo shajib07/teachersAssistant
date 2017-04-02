@@ -14,8 +14,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.server.ServerResponseParser;
 import entwinebits.com.teachersassistant.utils.Constants;
+import entwinebits.com.teachersassistant.utils.HelperMethod;
+import entwinebits.com.teachersassistant.utils.ServerConstants;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by Nargis Rahman on 2/9/2017.
@@ -40,14 +53,44 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             isMyProfile = false;
         } else {
             mUserProfileDTO = new UserProfileDTO();
-            mUserProfileDTO.setUserEmail("myemail@email.com");
-            mUserProfileDTO.setUserMobilePhone("01724 257563");
             isMyProfile = true;
         }
         initToolbar();
         initLayout();
 
-        getUser
+
+        if (isMyProfile) {
+            getMyProfile();
+        }
+    }
+
+    private void getMyProfile() {
+
+        JSONObject jsonObject = ServerRequestHelper.sendGetUserInfoRequest(UserProfileHelper.getInstance(this).getUserId());
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            HelperMethod.debugLog(TAG, response.toString());
+                            if (!response.optBoolean(ServerConstants.ERROR)) {
+                                mUserProfileDTO = ServerResponseParser.parseGetUserInfoRequest(response);
+                                updateUI();
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(jsonObjReq);
     }
 
     private void initLayout() {
@@ -55,7 +98,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_mobile_tv.setOnClickListener(this);
         profile_email_tv = (TextView) findViewById(R.id.profile_email_tv);
         profile_email_tv.setOnClickListener(this);
+    }
 
+    private void updateUI() {
+        HelperMethod.debugLog(TAG, "updateUI == "+mUserProfileDTO.getUserEmail());
         profile_mobile_tv.setText(mUserProfileDTO.getUserMobilePhone());
         profile_email_tv.setText(mUserProfileDTO.getUserEmail());
     }

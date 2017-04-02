@@ -105,7 +105,7 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
-    public static JSONObject sendGetUserInfoRequest(int userId) {
+    public static JSONObject sendGetUserInfoRequest(long userId) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER);

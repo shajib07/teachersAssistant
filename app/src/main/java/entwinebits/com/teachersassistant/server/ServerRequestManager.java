@@ -26,6 +26,51 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 public class ServerRequestManager {
 
     public static String TAG = "ServerRequestManager";
+    private Context mContext;
+    private ServerResponseListener serverResponseListener;
+
+    public ServerRequestManager(Context context) {
+        this.mContext = context;
+    }
+
+    public ServerResponseListener getServerResponseListener() {
+        return serverResponseListener;
+    }
+
+    public void setServerResponseListener(ServerResponseListener serverResponseListener) {
+        this.serverResponseListener = serverResponseListener;
+    }
+
+    public JSONObject getUserInfo(JSONObject jsonObject) {
+        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            HelperMethod.debugLog(TAG, response.toString());
+                            if (!response.optBoolean(ServerConstants.ERROR)) {
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        HelperMethod.debugLog(TAG, "Error: " + error.getMessage());
+                    }
+                });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(mContext);
+        requestQueue.add(jsonObjReq);
+
+
+
+        return jsonObject;
+    }
 
     public static ArrayList<PaymentHistoryDTO> processGetStudentPaymentListRequest(Context context, JSONObject jsonObject) {
         final ArrayList<PaymentHistoryDTO> paymentHistoryList = new ArrayList<>();
