@@ -109,6 +109,31 @@
                     android:layout_height="wrap_content">
 
                     <LinearLayout
+                        android:id="@+id/user_name_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@drawable/ic_action_person" />
+
+                        <TextView
+                            android:id="@+id/profile_name_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text=""
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/user_mobile_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -126,9 +151,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="?android:attr/selectableItemBackground"
-                            android:paddingBottom="@dimen/margin_2"
-                            android:paddingTop="@dimen/margin_2"
-                            android:text="01724 257563"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text=""
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -138,7 +163,6 @@
                         android:id="@+id/user_email_ll"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_10"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -152,9 +176,87 @@
                             android:id="@+id/profile_email_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="@dimen/margin_2"
-                            android:paddingTop="@dimen/margin_2"
-                            android:text="shajib.ruet@gmail.com"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text=""
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/user_city_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@drawable/ic_action_business" />
+
+                        <TextView
+                            android:id="@+id/profile_city_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text=""
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/user_country_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@drawable/ic_action_business" />
+
+                        <TextView
+                            android:id="@+id/profile_country_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text=""
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/user_instut_ll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@drawable/ic_action_business" />
+
+                        <TextView
+                            android:id="@+id/profile_instut_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:paddingBottom="@dimen/margin_5"
+                            android:paddingTop="@dimen/margin_5"
+                            android:text=""
                             android:textSize="16sp"
                             android:textStyle="bold" />
 

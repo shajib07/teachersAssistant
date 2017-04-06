@@ -119,6 +119,7 @@
                             android:src="@drawable/ic_action_person" />
 
                         <EditText
+                            android:id="@+id/user_name_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -146,7 +147,7 @@
                         android:layout_marginTop="@dimen/margin_10">
 
                         <ImageView
-                            android:id="@+id/user_call_iv"
+                            android:id="@+id/user_mobile_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -155,17 +156,18 @@
                             android:src="@drawable/ic_action_call" />
 
                         <EditText
+                            android:id="@+id/user_mobile_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/user_call_edit_iv"
-                            android:layout_toRightOf="@+id/user_call_iv"
+                            android:layout_toLeftOf="@+id/user_mobile_edit_iv"
+                            android:layout_toRightOf="@+id/user_mobile_iv"
                             android:hint="Mobile Phone"
                             android:text=""
                             android:textSize="16sp" />
 
                         <ImageView
-                            android:id="@+id/user_call_edit_iv"
+                            android:id="@+id/user_mobile_edit_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -191,6 +193,7 @@
                             android:src="@drawable/ic_action_email" />
 
                         <EditText
+                            android:id="@+id/user_email_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -230,13 +233,13 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:id="@+id/user_work_rl"
+                        android:id="@+id/user_instut_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10">
 
                         <ImageView
-                            android:id="@+id/user_work_iv"
+                            android:id="@+id/user_instut_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -245,17 +248,18 @@
                             android:src="@drawable/ic_action_person" />
 
                         <EditText
+                            android:id="@+id/user_instut_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/user_work_edit_iv"
-                            android:layout_toRightOf="@+id/user_work_iv"
+                            android:layout_toLeftOf="@+id/user_instut_edit_iv"
+                            android:layout_toRightOf="@+id/user_instut_iv"
                             android:hint="Organization Name"
                             android:text=""
                             android:textSize="16sp" />
 
                         <ImageView
-                            android:id="@+id/user_work_edit_iv"
+                            android:id="@+id/user_instut_edit_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -282,6 +286,7 @@
                             android:src="@drawable/ic_action_person" />
 
                         <EditText
+                            android:id="@+id/user_designation_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -320,13 +325,13 @@
                     android:layout_height="wrap_content">
 
                     <RelativeLayout
-                        android:id="@+id/user_institute_rl"
+                        android:id="@+id/user_city_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10">
 
                         <ImageView
-                            android:id="@+id/user_institute_iv"
+                            android:id="@+id/user_city_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -335,17 +340,18 @@
                             android:src="@drawable/ic_action_person" />
 
                         <EditText
+                            android:id="@+id/user_city_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@+id/user_institute_edit_iv"
-                            android:layout_toRightOf="@+id/user_institute_iv"
-                            android:hint="Designation"
+                            android:layout_toRightOf="@+id/user_city_iv"
+                            android:hint="City"
                             android:text=""
                             android:textSize="16sp" />
 
                         <ImageView
-                            android:id="@+id/user_institute_edit_iv"
+                            android:id="@+id/user_city_edit_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -357,13 +363,13 @@
 
 
                     <RelativeLayout
-                        android:id="@+id/user_class_rl"
+                        android:id="@+id/user_country_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_10">
 
                         <ImageView
-                            android:id="@+id/user_class_iv"
+                            android:id="@+id/user_country_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -372,17 +378,18 @@
                             android:src="@drawable/ic_action_person" />
 
                         <EditText
+                            android:id="@+id/user_country_et"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/user_class_edit_iv"
-                            android:layout_toRightOf="@+id/user_class_iv"
-                            android:hint="Class"
+                            android:layout_toLeftOf="@+id/user_country_edit_iv"
+                            android:layout_toRightOf="@+id/user_country_iv"
+                            android:hint="Country"
                             android:text=""
                             android:textSize="16sp" />
 
                         <ImageView
-                            android:id="@+id/user_class_edit_iv"
+                            android:id="@+id/user_country_edit_iv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"

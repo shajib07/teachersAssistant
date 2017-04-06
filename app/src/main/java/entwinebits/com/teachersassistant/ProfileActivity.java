@@ -42,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private UserProfileDTO mUserProfileDTO;
     private boolean isMyProfile;
-    private TextView profile_mobile_tv, profile_email_tv;
+    private TextView profile_name_tv, profile_email_tv, profile_mobile_tv, profile_city_tv, profile_country_tv, profile_instut_tv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             HelperMethod.debugLog(TAG, response.toString());
                             if (!response.optBoolean(ServerConstants.ERROR)) {
                                 mUserProfileDTO = ServerResponseParser.parseGetUserInfoRequest(response);
+
                                 updateUI();
                             }
                         } catch (Exception e) {
@@ -98,12 +99,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_mobile_tv.setOnClickListener(this);
         profile_email_tv = (TextView) findViewById(R.id.profile_email_tv);
         profile_email_tv.setOnClickListener(this);
+        profile_name_tv = (TextView) findViewById(R.id.profile_name_tv);
+        profile_name_tv.setOnClickListener(this);
+
+        profile_city_tv = (TextView) findViewById(R.id.profile_city_tv);
+        profile_country_tv = (TextView) findViewById(R.id.profile_country_tv);
+        profile_instut_tv = (TextView) findViewById(R.id.profile_instut_tv);
     }
 
     private void updateUI() {
-        HelperMethod.debugLog(TAG, "updateUI == "+mUserProfileDTO.getUserEmail());
+        HelperMethod.debugLog(TAG, "updateUI == "+mUserProfileDTO.getUserFirstName());
+        profile_name_tv.setText(mUserProfileDTO.getUserFirstName());
         profile_mobile_tv.setText(mUserProfileDTO.getUserMobilePhone());
         profile_email_tv.setText(mUserProfileDTO.getUserEmail());
+
+        profile_city_tv.setText(mUserProfileDTO.getUserCity());
+        profile_country_tv.setText(mUserProfileDTO.getUserCountry());
+        profile_instut_tv.setText(mUserProfileDTO.getUserInstituteName());
     }
 
     private void initToolbar() {
@@ -131,6 +143,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.user_profile_edit_iv:
                 Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+                intent.putExtra(Constants.USER_PROFILE_DTO, mUserProfileDTO);
                 startActivity(intent);
                 break;
 

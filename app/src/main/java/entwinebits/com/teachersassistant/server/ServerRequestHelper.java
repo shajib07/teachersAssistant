@@ -91,13 +91,15 @@ public class ServerRequestHelper {
     public static JSONObject sendUpdateUserInfoRequest(UserProfileDTO dto) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_USER_INFO);
+
             jsonObject.put(ServerConstants.ID, dto.getUserId());
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_UPDATE_USER_INFO);
             jsonObject.put(ServerConstants.FULL_NAME, dto.getUserFirstName());
-//            jsonObject.put(ServerConstants.MONTH, monthFrom);
-//            jsonObject.put(ServerConstants.YEAR, yearFrom);
-//            jsonObject.put(ServerConstants.MONTHEND, monthTo);
-//            jsonObject.put(ServerConstants.YEAREND, yearTo);
+            jsonObject.put(ServerConstants.PHONE_NUMBER, dto.getUserMobilePhone());
+            jsonObject.put(ServerConstants.EMAIL, dto.getUserEmail());
+            jsonObject.put(ServerConstants.INSTITUTE, dto.getUserInstituteName());
+            jsonObject.put(ServerConstants.CITY, dto.getUserCity());
+            jsonObject.put(ServerConstants.COUNTRY, dto.getUserCountry());
 
             HelperMethod.debugLog(TAG, "sendUpdateUserInfoRequest : " + jsonObject.toString());
         } catch (Exception e) {

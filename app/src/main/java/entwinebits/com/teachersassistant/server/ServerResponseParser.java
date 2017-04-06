@@ -20,19 +20,29 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 public class ServerResponseParser {
     private static String TAG = "ServerResponseParser";
 
-    public static UserProfileDTO parseGetUserInfoRequest(JSONObject jsonObject) {
+    public static UserProfileDTO parseGetUserInfoRequest(JSONObject response) {
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         try {
+            JSONArray jsonArray = response.getJSONArray(ServerConstants.USERS);
+            if (jsonArray.length() < 1) {
+                return new UserProfileDTO();
+            }
+            JSONObject jsonObject = (JSONObject) jsonArray.get(0);
+
+            HelperMethod.debugLog(TAG, "EMAIL =  "+ jsonObject.has(ServerConstants.EMAIL)+ " "+jsonObject.getString(ServerConstants.EMAIL));
+
+            userProfileDTO.setUserId(jsonObject.optInt(ServerConstants.ID));
             userProfileDTO.setUserFirstName(jsonObject.optString(ServerConstants.FULL_NAME));
             userProfileDTO.setUserGender(jsonObject.optInt(ServerConstants.GENDER));
             userProfileDTO.setUserCity(jsonObject.optString(ServerConstants.CITY));
             userProfileDTO.setUserCountry(jsonObject.optString(ServerConstants.COUNTRY));
             userProfileDTO.setUserEmail(jsonObject.optString(ServerConstants.EMAIL));
 //            userProfileDTO.setUserMobilePhone(jsonObject.optString(ServerConstants.DIALING_CODE));
-            userProfileDTO.setUserDesignation(jsonObject.optString(ServerConstants.PHONE_NUMBER));
+            userProfileDTO.setUserMobilePhone(jsonObject.optString(ServerConstants.PHONE_NUMBER));
             userProfileDTO.setUserBirthday(jsonObject.optString(ServerConstants.BIRTH_DATE));
             userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.INSTITUTE));
             userProfileDTO.setTeacher(jsonObject.optBoolean(ServerConstants.USER_TYPE));
+            HelperMethod.debugLog(TAG, "parseGetUserInfoRequest + " + userProfileDTO.getUserFirstName() + " json " + jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
