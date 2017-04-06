@@ -66,14 +66,14 @@
                         android:id="@+id/batch_search_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="@drawable/search_option_white_left_bg"
+                        android:background="@drawable/search_option_left_bg"
                         android:gravity="center"
                         android:paddingBottom="@dimen/margin_5"
                         android:paddingLeft="@dimen/margin_15"
                         android:paddingRight="@dimen/margin_15"
                         android:paddingTop="@dimen/margin_5"
                         android:text="Batch"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/white"
                         android:textSize="18sp" />
 
                     <TextView
@@ -81,14 +81,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:alpha="1"
-                        android:background="@drawable/search_option_right_bg"
+                        android:background="@drawable/search_option_white_right_bg"
                         android:gravity="center"
                         android:paddingBottom="@dimen/margin_5"
                         android:paddingLeft="@dimen/margin_15"
                         android:paddingRight="@dimen/margin_15"
                         android:paddingTop="@dimen/margin_5"
                         android:text="Student"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="18sp" />
 
                 </LinearLayout>
