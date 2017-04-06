@@ -39,66 +39,63 @@
                     android:src="@mipmap/ic_toolbar_back" />
             </FrameLayout>
 
-            <FrameLayout
-                android:id="@+id/payment_history_save_btn"
-                android:layout_width="80dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="?android:attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/payment_history_toolbar_back"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@null"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_10"
                     android:gravity="center"
-                    android:text="Save"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white" />
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/payment_history_toolbar_back"
-                android:orientation="horizontal"
-                android:padding="@dimen/margin_5"
-                android:layout_marginRight="@dimen/margin_10">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
                     android:text="Search By "
-                    android:layout_weight="1"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center"/>
+                    android:textSize="18sp" />
 
-                <Button
-                    android:id="@+id/batch_search_btn"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Batch"
-                    android:layout_margin="@dimen/margin_5"
-                    android:background="@drawable/rect_btn_bg"
-                    android:layout_marginRight="@dimen/margin_10"/>
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_10">
 
-                <Button
-                    android:id="@+id/student_search_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Student"
-                    android:layout_margin="@dimen/margin_5"
-                    android:background="@drawable/rect_btn_bg"
-                    android:layout_marginRight="@dimen/margin_10"/>
+                    <TextView
+                        android:id="@+id/batch_search_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/search_option_white_left_bg"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/margin_5"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_5"
+                        android:text="Batch"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/student_search_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:alpha="1"
+                        android:background="@drawable/search_option_right_bg"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/margin_5"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:paddingRight="@dimen/margin_15"
+                        android:paddingTop="@dimen/margin_5"
+                        android:text="Student"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
             </LinearLayout>
+
+
             <TextView
                 android:id="@+id/payment_history_toolbar_title"
                 android:layout_width="match_parent"
@@ -112,7 +109,7 @@
                 android:text="Payment History"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -123,66 +120,14 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar">
 
-        <LinearLayout
-            android:id="@+id/search_cat_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="@dimen/margin_20"
-            android:layout_marginTop="@dimen/margin_20"
-            android:orientation="horizontal"
-            android:weightSum="5">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/search_student_history_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rect_btn_bg"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_8"
-                    android:text="Search By Student"
-                    android:textColor="@drawable/rect_btn_text"/>
-
-                <TextView
-                    android:id="@+id/search_batch_history_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:background="@drawable/rect_btn_bg"
-                    android:gravity="center"
-                    android:padding="@dimen/margin_8"
-                    android:text="Search By Batch"
-                    android:textColor="@drawable/rect_btn_text"/>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-        </LinearLayout>
-
-
         <android.support.v7.widget.CardView
             android:id="@+id/student_search_cardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/search_cat_ll"
-            android:layout_margin="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_30"
             android:background="@color/white"
             android:visibility="visible">
 
@@ -337,7 +282,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_15"
-                            android:background="@drawable/rect_btn_bg" >
+                            android:background="@drawable/rect_btn_bg">
 
                             <ImageView
                                 android:layout_width="wrap_content"
@@ -362,8 +307,10 @@
             android:id="@+id/batch_search_cardview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/search_cat_ll"
-            android:layout_margin="@dimen/margin_5"
+            android:layout_marginBottom="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_30"
             android:background="@color/white"
             android:visibility="gone">
 
@@ -426,7 +373,7 @@
                             android:gravity="center"
                             android:padding="@dimen/margin_8"
                             android:text="Select Batch"
-                            android:textColor="@drawable/rect_btn_text"/>
+                            android:textColor="@drawable/rect_btn_text" />
 
                         <FrameLayout
                             android:id="@+id/batch_history_search"

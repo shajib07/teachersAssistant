@@ -63,7 +63,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private TextView payment_history_toolbar_title;
     private ProgressDialog mProgressDialog;
 
-    private Button student_search_btn, batch_search_btn;
+    private TextView student_search_tv, batch_search_tv;
 
     private CardView student_search_cardview, batch_search_cardview;
     private TextView search_student_history_tv, search_batch_history_tv;
@@ -418,18 +418,13 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     }
 
     private void initLayout() {
-        student_search_btn = (Button)findViewById(R.id.student_search_btn);
-        batch_search_btn = (Button)findViewById(R.id.batch_search_btn);
-        student_search_btn.setOnClickListener(this);
-        batch_search_btn.setOnClickListener(this);
+        student_search_tv = (TextView) findViewById(R.id.student_search_tv);
+        batch_search_tv = (TextView)findViewById(R.id.batch_search_tv);
+        student_search_tv.setOnClickListener(this);
+        batch_search_tv.setOnClickListener(this);
 
         student_search_cardview = (CardView)findViewById(R.id.student_search_cardview);
         batch_search_cardview = (CardView)findViewById(R.id.batch_search_cardview);
-        search_student_history_tv = (TextView) findViewById(R.id.search_student_history_tv);
-        search_batch_history_tv = (TextView) findViewById(R.id.search_batch_history_tv);
-
-        search_student_history_tv.setOnClickListener(this);
-        search_batch_history_tv.setOnClickListener(this);
 
         to_ll = (LinearLayout) findViewById(R.id.to_ll);
         to_ll.setOnClickListener(this);
@@ -509,14 +504,24 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.search_student_history_tv:
-                batch_search_cardview.setVisibility(View.GONE);
-                student_search_cardview.setVisibility(View.VISIBLE);
-                break;
+            case R.id.batch_search_tv:
+                batch_search_tv.setBackgroundResource(R.drawable.search_option_white_left_bg);
+                student_search_tv.setBackgroundResource(R.drawable.search_option_right_bg);
+                batch_search_tv.setTextColor(getResources().getColor(R.color.colorPrimary));
+                student_search_tv.setTextColor(getResources().getColor(R.color.white));
 
-            case R.id.search_batch_history_tv:
                 batch_search_cardview.setVisibility(View.VISIBLE);
                 student_search_cardview.setVisibility(View.GONE);
+                break;
+
+            case R.id.student_search_tv:
+                batch_search_tv.setBackgroundResource(R.drawable.search_option_left_bg);
+                student_search_tv.setBackgroundResource(R.drawable.search_option_white_right_bg);
+                batch_search_tv.setTextColor(getResources().getColor(R.color.white));
+                student_search_tv.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+                batch_search_cardview.setVisibility(View.GONE);
+                student_search_cardview.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.batch_history_ll:
