@@ -31,7 +31,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
                     android:paddingLeft="@dimen/margin_15"
@@ -62,19 +62,57 @@
 
             </FrameLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/payment_history_toolbar_back"
+                android:orientation="horizontal"
+                android:padding="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="Search By "
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:gravity="center"/>
+
+                <Button
+                    android:id="@+id/batch_search_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Batch"
+                    android:layout_margin="@dimen/margin_5"
+                    android:background="@drawable/rect_btn_bg"
+                    android:layout_marginRight="@dimen/margin_10"/>
+
+                <Button
+                    android:id="@+id/student_search_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Student"
+                    android:layout_margin="@dimen/margin_5"
+                    android:background="@drawable/rect_btn_bg"
+                    android:layout_marginRight="@dimen/margin_10"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/payment_history_toolbar_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_centerInParent="true"
-                android:layout_toLeftOf="@+id/add_batch_save_btn"
-                android:layout_toRightOf="@+id/student_details_toolbar_back"
+                android:layout_toLeftOf="@+id/payment_history_save_btn"
+                android:layout_toRightOf="@+id/payment_history_toolbar_back"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="Payment History"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone"/>
 
         </RelativeLayout>
 

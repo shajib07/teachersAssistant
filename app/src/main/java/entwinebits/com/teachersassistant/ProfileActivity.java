@@ -50,6 +50,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile_layout);
         if (getIntent().hasExtra(Constants.USER_PROFILE_DTO)) {
             mUserProfileDTO = getIntent().getParcelableExtra(Constants.USER_PROFILE_DTO);
+            HelperMethod.debugLog(TAG, "m == "+mUserProfileDTO.getUserFirstName());
             isMyProfile = false;
         } else {
             mUserProfileDTO = new UserProfileDTO();
@@ -61,6 +62,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         if (isMyProfile) {
             getMyProfile();
+        } else {
+            updateUI();
         }
     }
 

@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,6 +62,8 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     private FrameLayout payment_history_toolbar_back;
     private TextView payment_history_toolbar_title;
     private ProgressDialog mProgressDialog;
+
+    private Button student_search_btn, batch_search_btn;
 
     private CardView student_search_cardview, batch_search_cardview;
     private TextView search_student_history_tv, search_batch_history_tv;
@@ -415,6 +418,11 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
     }
 
     private void initLayout() {
+        student_search_btn = (Button)findViewById(R.id.student_search_btn);
+        batch_search_btn = (Button)findViewById(R.id.batch_search_btn);
+        student_search_btn.setOnClickListener(this);
+        batch_search_btn.setOnClickListener(this);
+
         student_search_cardview = (CardView)findViewById(R.id.student_search_cardview);
         batch_search_cardview = (CardView)findViewById(R.id.batch_search_cardview);
         search_student_history_tv = (TextView) findViewById(R.id.search_student_history_tv);
