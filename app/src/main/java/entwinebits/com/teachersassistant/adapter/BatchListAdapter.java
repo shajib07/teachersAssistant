@@ -93,13 +93,13 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
         holder.schedule_more_fl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.batch_schedule_horizontal_ll.getVisibility() == View.VISIBLE) {
-                    batchDTO.setExpanded(true);
-                    notifyItemChanged(position);
-                } else {
-                    batchDTO.setExpanded(false);
-                    notifyItemChanged(position);
+                for (BatchDTO dto : mBatchDTOList) {
+                    if (!dto.equals(batchDTO)) {
+                        dto.setExpanded(false);
+                    }
                 }
+                batchDTO.setExpanded(!batchDTO.isExpanded());
+                notifyDataSetChanged();
             }
         });
 

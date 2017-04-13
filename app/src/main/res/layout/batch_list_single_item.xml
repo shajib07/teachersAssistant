@@ -29,8 +29,8 @@
                 android:padding="@dimen/margin_5"
                 android:singleLine="true"
                 android:text="Batch Morning"
-                android:textColor="@color/gray44"
-                android:textSize="18sp" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp" />
 
             <FrameLayout
                 android:id="@+id/schedule_more_fl"
@@ -59,7 +59,7 @@
                     android:paddingRight="@dimen/margin_10"
                     android:paddingTop="@dimen/margin_5"
                     android:src="@drawable/ic_action_expand_less_theme"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </FrameLayout>
 
@@ -74,7 +74,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/margin_5"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/day_week_vert_ll_1"
@@ -91,30 +91,24 @@
                     android:layout_weight="2"
                     android:text="sat"
                     android:textAllCaps="true"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="11.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="11.30 PM"/>
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="2.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="2.30 PM" />
 
             </LinearLayout>
 
@@ -134,36 +128,29 @@
                 android:paddingTop="@dimen/margin_10">
 
                 <TextView
-
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="sun"
                     android:textAllCaps="true"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="11.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="11.30 PM"/>
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="2.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="2.30 PM" />
 
             </LinearLayout>
 
@@ -188,30 +175,24 @@
                     android:layout_weight="2"
                     android:text="mon"
                     android:textAllCaps="true"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="11.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="11.30 PM"/>
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="2.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="2.30 PM" />
 
             </LinearLayout>
 
@@ -236,30 +217,24 @@
                     android:layout_weight="2"
                     android:text="tue"
                     android:textAllCaps="true"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="11.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="11.30 PM"/>
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="2.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="2.30 PM" />
 
             </LinearLayout>
 
@@ -285,30 +260,24 @@
                     android:layout_weight="2"
                     android:text="wed"
                     android:textAllCaps="true"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="11.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="11.30 PM"/>
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="2.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="2.30 PM" />
 
             </LinearLayout>
 
@@ -333,30 +302,24 @@
                     android:layout_weight="2"
                     android:text="thu"
                     android:textAllCaps="true"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="11.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="11.30 PM"/>
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="2.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="2.30 PM" />
 
             </LinearLayout>
 
@@ -382,30 +345,24 @@
                     android:layout_weight="2"
                     android:text="fri"
                     android:textAllCaps="true"
-                    android:textColor="@color/darker_gray"
+                    android:textColor="@color/default_text_color"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:visibility="visible" />
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="11.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="11.30 PM"/>
 
                 <TextView
+                    style="@style/TimeText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="2.30 PM"
-                    android:textColor="@color/darker_gray"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:visibility="visible" />
+                    android:text="2.30 PM" />
 
             </LinearLayout>
 
@@ -423,7 +380,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/batch_item_top_layer"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
