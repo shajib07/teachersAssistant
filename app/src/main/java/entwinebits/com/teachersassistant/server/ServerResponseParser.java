@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import entwinebits.com.teachersassistant.model.BatchDTO;
 import entwinebits.com.teachersassistant.model.PaymentHistoryDTO;
+import entwinebits.com.teachersassistant.model.PendingRequestDTO;
 import entwinebits.com.teachersassistant.model.ScheduleDTO;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
@@ -67,6 +68,26 @@ public class ServerResponseParser {
             e.printStackTrace();
         }
         return paymentHistoryList;
+    }
+
+    public static ArrayList<PendingRequestDTO> parsePendingRequest(JSONObject response) {
+        ArrayList<PendingRequestDTO> pendingRequestList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = response.getJSONArray(ServerConstants.USER_PENDING_LIST);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                PendingRequestDTO dto = new PendingRequestDTO();
+                JSONObject jsonObject1 = (JSONObject) jsonArray.get(i);
+                dto.setUserId(jsonObject1.optInt(ServerConstants.ID));
+                dto.setBatchId(jsonObject1.optInt(ServerConstants.BATCH_ID));
+                dto.setUserBatchId(jsonObject1.optInt(ServerConstants.USER_BATCH_ID));
+                dto.setBatchTitle(jsonObject1.optString(ServerConstants.TITLE));
+                dto.setUserName(jsonObject1.optString(ServerConstants.FULL_NAME));
+                pendingRequestList.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return pendingRequestList;
     }
 
     public static ArrayList<PaymentHistoryDTO> parseGetBatchPaymentListRequest(JSONObject response) {
@@ -169,6 +190,7 @@ public class ServerResponseParser {
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 userProfileDTO = new UserProfileDTO();
                 userProfileDTO.setUserFirstName(jsonObject.optString(ServerConstants.FULL_NAME));
+                userProfileDTO.setUserId(jsonObject.optInt(ServerConstants.ID));
                 userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.EMAIL) == true ? "" : jsonObject.optString(ServerConstants.EMAIL));
                 userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.PHONE_NUMBER) == true ? "" : jsonObject.optString(ServerConstants.PHONE_NUMBER));
                 userProfileDTO.setUserEmail(jsonObject.isNull(ServerConstants.INSTITUTE) == true ? "" : jsonObject.optString(ServerConstants.INSTITUTE));

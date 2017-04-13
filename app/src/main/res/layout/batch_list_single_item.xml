@@ -12,51 +12,431 @@
         android:background="@drawable/list_item_bg"
         android:padding="@dimen/margin_5">
 
-        <FrameLayout
-            android:id="@+id/schedule_more_fl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
 
-            <ImageView
+        <RelativeLayout
+            android:id="@+id/batch_item_top_layer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_10">
+
+            <TextView
+                android:id="@+id/batch_name_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/schedule_more_fl"
                 android:padding="@dimen/margin_5"
-                android:src="@drawable/ic_action_edit_theme" />
+                android:singleLine="true"
+                android:text="Batch Morning"
+                android:textColor="@color/gray44"
+                android:textSize="18sp" />
 
-        </FrameLayout>
+            <FrameLayout
+                android:id="@+id/schedule_more_fl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="?attr/selectableItemBackground">
 
-        <TextView
-            android:id="@+id/batch_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:padding="@dimen/margin_5"
-            android:text="Batch Morning"
-            android:textColor="@color/gray44"
-            android:textSize="18sp" />
+                <ImageView
+                    android:id="@+id/schedule_more_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingRight="@dimen/margin_10"
+                    android:paddingTop="@dimen/margin_5"
+                    android:src="@drawable/ic_action_expand_more_theme" />
+
+                <ImageView
+                    android:id="@+id/schedule_less_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingRight="@dimen/margin_10"
+                    android:paddingTop="@dimen/margin_5"
+                    android:src="@drawable/ic_action_expand_less_theme"
+                    android:visibility="gone"/>
+
+            </FrameLayout>
+
+        </RelativeLayout>
 
 
         <LinearLayout
+            android:id="@+id/batch_schedule_vertical_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/batch_name_tv"
-            android:layout_toLeftOf="@+id/schedule_more_fl"
-            android:orientation="vertical">
-
+            android:layout_below="@+id/batch_item_top_layer"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/vertical_schedule_ll"
+                android:id="@+id/day_week_vert_ll_1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="sat"
+                    android:textAllCaps="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="11.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="2.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/day_vert_line_1"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray93" />
+
+            <LinearLayout
+                android:id="@+id/day_week_vert_ll_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_10">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="sun"
+                    android:textAllCaps="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="11.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="2.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/day_vert_line_2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray93" />
+
+            <LinearLayout
+                android:id="@+id/day_week_vert_ll_3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="mon"
+                    android:textAllCaps="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="11.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="2.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/day_vert_line_3"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray93" />
+
+            <LinearLayout
+                android:id="@+id/day_week_vert_ll_4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="tue"
+                    android:textAllCaps="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="11.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="2.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/day_vert_line_4"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray93" />
+
+            <LinearLayout
+                android:id="@+id/day_week_vert_ll_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_10">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="wed"
+                    android:textAllCaps="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="11.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="2.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/day_vert_line_5"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray93" />
+
+            <LinearLayout
+                android:id="@+id/day_week_vert_ll_6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_10">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="thu"
+                    android:textAllCaps="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="11.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="2.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/day_vert_line_6"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/gray93" />
+
+            <LinearLayout
+                android:id="@+id/day_week_vert_ll_7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_10">
+
+                <TextView
+
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="fri"
+                    android:textAllCaps="true"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="11.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:text="2.30 PM"
+                    android:textColor="@color/darker_gray"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/day_vert_line_7"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/gray93" />
+
+        <LinearLayout
+            android:id="@+id/batch_schedule_horizontal_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/batch_item_top_layer"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="vertical" >
+                android:orientation="horizontal"
+                android:weightSum="7">
 
                 <LinearLayout
                     android:id="@+id/day_week_ll_1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/margin_0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/margin_10"
@@ -75,8 +455,9 @@
 
                 <LinearLayout
                     android:id="@+id/day_week_ll_2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/margin_0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/margin_10"
@@ -95,8 +476,9 @@
 
                 <LinearLayout
                     android:id="@+id/day_week_ll_3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/margin_0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/margin_10"
@@ -115,8 +497,9 @@
 
                 <LinearLayout
                     android:id="@+id/day_week_ll_4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/margin_0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/margin_10"
@@ -135,8 +518,9 @@
 
                 <LinearLayout
                     android:id="@+id/day_week_ll_5"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/margin_0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/margin_10"
@@ -155,8 +539,9 @@
 
                 <LinearLayout
                     android:id="@+id/day_week_ll_6"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/margin_0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/margin_10"
@@ -175,8 +560,9 @@
 
                 <LinearLayout
                     android:id="@+id/day_week_ll_7"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/margin_0"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/margin_10"
@@ -195,207 +581,39 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+            <!--            <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/horizontal_schedule_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/batch_name_tv"
-            android:layout_toLeftOf="@+id/schedule_more_fl"
-            android:orientation="vertical"
-            android:visibility="gone">
+                            <TextView
+                                android:id="@+id/batch_schedule_from_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="3dp"
+                                android:text=""
+                                android:textColor="@color/gray44"
+                                android:textSize="16sp" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="3dp"
+                                android:text=" TO "
+                                android:textColor="@color/gray44"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:weightSum="7">-->
+                            <TextView
+                                android:id="@+id/batch_schedule_to_tv"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="3dp"
+                                android:text=""
+                                android:textColor="@color/gray44"
+                                android:textSize="16sp" />
 
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/day_week_ll_1"-->
-                    <!--android:layout_width="@dimen/margin_0"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:paddingBottom="@dimen/margin_10"-->
-                    <!--android:paddingTop="@dimen/margin_10">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="sun"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:visibility="visible" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/day_week_ll_2"-->
-                    <!--android:layout_width="@dimen/margin_0"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:paddingBottom="@dimen/margin_10"-->
-                    <!--android:paddingTop="@dimen/margin_10">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="sun"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:visibility="visible" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/day_week_ll_3"-->
-                    <!--android:layout_width="@dimen/margin_0"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:paddingBottom="@dimen/margin_10"-->
-                    <!--android:paddingTop="@dimen/margin_10">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="sun"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:visibility="visible" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/day_week_ll_4"-->
-                    <!--android:layout_width="@dimen/margin_0"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:paddingBottom="@dimen/margin_10"-->
-                    <!--android:paddingTop="@dimen/margin_10">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="sun"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:visibility="visible" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/day_week_ll_5"-->
-                    <!--android:layout_width="@dimen/margin_0"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:paddingBottom="@dimen/margin_10"-->
-                    <!--android:paddingTop="@dimen/margin_10">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="sun"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:visibility="visible" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/day_week_ll_6"-->
-                    <!--android:layout_width="@dimen/margin_0"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:paddingBottom="@dimen/margin_10"-->
-                    <!--android:paddingTop="@dimen/margin_10">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="sun"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:visibility="visible" />-->
-
-                <!--</LinearLayout>-->
-
-                <!--<LinearLayout-->
-                    <!--android:id="@+id/day_week_ll_7"-->
-                    <!--android:layout_width="@dimen/margin_0"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:gravity="center"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:paddingBottom="@dimen/margin_10"-->
-                    <!--android:paddingTop="@dimen/margin_10">-->
-
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="sun"-->
-                        <!--android:textColor="@color/darker_gray"-->
-                        <!--android:textSize="16sp"-->
-                        <!--android:textStyle="bold"-->
-                        <!--android:visibility="visible" />-->
-
-                <!--</LinearLayout>-->
-
-            <!--</LinearLayout>-->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/batch_schedule_from_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text=""
-                    android:textColor="@color/gray44"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text=" TO "
-                    android:textColor="@color/gray44"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/batch_schedule_to_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:text=""
-                    android:textColor="@color/gray44"
-                    android:textSize="16sp" />
-
-            </LinearLayout>
+                        </LinearLayout>-->
 
         </LinearLayout>
 

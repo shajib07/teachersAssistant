@@ -66,10 +66,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void sendUpdateUserInfoReq() {
+    private void sendUpdateUserInfoReq(UserProfileDTO dto) {
 
-        JSONObject jsonObject = ServerRequestHelper.sendUpdateUserInfoRequest(mUserProfileDTO);
-        HelperMethod.debugLog(TAG, "sendUpdateUserInfoReq id == " + mUserProfileDTO.getUserId());
+        JSONObject jsonObject = ServerRequestHelper.sendUpdateUserInfoRequest(dto);
+        HelperMethod.debugLog(TAG, "sendUpdateUserInfoReq id == " + dto.getUserFirstName() + " " + dto.getUserId());
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -142,9 +142,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.edit_profile_save_fl:
                 UserProfileDTO dto = getUpdateUserInfo();
+                dto.setUserId(mUserProfileDTO.getUserId());
                 if (dto != null)
                 {
-                    sendUpdateUserInfoReq();
+                    sendUpdateUserInfoReq(dto);
                 }
                 break;
 

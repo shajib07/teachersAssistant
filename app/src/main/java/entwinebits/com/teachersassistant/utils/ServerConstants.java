@@ -31,7 +31,11 @@ public class ServerConstants {
     public static final int ACTION_ADD_BATCH_ROUTINE = 24;
     public static final int ACTION_UPDATE_BATCH_ROUTINE = 25;
     public static final int ACTION_DELETE_BATCH_ROUTINE = 26;
+    public static final int ACTION_PENDING_REQUEST = 27;
+    public static final int ACTION_CHANGE_STUDENT_STATUS_REQUEST = 28;
 
+    public static final int USER_TYPE_TEACHER = 0;
+    public static final int USER_TYPE_STUDENT = 1;
 
 
     public  static final String ACTION = "actn";
@@ -62,6 +66,7 @@ public class ServerConstants {
     public static final String END_TIME = "endTm";
     public static final String DAY_OF_WEEK = "dayOfWk";
     public static final String BATCH_ID = "btchId";
+    public static final String USER_BATCH_ID = "usrBtchId";
     public static final String TITLE = "ttl";
     public static final String ID = "id";
     public static final String MONTH = "mnth";
@@ -75,4 +80,5 @@ public class ServerConstants {
     public static final String PAYMENT_ID = "payid";
     public static final String PAYMENT_DUE = "pmntDue";
     public static final String ROUTINE_ID = "rtnID";
+    public static final String USER_PENDING_LIST = "USER_PENDING_LIST";
 }

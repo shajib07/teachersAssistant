@@ -43,8 +43,11 @@ public class ServerRequestHelper {
             JSONArray addedStudentJson = new JSONArray();
             for (UserProfileDTO dto : addedStudentList) {
                 JSONObject jobj = new JSONObject();
+                HelperMethod.debugLog(TAG, "Dto up == "+dto.getUserId()+ " psw "+dto.getUserPwd());
+                jobj.put(ServerConstants.ID, dto.getUserId());
                 jobj.put(ServerConstants.FULL_NAME, dto.getUserFirstName());
                 jobj.put(ServerConstants.EMAIL, dto.getUserEmail());
+
                 jobj.put(ServerConstants.PASSWORD, dto.getUserPwd());
                 jobj.put(ServerConstants.GENDER, 1);
                 jobj.put(ServerConstants.USER_TYPE, 1);
@@ -52,12 +55,12 @@ public class ServerRequestHelper {
                 jobj.put(ServerConstants.PHONE_NUMBER, dto.getUserInstituteName());
                 addedStudentJson.put(jobj);
             }
-            jsonObject.put(ServerConstants.NEW_USER_LIST, addedStudentJson);
+            jsonObject.put(ServerConstants.EXIST_USER_LIST, addedStudentJson);
 
             JSONArray jsonExistArray = new JSONArray();
-            jsonObject.put(ServerConstants.EXIST_USER_LIST, jsonExistArray);
+            jsonObject.put(ServerConstants.NEW_USER_LIST, jsonExistArray);
 
-            HelperMethod.debugLog(TAG, "sendAddNewStudentRequest : " + jsonObject.toString());
+            HelperMethod.debugLog(TAG, "sendAddNewStudentRequest up : " + jsonObject.toString());
         } catch (Exception e) {
         }
         return jsonObject;
@@ -107,6 +110,18 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject sendPendingRequest(long userId, boolean status) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_PENDING_REQUEST);
+            jsonObject.put(ServerConstants.ID, userId);
+            jsonObject.put(ServerConstants.STATUS, status == true ? 1 : 0);
+            HelperMethod.debugLog(TAG, "sendGetUserInfoRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendGetUserInfoRequest(long userId) {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -130,11 +145,25 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
+    public static JSONObject sendChangeStudentStatusRequest(long userBatchId, int status) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_CHANGE_STUDENT_STATUS_REQUEST);
+            jsonObject.put(ServerConstants.USER_BATCH_ID, userBatchId);
+            jsonObject.put(ServerConstants.STATUS, status);
+            HelperMethod.debugLog(TAG, "sendChangeStudentStatusRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendUserBatchListRequest(long userId) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER_ALL_BATCHES);
             jsonObject.put(ServerConstants.ID, userId);
+            jsonObject.put(ServerConstants.USER_TYPE, ServerConstants.USER_TYPE_TEACHER);
             HelperMethod.debugLog(TAG, "sendUserBatchListRequest : " + jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();

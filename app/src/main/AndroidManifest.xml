@@ -150,6 +150,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".PendingRequestActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".BatchPaymentHistoryActivity"
             android:launchMode="singleTop">
             <intent-filter>

@@ -14,6 +14,7 @@ public class BatchDTO {
     private int numberOfStudents;
     private ArrayList<ScheduleDTO> scheduleDTOList;
     private ArrayList<UserProfileDTO> studentDtoList;
+    private boolean expanded;
 
     public ArrayList<UserProfileDTO> getStudentDtoList() {
         return studentDtoList;
@@ -79,5 +80,13 @@ public class BatchDTO {
 
     public void setNumberOfStudents(int numberOfStudents) {
         this.numberOfStudents = numberOfStudents;
+    }
+
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
     }
 }

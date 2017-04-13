@@ -139,6 +139,19 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
 
                         break;
 
+                    case R.id.drawer_pending_req:
+                        mDrawerToggle.runWhenIdle(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(TeachersHomeActivity.this, PendingRequestActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
+                            }
+                        });
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+
+                        break;
+
                     case R.id.drawer_settings:
                         mDrawerToggle.runWhenIdle(new Runnable() {
                             @Override

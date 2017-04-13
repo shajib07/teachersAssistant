@@ -42,6 +42,8 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
     private EditText added_student_name, added_student_mobile_phn, added_student_payment_amount, added_student_institution, added_student_address;
     private TextView toolbar_save_btn;
     private ArrayList<UserProfileDTO> mAddedStudentList;
+    private ArrayList<UserProfileDTO> mAddedExistingStudentList;
+    private ArrayList<UserProfileDTO> mAddedNewStudentList;
     private AddedUserHorizontalAdapter mAddedStudentAdapter;
 
 
@@ -109,13 +111,11 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
 
     private void initData() {
         mAddedStudentList = new ArrayList<>();
+        mAddedExistingStudentList = new ArrayList<>();
+        mAddedNewStudentList = new ArrayList<>();
     }
 
     private void initLayout() {
-
-//        searchView = (SearchView) findViewById(R.id.searchView);
-//        searchView.setQueryHint("Name/Mobile Phone");
-//        initSearchView();
 
         search_user_btn = (Button) findViewById(R.id.search_user_btn);
         search_user_btn.setOnClickListener(this);
@@ -277,6 +277,8 @@ public class AddNewStudentActivity extends AppCompatActivity implements View.OnC
                 added_student_rv.setVisibility(View.VISIBLE);
                 UserProfileDTO userProfileDTO = data.getParcelableExtra(Constants.ADDED_STUDENT);
                 if (userProfileDTO != null) {
+                    HelperMethod.debugLog(TAG, "id by server == "+userProfileDTO.getUserId());
+                    mAddedExistingStudentList.add(userProfileDTO);
                     mAddedStudentList.add(userProfileDTO);
                     mAddedStudentAdapter.notifyDataSetChanged();
                 }

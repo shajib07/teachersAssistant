@@ -277,7 +277,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private void sendAddNewStudentRequest(ArrayList<UserProfileDTO> addedStudentList) {
 
         JSONObject jsonObject = ServerRequestHelper.sendAddNewStudentRequest((int)mBatchId, addedStudentList, new ArrayList<UserProfileDTO>());
-
+        HelperMethod.debugLog(TAG, "sendAddNewStudentRequest  "+ jsonObject.toString());
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
                     @Override

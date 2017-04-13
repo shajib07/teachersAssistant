@@ -153,7 +153,7 @@ public class UserSearchActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onItemSelected(UserProfileDTO dto) {
         Intent BackIntent = new Intent();
-//        HelperMethod.debugLog(AddNewBatchActivity.TAG, "mAddedStudentList : " + dto.size());
+        HelperMethod.debugLog(TAG, "dto id  : " + dto.getUserId());
         BackIntent.putExtra(Constants.ADDED_STUDENT, dto);
         setResult(RESULT_OK, BackIntent);
         finish();
