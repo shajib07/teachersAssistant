@@ -49,12 +49,11 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
 
     private String TAG = "BatchDetailsActivity";
-    private FrameLayout batch_details_toolbar_back, add_student_done_btn;
+    private FrameLayout batch_details_toolbar_back, add_student_fl;
     private TextView batch_details_toolbar_title;
     private ImageView batch_details_edit_iv;
 
     private LinearLayout batch_details_schedule_ll;
-
     private RecyclerView student_list_rv;
     private StudentListAdapter mStudentListAdapter;
     private ArrayList<UserProfileDTO> mStudentList;
@@ -63,11 +62,8 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private ArrayList<ScheduleDTO> mScheduleList;
 
     private TextView total_student_tv;
-    private ImageView add_student_iv;
     private int mTotalStudent;
-
     private String mBatchName;
-//    private String mWeekDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +107,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
 
     private void loadStudentList() {
         JSONObject jsonObject = ServerRequestHelper.sendBatchStudentListRequest(mBatchId);
-        HelperMethod.debugLog(TAG, "loadUserBatchList batch id == "+mBatchId);
+        HelperMethod.debugLog(TAG, "loadUserBatchList batch id == " + mBatchId);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -125,7 +121,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                                 @Override
                                 public void run() {
                                     mTotalStudent = studentList.size();
-                                    HelperMethod.debugLog(TAG, "studentList size = "+studentList.size());
+                                    HelperMethod.debugLog(TAG, "studentList size = " + studentList.size());
                                     mStudentList.clear();
                                     mStudentList.addAll(studentList);
 
@@ -160,74 +156,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(jsonObjReq);
 
-
-/*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
-//                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
-                mTotalStudent = studentList.size();
-                HelperMethod.debugLog(TAG, "loadBatchList size = " + studentList.size());
-                mStudentList.clear();
-                mStudentList.addAll(studentList);
-
-                if (studentList != null && studentList.size() > 0) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            total_student_tv.setText("" + mTotalStudent);
-
-                            if (mStudentListAdapter == null) {
-                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
-                                student_list_rv.setAdapter(mStudentListAdapter);
-                            } else {
-                                mStudentListAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    });
-                }
-            }
-        }).start();
-
-*/
     }
-
-
-/*
-    private void loadStudentList() {
-        if (dbRequestHelper == null) {
-            dbRequestHelper = new DatabaseRequestHelper(this);
-        }
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
-                mTotalStudent = studentList.size();
-                HelperMethod.debugLog(TAG, "loadBatchList size = " + studentList.size());
-                mStudentList.clear();
-                mStudentList.addAll(studentList);
-
-                if (studentList != null && studentList.size() > 0) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            total_student_tv.setText("" + mTotalStudent);
-
-                            if (mStudentListAdapter == null) {
-                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
-                                student_list_rv.setAdapter(mStudentListAdapter);
-                            } else {
-                                mStudentListAdapter.notifyDataSetChanged();
-                            }
-                        }
-                    });
-                }
-            }
-        }).start();
-
-    }
-*/
 
 
     private void initScheduleLayout() {
@@ -253,6 +182,8 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initLayout() {
+        add_student_fl = (FrameLayout) findViewById(R.id.add_student_fl);
+        add_student_fl.setOnClickListener(this);
 
         batch_details_edit_iv = (ImageView) findViewById(R.id.batch_details_edit_iv);
         batch_details_edit_iv.setOnClickListener(this);
@@ -263,11 +194,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         student_list_rv = (RecyclerView) findViewById(R.id.student_list_rv);
         student_list_rv.setLayoutManager(new LinearLayoutManager(this));
 
-
-//        batch_schedule_tv.setText(builder.toString().trim());
         total_student_tv = (TextView) findViewById(R.id.total_student_tv);
-        add_student_iv = (ImageView) findViewById(R.id.add_student_iv);
-        add_student_iv.setOnClickListener(this);
     }
 
     private void initData() {
@@ -466,7 +393,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 editBatchInfo();
                 break;
 
-            case R.id.add_student_iv:
+            case R.id.add_student_fl:
                 Intent addIntent = new Intent(BatchDetailsActivity.this, AddNewStudentActivity.class);
                 addIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivityForResult(addIntent, 120);
@@ -481,12 +408,8 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private void initToolbar() {
         batch_details_toolbar_title = (TextView) findViewById(R.id.batch_details_toolbar_title);
         batch_details_toolbar_title.setText(mBatchName);
-
         batch_details_toolbar_back = (FrameLayout) findViewById(R.id.batch_details_toolbar_back);
         batch_details_toolbar_back.setOnClickListener(this);
-//        add_student_done_btn = (FrameLayout) findViewById(R.id.add_student_done_btn);
-//        add_student_done_btn.setOnClickListener(this);
-
     }
 
     @Override
@@ -499,4 +422,71 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     public void onStudentSelected(UserProfileDTO dto) {
         sendStudentRemoveRequest(dto.getUserId());
     }
+
+
+/*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
+//                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
+                mTotalStudent = studentList.size();
+                HelperMethod.debugLog(TAG, "loadBatchList size = " + studentList.size());
+                mStudentList.clear();
+                mStudentList.addAll(studentList);
+
+                if (studentList != null && studentList.size() > 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            total_student_tv.setText("" + mTotalStudent);
+
+                            if (mStudentListAdapter == null) {
+                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+                                student_list_rv.setAdapter(mStudentListAdapter);
+                            } else {
+                                mStudentListAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+
+*/
+
+/*
+    private void loadStudentList() {
+        if (dbRequestHelper == null) {
+            dbRequestHelper = new DatabaseRequestHelper(this);
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final ArrayList<UserProfileDTO> studentList = dbRequestHelper.getStudentListByBatch((int) mBatchId);
+                mTotalStudent = studentList.size();
+                HelperMethod.debugLog(TAG, "loadBatchList size = " + studentList.size());
+                mStudentList.clear();
+                mStudentList.addAll(studentList);
+
+                if (studentList != null && studentList.size() > 0) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            total_student_tv.setText("" + mTotalStudent);
+
+                            if (mStudentListAdapter == null) {
+                                mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId);
+                                student_list_rv.setAdapter(mStudentListAdapter);
+                            } else {
+                                mStudentListAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
+                }
+            }
+        }).start();
+
+    }
+*/
 }

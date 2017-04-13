@@ -1,68 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/margin_5"
-    android:weightSum="4">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/week_day_ll"
-        android:layout_width="0dp"
+        android:id="@+id/batchScheduleTopLayer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_weight="1">
+        android:paddingBottom="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_10">
 
         <TextView
             android:id="@+id/week_day_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_30"
-            android:gravity="center"
-            android:text="SUN"
-            android:textColor="@color/gray26"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="3">
+            android:layout_weight="2"
+            android:text="fri"
+            android:textAllCaps="true"
+            android:textColor="@color/default_text_color"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
 
         <TextView
             android:id="@+id/batch_schedule_from_tv"
-            android:layout_width="wrap_content"
+            style="@style/TimeText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="14.20 PM"
-            android:textColor="@color/gray38"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text=" -- "
-            android:textColor="@color/gray38"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_weight="3"
+            android:text="11.30 PM" />
 
         <TextView
             android:id="@+id/batch_schedule_to_tv"
-            android:layout_width="wrap_content"
+            style="@style/TimeText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="12.00 AM"
-            android:textColor="@color/gray38"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_weight="3"
+            android:text="2.30 PM" />
 
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:layout_below="@+id/batchScheduleTopLayer"
+        android:background="@color/gray93" />
+
+</RelativeLayout>
