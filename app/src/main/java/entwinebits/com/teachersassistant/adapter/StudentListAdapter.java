@@ -14,6 +14,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -189,6 +190,7 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     public class StudentViewHolder extends RecyclerView.ViewHolder {
         private FrameLayout student_list_settings;
         private TextView student_name_tv, student_contact_tv, student_monthly_fee;
+        private LinearLayout student_contact_ll;
 
         public StudentViewHolder(View itemView) {
             super(itemView);
@@ -196,8 +198,9 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             student_name_tv = (TextView) itemView.findViewById(R.id.student_name_tv);
             student_contact_tv = (TextView) itemView.findViewById(R.id.student_contact_tv);
             student_monthly_fee = (TextView) itemView.findViewById(R.id.student_monthly_fee);
+            student_contact_ll = (LinearLayout) itemView.findViewById(R.id.student_contact_ll);
             if (!mIsMyBatch) {
-                student_contact_tv.setVisibility(View.GONE);
+                student_contact_ll.setVisibility(View.GONE);
             }
         }
     }
