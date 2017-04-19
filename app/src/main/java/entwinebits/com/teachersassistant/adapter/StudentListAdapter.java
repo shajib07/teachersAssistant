@@ -37,16 +37,18 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     private long mBatchId;
     private DatabaseRequestHelper mDbRequestHelper;
     private StudentSelectionListener mStudentSelectionListener;
+    private boolean mIsMyBatch;
 
     public interface StudentSelectionListener {
         void onStudentSelected(UserProfileDTO dto);
     }
 
-    public StudentListAdapter(Activity activity, ArrayList<UserProfileDTO> list, long batchId, StudentSelectionListener listener) {
+    public StudentListAdapter(Activity activity, boolean isMyBatch, ArrayList<UserProfileDTO> list, long batchId, StudentSelectionListener listener) {
         this.mActivity = activity;
         this.mStudentList = list;
         this.mBatchId = batchId;
         this.mStudentSelectionListener = listener;
+        this.mIsMyBatch = isMyBatch;
     }
 
     @Override
@@ -73,19 +75,24 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mActivity, StudentDetailsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
-                intent.putExtra(Constants.BATCH_ID, (int)mBatchId);
-                mActivity.startActivityForResult(intent, 120);
+                if (mIsMyBatch) {
+                    Intent intent = new Intent(mActivity, StudentDetailsActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(Constants.EDIT_STUDENT_DTO, dto);
+                    intent.putExtra(Constants.BATCH_ID, (int) mBatchId);
+                    mActivity.startActivityForResult(intent, 120);
+                }
             }
         });
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                mStudentSelectionListener.onStudentSelected(dto);
-                return false;
+                if (mIsMyBatch) {
+                    mStudentSelectionListener.onStudentSelected(dto);
+                    return false;
+                }
+                return true;
             }
         });
     }
@@ -189,6 +196,9 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
             student_name_tv = (TextView) itemView.findViewById(R.id.student_name_tv);
             student_contact_tv = (TextView) itemView.findViewById(R.id.student_contact_tv);
             student_monthly_fee = (TextView) itemView.findViewById(R.id.student_monthly_fee);
+            if (!mIsMyBatch) {
+                student_contact_tv.setVisibility(View.GONE);
+            }
         }
     }
 

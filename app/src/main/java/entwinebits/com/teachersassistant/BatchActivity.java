@@ -70,7 +70,7 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
 
     private void loadUserBatchList() {
         long id = UserProfileHelper.getInstance(this).getUserId();
-        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id);
+        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id, ServerConstants.USER_TYPE_TEACHER);
         HelperMethod.debugLog(TAG, "loadUserBatchList user id == "+id);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
@@ -160,7 +160,7 @@ public class BatchActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initLayout() {
-        batchListAdapter = new BatchListAdapter(this, mBatchDTOList);
+        batchListAdapter = new BatchListAdapter(this, mBatchDTOList, true);
         batch_list_rv = (RecyclerView) findViewById(R.id.batch_list_rv);
         batch_list_rv.setLayoutManager(new LinearLayoutManager(this));
         batch_list_rv.setAdapter(batchListAdapter);

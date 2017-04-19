@@ -184,7 +184,7 @@ public class PaymentHistoryActivity extends AppCompatActivity implements View.On
 
     private void getUserBatchList() {
         long id = UserProfileHelper.getInstance(this).getUserId();
-        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id);
+        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id, ServerConstants.USER_TYPE_TEACHER);
         HelperMethod.debugLog(TAG, "loadUserBatchList user id == " + id);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,

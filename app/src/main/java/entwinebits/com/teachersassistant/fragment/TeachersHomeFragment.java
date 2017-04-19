@@ -78,7 +78,7 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
         String message = "";
 
         long id = UserProfileHelper.getInstance(mActivity).getUserId();
-        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id);
+        JSONObject jsonObject = ServerRequestHelper.sendUserBatchListRequest(id, ServerConstants.USER_TYPE_TEACHER);
 //        JSONObject jsonObject = ServerRequestHelper.getBatchStudentList(69);
         HelperMethod.debugLog(TAG, "loadUserBatchList id "+id);
 
@@ -103,7 +103,7 @@ public class TeachersHomeFragment extends Fragment implements View.OnClickListen
 
     private void initLayout(View view) {
         home_batch_list_rv = (RecyclerView) view.findViewById(R.id.home_batch_list_rv);
-        homeBatchListAdapter = new BatchListAdapter(mActivity, new ArrayList<BatchDTO>());
+        homeBatchListAdapter = new BatchListAdapter(mActivity, new ArrayList<BatchDTO>(), false);
         home_batch_list_rv.setLayoutManager(new LinearLayoutManager(mActivity));
 
         home_batch_list_rv.setAdapter(homeBatchListAdapter);

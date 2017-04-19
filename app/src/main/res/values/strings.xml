@@ -24,6 +24,7 @@
     <string name="not_set">Not Set</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="payment_exist_alert">Payment already exist with amount of %1$d. Want to update with %2$d.</string>
+    <string name="check_internet">Please check your Internet!</string>
 
 
     <array name="dayColor">

@@ -158,12 +158,12 @@ public class ServerRequestHelper {
         return jsonObject;
     }
 
-    public static JSONObject sendUserBatchListRequest(long userId) {
+    public static JSONObject sendUserBatchListRequest(long userId, int userType) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_GET_USER_ALL_BATCHES);
             jsonObject.put(ServerConstants.ID, userId);
-            jsonObject.put(ServerConstants.USER_TYPE, ServerConstants.USER_TYPE_TEACHER);
+            jsonObject.put(ServerConstants.USER_TYPE, userType);
             HelperMethod.debugLog(TAG, "sendUserBatchListRequest : " + jsonObject.toString());
         } catch (Exception e) {
             e.printStackTrace();

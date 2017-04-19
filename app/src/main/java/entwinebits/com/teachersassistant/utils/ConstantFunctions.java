@@ -45,7 +45,6 @@ public class ConstantFunctions {
 
 
     public static boolean isInternetConnected(Context context) {
-
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

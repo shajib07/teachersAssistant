@@ -20,6 +20,11 @@
             android:title="Payment History"/>
 
         <item
+            android:id="@+id/drawer_participated_batches"
+            android:icon="@drawable/ic_action_overflow"
+            android:title="Participated Batches"/>
+
+        <item
             android:id="@+id/drawer_search"
             android:icon="@mipmap/ic_action_search"
             android:title="Search"/>

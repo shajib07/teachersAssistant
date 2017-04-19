@@ -47,7 +47,6 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
  */
 public class BatchDetailsActivity extends AppCompatActivity implements View.OnClickListener, StudentListAdapter.StudentSelectionListener {
 
-
     private String TAG = "BatchDetailsActivity";
     private FrameLayout batch_details_toolbar_back, add_student_fl;
     private TextView batch_details_toolbar_title;
@@ -64,6 +63,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     private TextView total_student_tv;
     private int mTotalStudent;
     private String mBatchName;
+    private boolean mIsMyBatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,11 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
         mBatchName = getIntent().getStringExtra(Constants.BATCH_NAME);
 //        mWeekDays = getIntent().getStringExtra(Constants.BATCH_WEEK_DAYS);
         mScheduleList = getIntent().getParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST);
+        if (getIntent().hasExtra(Constants.IS_MY_BATCH)) {
+            mIsMyBatch = getIntent().getBooleanExtra(Constants.IS_MY_BATCH, false);
+        }
+        HelperMethod.debugLog(TAG, "mIsMyBatch == "+mIsMyBatch);
+
         for (ScheduleDTO dto : mScheduleList) {
             HelperMethod.debugLog(TAG, "here "+dto.getDaysOfWeek()+" time "+dto.getStartTime()+ " id "+dto.getRoutineId()+ " sc id "+dto.getScheduleId());
         }
@@ -132,7 +137,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                                                 total_student_tv.setText("" + mTotalStudent);
 
                                                 if (mStudentListAdapter == null) {
-                                                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId, BatchDetailsActivity.this);
+                                                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mIsMyBatch, mStudentList, mBatchId, BatchDetailsActivity.this);
                                                     student_list_rv.setAdapter(mStudentListAdapter);
                                                 } else {
                                                     mStudentListAdapter.notifyDataSetChanged();
@@ -182,11 +187,14 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void initLayout() {
-        add_student_fl = (FrameLayout) findViewById(R.id.add_student_fl);
-        add_student_fl.setOnClickListener(this);
-
-        batch_details_edit_iv = (ImageView) findViewById(R.id.batch_details_edit_iv);
-        batch_details_edit_iv.setOnClickListener(this);
+        if (mIsMyBatch) {
+            add_student_fl = (FrameLayout) findViewById(R.id.add_student_fl);
+            add_student_fl.setOnClickListener(this);
+            add_student_fl.setVisibility(View.VISIBLE);
+            batch_details_edit_iv = (ImageView) findViewById(R.id.batch_details_edit_iv);
+            batch_details_edit_iv.setOnClickListener(this);
+            batch_details_edit_iv.setVisibility(View.VISIBLE);
+        }
 
         batch_details_schedule_ll = (LinearLayout)findViewById(R.id.batch_details_schedule_ll);
         initScheduleLayout();
@@ -323,7 +331,7 @@ public class BatchDetailsActivity extends AppCompatActivity implements View.OnCl
                 HelperMethod.debugLog(TAG, "onActivityResult : after added, size = " + mStudentList.size());
 
                 if (mStudentListAdapter == null) {
-                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mStudentList, mBatchId, this);
+                    mStudentListAdapter = new StudentListAdapter(BatchDetailsActivity.this, mIsMyBatch, mStudentList, mBatchId, this);
                     student_list_rv.setAdapter(mStudentListAdapter);
                 } else {
                     mStudentListAdapter.notifyDataSetChanged();

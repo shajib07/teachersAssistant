@@ -37,10 +37,12 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
     private String TAG = "BatchListAdapter";
     private Activity mActivity;
     private ArrayList<BatchDTO> mBatchDTOList;
+    private boolean mIsMyBatch;
 
-    public BatchListAdapter(Activity activity, ArrayList<BatchDTO> batchDTOList) {
+    public BatchListAdapter(Activity activity, ArrayList<BatchDTO> batchDTOList, boolean isMyBatch) {
         this.mActivity = activity;
         this.mBatchDTOList = batchDTOList;
+        this.mIsMyBatch = isMyBatch;
     }
 
     public void notifyAdapterData(ArrayList<BatchDTO> list) {
@@ -250,6 +252,7 @@ public class BatchListAdapter extends RecyclerView.Adapter<BatchListAdapter.Batc
                 batchIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 batchIntent.putExtra(Constants.BATCH_ID, dto.getBatchId());
                 batchIntent.putExtra(Constants.BATCH_NAME, dto.getBatchName());
+                batchIntent.putExtra(Constants.IS_MY_BATCH, mIsMyBatch);
                 batchIntent.putParcelableArrayListExtra(Constants.BATCH_SCHEDULE_LIST, dto.getScheduleDTOList());
                 mActivity.startActivity(batchIntent);
             }

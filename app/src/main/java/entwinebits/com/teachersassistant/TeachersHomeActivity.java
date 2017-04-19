@@ -126,6 +126,19 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
                         mDrawerLayout.closeDrawer(Gravity.LEFT);
                         break;
 
+                    case R.id.drawer_participated_batches:
+
+                        mDrawerToggle.runWhenIdle(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(TeachersHomeActivity.this, ParticipatedBatchActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
+                            }
+                        });
+                        mDrawerLayout.closeDrawer(Gravity.LEFT);
+                        break;
+
                     case R.id.drawer_search:
                         mDrawerToggle.runWhenIdle(new Runnable() {
                             @Override
