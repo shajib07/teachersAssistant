@@ -142,11 +142,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.edit_profile_save_fl:
                 UserProfileDTO dto = getUpdateUserInfo();
-                dto.setUserId(mUserProfileDTO.getUserId());
                 if (dto != null)
                 {
+                    dto.setUserId(mUserProfileDTO.getUserId());
                     sendUpdateUserInfoReq(dto);
+                    return;
                 }
+                Toast.makeText(EditProfileActivity.this, "Nothing is updated.", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.edit_profile_toolbar_back:

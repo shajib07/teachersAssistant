@@ -96,7 +96,7 @@
                 android:layout_marginBottom="@dimen/margin_5"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_5">
+                android:layout_marginTop="@dimen/margin_15">
 
                 <LinearLayout
                     style="@style/Widget.CardContent.Edit.Profile"
@@ -214,24 +214,6 @@
 
                     </RelativeLayout>
 
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_5"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_5">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent.Edit.Profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                     <RelativeLayout
                         android:id="@+id/user_instut_rl"
                         android:layout_width="wrap_content"
@@ -307,23 +289,6 @@
 
                     </RelativeLayout>
 
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_5"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_marginTop="@dimen/margin_5">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent.Edit.Profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                     <RelativeLayout
                         android:id="@+id/user_city_rl"
                         android:layout_width="wrap_content"
@@ -344,7 +309,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@+id/user_institute_edit_iv"
+                            android:layout_toLeftOf="@+id/user_city_edit_iv"
                             android:layout_toRightOf="@+id/user_city_iv"
                             android:hint="City"
                             android:text=""
@@ -398,36 +363,9 @@
                             android:visibility="invisible" />
 
                     </RelativeLayout>
-
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/card_margin">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Info"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Lower Part" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
 
         </LinearLayout>
 
