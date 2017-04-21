@@ -141,6 +141,50 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/user_gender_rl"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_10">
+
+                        <ImageView
+                            android:id="@+id/user_gender_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:src="@drawable/ic_action_gender" />
+
+                        <CheckBox
+                            android:id="@+id/male_cb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_toRightOf="@+id/user_gender_iv"
+                            android:text="Male" />
+
+                        <CheckBox
+                            android:id="@+id/female_cb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_20"
+                            android:layout_toLeftOf="@+id/user_gender_edit_iv"
+                            android:layout_toRightOf="@+id/male_cb"
+                            android:checked="false"
+                            android:text="Female" />
+
+                        <ImageView
+                            android:id="@+id/user_gender_edit_iv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_action_call"
+                            android:visibility="invisible" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/user_mobile_rl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

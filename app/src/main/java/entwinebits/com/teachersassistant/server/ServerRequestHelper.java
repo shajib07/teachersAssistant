@@ -20,6 +20,19 @@ public class ServerRequestHelper {
 
     public static String TAG = "ServerRequestHelper";
 
+    public static JSONObject sendSignInRequest(String mobilePhone, String password) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(ServerConstants.ACTION, ServerConstants.ACTION_SIGN_IN_USER);
+            jsonObject.put(ServerConstants.PHONE_NUMBER, mobilePhone);
+            jsonObject.put(ServerConstants.PASSWORD, password);
+
+            HelperMethod.debugLog(TAG, "sendSignInRequest : " + jsonObject.toString());
+        } catch (Exception e) {
+        }
+        return jsonObject;
+    }
+
     public static JSONObject sendBatchTitleUpdateRequest(String updateTitle, long batchId) {
         JSONObject jsonObject = new JSONObject();
         try {

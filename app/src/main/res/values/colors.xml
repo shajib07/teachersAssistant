@@ -27,6 +27,7 @@
     <color name="gray">#BEBEBE</color>
     <color name="verylight_grey">#CDCDCD</color>
     <color name="darker_gray">#9C9C9C</color>
+    <color name="linear_item_divider_color">@color/gray88</color>
 
 
     <color name="default_text_color">#aa000000</color>

@@ -42,7 +42,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private UserProfileDTO mUserProfileDTO;
     private boolean isMyProfile;
-    private TextView profile_name_tv, profile_email_tv, profile_mobile_tv, profile_city_tv, profile_country_tv, profile_instut_tv;
+    private TextView profile_name_tv, profile_email_tv, profile_gender_tv, profile_mobile_tv, profile_city_tv,
+            profile_country_tv, profile_instut_tv, profile_designation_tv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +105,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         profile_email_tv.setOnClickListener(this);
         profile_name_tv = (TextView) findViewById(R.id.profile_name_tv);
         profile_name_tv.setOnClickListener(this);
+        profile_gender_tv = (TextView) findViewById(R.id.profile_gender_tv);
+        profile_gender_tv.setOnClickListener(this);
 
         profile_city_tv = (TextView) findViewById(R.id.profile_city_tv);
         profile_country_tv = (TextView) findViewById(R.id.profile_country_tv);
@@ -113,21 +116,19 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void updateUI() {
         HelperMethod.debugLog(TAG, "updateUI == "+mUserProfileDTO.getUserFirstName());
         profile_name_tv.setText(mUserProfileDTO.getUserFirstName());
+        String gender = "";
+        if (mUserProfileDTO.getUserGender() == ServerConstants.GENDER_MALE) {
+            gender = "Male";
+        } else {
+            gender = "Female";
+        }
+        profile_gender_tv.setText(gender);
         profile_mobile_tv.setText(mUserProfileDTO.getUserMobilePhone());
         profile_email_tv.setText(mUserProfileDTO.getUserEmail());
-
+        profile_instut_tv.setText(mUserProfileDTO.getUserInstituteName());
+        profile_designation_tv.setText(mUserProfileDTO.getUserDesignation());
         profile_city_tv.setText(mUserProfileDTO.getUserCity());
         profile_country_tv.setText(mUserProfileDTO.getUserCountry());
-        profile_instut_tv.setText(mUserProfileDTO.getUserInstituteName());
-    }
-
-    private void initToolbar() {
-        user_profile_toolbar_back = (FrameLayout) findViewById(R.id.user_profile_toolbar_back);
-        user_profile_toolbar_back.setOnClickListener(this);
-        user_profile_toolbar_title = (TextView) findViewById(R.id.user_profile_toolbar_title);
-        user_profile_edit_iv = (ImageView) findViewById(R.id.user_profile_edit_iv);
-        user_profile_edit_iv.setOnClickListener(this);
-
     }
 
     @Override
@@ -155,5 +156,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
         }
+    }
+
+    private void initToolbar() {
+        user_profile_toolbar_back = (FrameLayout) findViewById(R.id.user_profile_toolbar_back);
+        user_profile_toolbar_back.setOnClickListener(this);
+        user_profile_toolbar_title = (TextView) findViewById(R.id.user_profile_toolbar_title);
+        user_profile_edit_iv = (ImageView) findViewById(R.id.user_profile_edit_iv);
+        user_profile_edit_iv.setOnClickListener(this);
     }
 }

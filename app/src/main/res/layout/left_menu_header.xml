@@ -3,26 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="172dp"
-    android:background="@drawable/drawer_background"
+    android:background="@color/golden_rod"
     android:orientation="vertical"
     android:paddingTop="@dimen/status_bar_height"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
-
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_margin="@dimen/spacing_large"
-        android:elevation="4dp"
-        tools:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/nav_header_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/nav_header_mob_phn"
-        android:layout_marginLeft="@dimen/spacing_large"
-        android:layout_marginStart="@dimen/spacing_large"
+        android:layout_marginLeft="@dimen/margin_20"
         android:textSize="18sp"
         android:text="Username"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
@@ -32,9 +23,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="@dimen/spacing_large"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_20"
         android:text="username@mymail.com"
         android:textSize="16sp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>

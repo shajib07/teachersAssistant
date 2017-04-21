@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -32,6 +34,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private String TAG = "EditProfileActivity";
     private FrameLayout edit_profile_toolbar_back, edit_profile_save_fl;
     private TextView edit_profile_toolbar_title;
+    private CheckBox male_cb, female_cb;
     private EditText user_name_et, user_mobile_et, user_email_et, user_instut_et, user_designation_et, user_city_et, user_country_et;
     private UserProfileDTO mUserProfileDTO;
 
@@ -55,7 +58,33 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         user_city_et = (EditText)findViewById(R.id.user_city_et);
         user_country_et = (EditText)findViewById(R.id.user_country_et);
 
+        male_cb = (CheckBox)findViewById(R.id.male_cb);
+        female_cb = (CheckBox)findViewById(R.id.female_cb);
+
+        male_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    female_cb.setChecked(false);
+                }
+            }
+        });
+        female_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    male_cb.setChecked(false);
+                }
+            }
+        });
+
         if (mUserProfileDTO != null) {
+            int gender = mUserProfileDTO.getUserGender();
+            if (gender == ServerConstants.GENDER_MALE) {
+                male_cb.setChecked(true);
+            } else if (gender == ServerConstants.GENDER_FEMALE) {
+                female_cb.setChecked(true);
+            }
             user_name_et.setText(mUserProfileDTO.getUserFirstName() == "" ? getString(R.string.not_set) : mUserProfileDTO.getUserFirstName());
             user_mobile_et.setText(mUserProfileDTO.getUserMobilePhone() == "" ? getString(R.string.not_set) : mUserProfileDTO.getUserMobilePhone());
             user_email_et.setText(mUserProfileDTO.getUserEmail() == "" ? getString(R.string.not_set) : mUserProfileDTO.getUserEmail());
@@ -79,6 +108,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         if (!response.optBoolean(ServerConstants.ERROR)) {
 
                             Toast.makeText(EditProfileActivity.this, "User Info Updated", Toast.LENGTH_SHORT).show();
+                            EditProfileActivity.this.finish();
                         }
                     }
                 },
@@ -103,6 +133,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             dto.setUserFirstName(user_name_et.getText().toString());
             isChanged = true;
         }
+//        if (!mUserProfileDTO.getUserGender().equalsIgnoreCase(user_gen.getText().toString()))
+//        {
+//            dto.setUserFirstName(user_name_et.getText().toString());
+//            isChanged = true;
+//        }
         if (!mUserProfileDTO.getUserMobilePhone().equalsIgnoreCase(user_mobile_et.getText().toString()))
         {
             dto.setUserMobilePhone(user_mobile_et.getText().toString());
@@ -118,11 +153,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             dto.setUserInstituteName(user_instut_et.getText().toString());
             isChanged = true;
         }
-//        if (!mUserProfileDTO.getUserDesignation().equalsIgnoreCase(user_designation_et.getText().toString()))
-//        {
-//            dto.setUserDesignation(user_name_et.getText().toString());
-//            isChanged = true;
-//        }
+        if (!mUserProfileDTO.getUserDesignation().equalsIgnoreCase(user_designation_et.getText().toString()))
+        {
+            dto.setUserDesignation(user_designation_et.getText().toString());
+            isChanged = true;
+        }
         if (!mUserProfileDTO.getUserCity().equalsIgnoreCase(user_city_et.getText().toString()))
         {
             dto.setUserCity(user_city_et.getText().toString());

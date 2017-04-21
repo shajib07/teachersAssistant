@@ -23,9 +23,14 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import entwinebits.com.teachersassistant.model.UserProfileDTO;
+import entwinebits.com.teachersassistant.server.ServerRequestHelper;
+import entwinebits.com.teachersassistant.server.ServerResponseParser;
+import entwinebits.com.teachersassistant.utils.AppPreferenceHelper;
 import entwinebits.com.teachersassistant.utils.Constants;
 import entwinebits.com.teachersassistant.utils.HelperMethod;
 import entwinebits.com.teachersassistant.utils.ServerConstants;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by shajib on 1/27/2017.
@@ -159,12 +164,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void sendSignInRequest() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put(ServerConstants.ACTION, 11);
-            jsonObject.put(ServerConstants.PHONE_NUMBER, mobilePhone);
-            jsonObject.put(ServerConstants.PASSWORD, password);
-        }catch (Exception e){}
+        JSONObject jsonObject = ServerRequestHelper.sendSignInRequest(mobilePhone, password);
 
         JsonObjectRequest jsonObjReq = new JsonObjectRequest(Constants.REQUEST_URL, jsonObject,
                 new Response.Listener<JSONObject>() {
@@ -174,11 +174,11 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                         HelperMethod.debugLog(TAG, response.toString());
                         try {
                             if (!response.getBoolean(ServerConstants.ERROR)) {
-                                saveUserInfo(response);
+                                UserProfileDTO userProfileDTO = ServerResponseParser.parseSignInRequest(response);
+                                saveUserInfo(userProfileDTO);
                             } else {
                                 Toast.makeText(SignupActivity.this, response.getString("msg"), Toast.LENGTH_SHORT).show();
                             }
-
                         } catch (Exception e) {
                         }
 
@@ -215,14 +215,23 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         sendSignInRequest();
     }
 
-    private void saveUserInfo(JSONObject json) {
+    private void saveUserInfo(UserProfileDTO userProfileDTO) {
 
+        UserProfileHelper.getInstance(this).saveUserProfile(userProfileDTO);
+        Intent intent = new Intent(SignupActivity.this, TeachersHomeActivity.class);
+        startActivity(intent);
+        HelperMethod.debugLog(TAG, "after inside if");
+        finish();
+
+/*
         try {
             if (json.has("users")) {
                 HelperMethod.debugLog(TAG, "saveUserInfo inside if");
                 JSONArray jsonArray = json.getJSONArray("users");
                 JSONObject jsonObject = (JSONObject) jsonArray.get(0);
                 mAppUserId = jsonObject.getLong(ServerConstants.ID);
+
+
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
                 editor.putLong(Constants.APP_USER_ID, mAppUserId);
                 editor.putBoolean(Constants.ALREADY_LOGGED_IN, true);
@@ -231,7 +240,6 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
                 Intent intent = new Intent(SignupActivity.this, TeachersHomeActivity.class);
                 startActivity(intent);
                 HelperMethod.debugLog(TAG, "after inside if");
-
                 finish();
 
             }
@@ -239,6 +247,7 @@ public class SignupActivity extends AppCompatActivity implements View.OnClickLis
         } catch (Exception e) {
 
         }
+*/
     }
 
 

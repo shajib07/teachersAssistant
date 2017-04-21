@@ -21,6 +21,35 @@ import entwinebits.com.teachersassistant.utils.ServerConstants;
 public class ServerResponseParser {
     private static String TAG = "ServerResponseParser";
 
+    public static UserProfileDTO parseSignInRequest(JSONObject response) {
+        UserProfileDTO userProfileDTO = new UserProfileDTO();
+        try {
+            JSONArray jsonArray = response.getJSONArray(ServerConstants.USERS);
+            if (jsonArray.length() < 1) {
+                return new UserProfileDTO();
+            }
+            JSONObject jsonObject = (JSONObject) jsonArray.get(0);
+
+            HelperMethod.debugLog(TAG, "EMAIL =  " + jsonObject.has(ServerConstants.EMAIL) + " " + jsonObject.getString(ServerConstants.EMAIL));
+
+            userProfileDTO.setUserId(jsonObject.optInt(ServerConstants.ID));
+            userProfileDTO.setUserFirstName(jsonObject.optString(ServerConstants.FULL_NAME));
+            userProfileDTO.setUserGender(jsonObject.optInt(ServerConstants.GENDER));
+//            userProfileDTO.setUserMobilePhone(jsonObject.optString(ServerConstants.DIALING_CODE));
+            userProfileDTO.setUserMobilePhone(jsonObject.optString(ServerConstants.PHONE_NUMBER));
+            userProfileDTO.setUserEmail(jsonObject.optString(ServerConstants.EMAIL));
+            userProfileDTO.setUserBirthday(jsonObject.optString(ServerConstants.BIRTH_DATE));
+            userProfileDTO.setUserInstituteName(jsonObject.optString(ServerConstants.INSTITUTE));
+            userProfileDTO.setUserCity(jsonObject.optString(ServerConstants.CITY));
+            userProfileDTO.setUserCountry(jsonObject.optString(ServerConstants.COUNTRY));
+            userProfileDTO.setTeacher(jsonObject.optBoolean(ServerConstants.USER_TYPE));
+            HelperMethod.debugLog(TAG, "parseSignInRequest + " + userProfileDTO.getUserFirstName() + " json " + jsonObject.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userProfileDTO;
+    }
+
     public static UserProfileDTO parseGetUserInfoRequest(JSONObject response) {
         UserProfileDTO userProfileDTO = new UserProfileDTO();
         try {
@@ -30,7 +59,7 @@ public class ServerResponseParser {
             }
             JSONObject jsonObject = (JSONObject) jsonArray.get(0);
 
-            HelperMethod.debugLog(TAG, "EMAIL =  "+ jsonObject.has(ServerConstants.EMAIL)+ " "+jsonObject.getString(ServerConstants.EMAIL));
+            HelperMethod.debugLog(TAG, "EMAIL =  " + jsonObject.has(ServerConstants.EMAIL) + " " + jsonObject.getString(ServerConstants.EMAIL));
 
             userProfileDTO.setUserId(jsonObject.optInt(ServerConstants.ID));
             userProfileDTO.setUserFirstName(jsonObject.optString(ServerConstants.FULL_NAME));
@@ -120,7 +149,7 @@ public class ServerResponseParser {
         ArrayList<UserProfileDTO> batchUserList = new ArrayList<>();
         try {
             JSONArray jsonArray = response.getJSONArray(ServerConstants.USERS);
-            HelperMethod.debugLog(TAG, "parseBatchStudentListResponse size "+jsonArray.length());
+            HelperMethod.debugLog(TAG, "parseBatchStudentListResponse size " + jsonArray.length());
             for (int i = 0; i < jsonArray.length(); i++) {
                 UserProfileDTO dto = new UserProfileDTO();
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
@@ -130,7 +159,7 @@ public class ServerResponseParser {
                 dto.setUserMobilePhone(jsonObject.isNull(ServerConstants.PHONE_NUMBER) == true ? "" : jsonObject.optString(ServerConstants.PHONE_NUMBER));
                 dto.setUserInstituteName(jsonObject.isNull(ServerConstants.INSTITUTE) == true ? "" : jsonObject.optString(ServerConstants.INSTITUTE));
 
-                HelperMethod.debugLog(TAG, "name === "+dto.getUserFirstName() + " phn == "+dto.getUserMobilePhone());
+                HelperMethod.debugLog(TAG, "name === " + dto.getUserFirstName() + " phn == " + dto.getUserMobilePhone());
                 batchUserList.add(dto);
             }
         } catch (Exception e) {
@@ -144,7 +173,7 @@ public class ServerResponseParser {
         ArrayList<BatchDTO> userBatchList = new ArrayList<>();
         try {
             JSONArray jsonArray = response.getJSONArray(ServerConstants.BATCHES);
-            HelperMethod.debugLog(TAG, "parseUserBatchListResponse size "+jsonArray.length());
+            HelperMethod.debugLog(TAG, "parseUserBatchListResponse size " + jsonArray.length());
             for (int i = 0; i < jsonArray.length(); i++) {
                 BatchDTO batchDTO = new BatchDTO();
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
@@ -153,10 +182,10 @@ public class ServerResponseParser {
 
                 ArrayList<ScheduleDTO> routineList = new ArrayList<>();
                 JSONArray routineArray = jsonObject.optJSONArray(ServerConstants.ROUTINE_INFLO_LIST);
-                for (int j=0; j<routineArray.length(); j++) {
+                for (int j = 0; j < routineArray.length(); j++) {
                     ScheduleDTO scheduleDTO = new ScheduleDTO();
                     JSONObject routineObj = (JSONObject) routineArray.get(j);
-                    scheduleDTO.setDaysOfWeek(routineObj.optInt(ServerConstants.DAY_OF_WEEK) );
+                    scheduleDTO.setDaysOfWeek(routineObj.optInt(ServerConstants.DAY_OF_WEEK));
                     scheduleDTO.setScheduleId(routineObj.optInt(ServerConstants.ID));
                     scheduleDTO.setStartTime(routineObj.optLong(ServerConstants.START_TIME));
                     scheduleDTO.setEndTime(routineObj.optLong(ServerConstants.END_TIME));

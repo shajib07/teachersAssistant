@@ -26,6 +26,7 @@ import android.widget.Toast;
 import entwinebits.com.teachersassistant.adapter.ViewPagerAdapter;
 import entwinebits.com.teachersassistant.fragment.PaymentHistoryFragment;
 import entwinebits.com.teachersassistant.fragment.TeachersHomeFragment;
+import entwinebits.com.teachersassistant.utils.UserProfileHelper;
 
 /**
  * Created by Nargis Rahman on 12/1/2016.
@@ -191,6 +192,7 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
         View headerView = navigationView.getHeaderView(0);
         TextView txtHeaderName = (TextView) headerView.findViewById(R.id.nav_header_name);
         TextView txtHeaderMobPhone = (TextView) headerView.findViewById(R.id.nav_header_mob_phn);
+        txtHeaderName.setText(UserProfileHelper.getInstance(this).getUserName());
 
         int size = navigationView.getMenu().size();
         for (int i = 0; i < size; i++) {

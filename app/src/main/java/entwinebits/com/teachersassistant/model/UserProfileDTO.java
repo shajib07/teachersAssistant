@@ -220,4 +220,10 @@ public class UserProfileDTO implements Parcelable{
         }
     };
 
+    @Override
+    public String toString() {
+        return userId+" "+userFirstName+" "+userCity+" "+userCountry+" "+userEmail+" "+userMobilePhone;
+//        return super.toString();
+
+    }
 }

@@ -37,6 +37,9 @@ public class ServerConstants {
     public static final int USER_TYPE_TEACHER = 0;
     public static final int USER_TYPE_STUDENT = 1;
 
+    public static final int GENDER_MALE = 0;
+    public static final int GENDER_FEMALE = 1;
+
 
     public  static final String ACTION = "actn";
     public  static final String ERROR = "error";
@@ -60,6 +63,7 @@ public class ServerConstants {
     public static final String BIRTH_DATE = "brthDate";
     public static final String USER_TYPE = "usrTyp";
     public static final String INSTITUTE = "insttut";
+    public static final String DESIGNATION = "designatn";
     public static final String BATCHES_INFLO_LIST = "btchList";
     public static final String ROUTINE_INFLO_LIST = "rtnList";
     public static final String START_TIME = "strtTm";
