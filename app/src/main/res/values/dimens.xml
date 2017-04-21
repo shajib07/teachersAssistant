@@ -38,6 +38,9 @@
     <dimen name="margin_30">30dp</dimen>
 
 
+    <dimen name="item_dob_width">50dp</dimen>
+
+
     <!--
 
     ==== mipmap icons source ====
@@ -52,7 +55,6 @@
     F:\ANDROID RESOURCES\Android_Design_Icons_20131106\Android Design - Icons 20131120\Action Bar Icons\holo_light\06_social_person
 
     -->
-
 
 
 </resources>

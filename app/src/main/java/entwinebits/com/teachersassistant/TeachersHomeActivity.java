@@ -118,7 +118,8 @@ public class TeachersHomeActivity extends AppCompatActivity implements View.OnCl
                         mDrawerToggle.runWhenIdle(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(TeachersHomeActivity.this, PaymentHistoryActivity.class);
+                                //Intent intent = new Intent(TeachersHomeActivity.this, PaymentHistoryActivity.class);
+                                Intent intent = new Intent(TeachersHomeActivity.this, PaymentActivity.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.slide_in_right_activity, R.anim.slide_out_left_activity);
                             }

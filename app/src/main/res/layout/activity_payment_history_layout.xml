@@ -31,7 +31,7 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:background="@null"
                     android:paddingLeft="@dimen/margin_15"
@@ -43,55 +43,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/payment_history_toolbar_back"
+                android:layout_centerInParent="true"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
                     android:gravity="center"
                     android:text="Search By "
                     android:textColor="@android:color/white"
                     android:textSize="18sp" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/batch_search_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:layout_marginTop="12dp">
+                    android:background="@drawable/search_option_left_bg"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:paddingRight="@dimen/margin_15"
+                    android:paddingTop="@dimen/margin_5"
+                    android:text="Batch"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
 
-                    <TextView
-                        android:id="@+id/batch_search_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/search_option_left_bg"
-                        android:gravity="center"
-                        android:paddingBottom="@dimen/margin_5"
-                        android:paddingLeft="@dimen/margin_15"
-                        android:paddingRight="@dimen/margin_15"
-                        android:paddingTop="@dimen/margin_5"
-                        android:text="Batch"
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:id="@+id/student_search_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:alpha="1"
-                        android:background="@drawable/search_option_white_right_bg"
-                        android:gravity="center"
-                        android:paddingBottom="@dimen/margin_5"
-                        android:paddingLeft="@dimen/margin_15"
-                        android:paddingRight="@dimen/margin_15"
-                        android:paddingTop="@dimen/margin_5"
-                        android:text="Student"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="18sp" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/student_search_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:alpha="1"
+                    android:background="@drawable/search_option_white_right_bg"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/margin_5"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:paddingRight="@dimen/margin_15"
+                    android:paddingTop="@dimen/margin_5"
+                    android:text="Student"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
 
             </LinearLayout>
 
@@ -129,7 +121,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_30"
             android:background="@color/white"
-            android:visibility="visible">
+            android:visibility="invisible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -312,7 +304,7 @@
             android:layout_marginRight="@dimen/margin_10"
             android:layout_marginTop="@dimen/margin_30"
             android:background="@color/white"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
