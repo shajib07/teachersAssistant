@@ -14,9 +14,6 @@ import java.util.List;
 import entwinebits.com.teachersassistant.R;
 import entwinebits.com.teachersassistant.model.UserProfileDTO;
 
-/**
- * Created by Nargis Rahman on 12/2/2016.
- */
 public class AddedUserHorizontalAdapter extends RecyclerView.Adapter<AddedUserHorizontalAdapter.AddedUserViewHolder> {
 
     private static final String TAG = "AddUserAdapter";
