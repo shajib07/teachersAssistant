@@ -12,5 +12,5 @@ Main Features:
  
  
 Authors
-  - Md Atahar Hossain, Senior Software Engineer, Augmedix BD
-  - Syeda Nargis Rahman, Senior Software Engineer, IPVision Soft Ltd.
+  - Md Atahar Hossain, Senior Software Engineer, Augmedix BD (Responsible for Android part)
+  - Syeda Nargis Rahman, Senior Software Engineer, IPVision Soft Ltd. (Responsible for Backend system)
